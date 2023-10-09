@@ -24,7 +24,8 @@ module Interface_PC
 #(
     parameter NB_PC = 32
 )
-(    
+(   
+    input   i_clk, 
     input   [NB_PC-1:0] i_address,
     input   [NB_PC-1:0] i_jump_address,
     input   i_is_jump,
@@ -33,12 +34,12 @@ module Interface_PC
 
 reg   [NB_PC-1:0] new_address;
 
-always@(*)
+always@(posedge i_clk)
 begin
     if(i_is_jump)
-        new_address = i_jump_address;
+        new_address <= i_jump_address;
     else
-        new_address = i_address + 4;
+        new_address <= i_address + 4;
 end
 
 assign o_new_address = new_address;

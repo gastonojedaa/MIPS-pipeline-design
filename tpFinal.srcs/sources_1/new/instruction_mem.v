@@ -38,9 +38,7 @@ reg [NB_PC-1:0] ins_mem[NB_INS-1:0];
 always@(posedge i_clk)
 begin
     if(!i_control)
-        ins_mem[i_address] <= i_instruction;
-    else
-        ins_mem[i_address] <= ins_mem[i_address];
+        ins_mem[i_address] <= i_instruction;    
 end
 
 assign o_instruction = ins_mem[i_address];

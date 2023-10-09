@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_IF_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb_IF" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="175.401 ns"></ZoomEndTime>
+      <Cursor1Time time="12.397 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="193"></NameColumnWidth>
+      <ValueColumnWidth column_width="84"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="11" />
+   <wvobject fp_name="/tb_IF/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_IF/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_IF/jump_address" type="logic">
+      <obj_property name="ElementShortName">jump_address</obj_property>
+      <obj_property name="ObjectShortName">jump_address</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_IF/is_jump" type="logic">
+      <obj_property name="ElementShortName">is_jump</obj_property>
+      <obj_property name="ObjectShortName">is_jump</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_IF/input_instruction" type="logic">
+      <obj_property name="ElementShortName">input_instruction</obj_property>
+      <obj_property name="ObjectShortName">input_instruction</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_IF/control" type="logic">
+      <obj_property name="ElementShortName">control</obj_property>
+      <obj_property name="ObjectShortName">control</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_IF/output_instruction" type="logic">
+      <obj_property name="ElementShortName">output_instruction</obj_property>
+      <obj_property name="ObjectShortName">output_instruction</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_IF/NB_PC" type="array">
+      <obj_property name="ElementShortName">NB_PC[31:0]</obj_property>
+      <obj_property name="ObjectShortName">NB_PC[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_IF/NB_INS" type="array">
+      <obj_property name="ElementShortName">NB_INS[31:0]</obj_property>
+      <obj_property name="ObjectShortName">NB_INS[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_IF/u_IF/u_Interface_PC/new_address" type="array">
+      <obj_property name="ElementShortName">new_address[31:0]</obj_property>
+      <obj_property name="ObjectShortName">new_address[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_IF/u_IF/u_PC/address" type="array">
+      <obj_property name="ElementShortName">address[31:0]</obj_property>
+      <obj_property name="ObjectShortName">address[31:0]</obj_property>
+   </wvobject>
+</wave_config>
