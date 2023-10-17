@@ -26,11 +26,11 @@ parameter NB_INS = 32;
 
 reg clk;
 reg reset;
-reg jump_address;
+reg [NB_PC-1:0]jump_address;
 reg is_jump;
-reg input_instruction;
+reg [NB_INS-1:0]input_instruction;
 reg control;// 1 READ - 0 WRITE
-wire output_instruction;
+wire [NB_INS-1:0]output_instruction;
 
 initial
 begin

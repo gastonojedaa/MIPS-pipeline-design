@@ -27,7 +27,8 @@ module PC
 (
     input   i_clk,
     input   i_reset,
-    input   [NB_PC-1:0] i_new_address,    
+    input   [NB_PC-1:0] i_jump_address,
+    input   i_is_jump,
     output  [NB_PC-1:0] o_address   
 );
 
@@ -38,7 +39,12 @@ begin
     if(i_reset)
         address <= 0;
     else
-        address <= i_new_address;
+    begin
+        if(i_is_jump)
+            address <= i_jump_address;
+        else
+            address <= address + 4;
+    end
 end
 
 assign o_address = address;

@@ -33,7 +33,15 @@ module instruction_mem
     output  [NB_INS-1:0] o_instruction
 );
 
+integer i;
 reg [NB_PC-1:0] ins_mem[NB_INS-1:0];
+
+initial
+begin
+    for (i = 0; i <= NB_PC; i = i + 1) begin
+        ins_mem[i] = 32'b0;
+    end
+end
 
 always@(posedge i_clk)
 begin

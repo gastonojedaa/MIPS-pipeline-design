@@ -46,32 +46,32 @@ u_PC
 (
     .i_clk(i_clk),
     .i_reset(i_reset),
-    .i_new_address(new_address),   
+    .i_jump_address(i_jump_address),
+    .i_is_jump(i_is_jump),
     .o_address(address)        
 );
 
-Interface_PC
-#(
-    NB_PC
-)
-u_Interface_PC
-(
-    .i_clk(clk),
-    .i_address(address),
-    .i_jump_address(i_jump_address),
-    .i_is_jump(i_is_jump),
-    .o_new_address(new_address)          
-);
+// Interface_PC
+// #(
+//     NB_PC
+// )
+// u_Interface_PC
+// (
+//     .i_address(address),
+//     .i_jump_address(i_jump_address),
+//     .i_is_jump(i_is_jump),
+//     .o_new_address(new_address)          
+// );
 
-instruction_mem
-#(
-    NB_INS
-)
-u_instruction_mem
-(
-    .i_address(address),
-    .i_instruction(i_instruction), 
-    .i_control(i_control), 
-    .o_instruction(o_instruction)         
-);
+// instruction_mem
+// #(
+//     NB_INS
+// )
+// u_instruction_mem
+// (
+//     .i_address(address),
+//     .i_instruction(i_instruction), 
+//     .i_control(i_control), 
+//     .o_instruction(o_instruction)         
+// );
 endmodule

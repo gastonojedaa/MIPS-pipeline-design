@@ -1,26 +1,16 @@
 Vivado Simulator v2023.1
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
 Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
-Running: Q:/Xilinx/Vivado/2023.1/bin/unwrapped/win64.o/xelab.exe --incr --debug typical --relax --mt 2 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot tb_IF_behav xil_defaultlib.tb_IF xil_defaultlib.glbl -log elaborate.log 
+Running: C:/Xilinx/Vivado/2023.1/bin/unwrapped/win64.o/xelab.exe --incr --debug typical --relax --mt 2 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot tb_IF_behav xil_defaultlib.tb_IF xil_defaultlib.glbl -log elaborate.log 
 Using 2 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
-WARNING: [VRFC 10-3091] actual bit length 1 differs from formal bit length 32 for port 'i_jump_address' [Q:/Xilinx/Projectos/TpFinal/tpFinal.srcs/sim_IF/new/tb_IF.v:61]
-WARNING: [VRFC 10-3091] actual bit length 1 differs from formal bit length 32 for port 'i_instruction' [Q:/Xilinx/Projectos/TpFinal/tpFinal.srcs/sim_IF/new/tb_IF.v:63]
-WARNING: [VRFC 10-3091] actual bit length 1 differs from formal bit length 32 for port 'o_instruction' [Q:/Xilinx/Projectos/TpFinal/tpFinal.srcs/sim_IF/new/tb_IF.v:65]
-WARNING: [VRFC 10-3091] actual bit length 1 differs from formal bit length 32 for port 'i_new_address' [Q:/Xilinx/Projectos/TpFinal/tpFinal.srcs/sources_1/new/IF.v:49]
-WARNING: [VRFC 10-3091] actual bit length 1 differs from formal bit length 32 for port 'o_address' [Q:/Xilinx/Projectos/TpFinal/tpFinal.srcs/sources_1/new/IF.v:50]
-WARNING: [VRFC 10-3091] actual bit length 1 differs from formal bit length 32 for port 'i_address' [Q:/Xilinx/Projectos/TpFinal/tpFinal.srcs/sources_1/new/IF.v:60]
-WARNING: [VRFC 10-3091] actual bit length 1 differs from formal bit length 32 for port 'o_new_address' [Q:/Xilinx/Projectos/TpFinal/tpFinal.srcs/sources_1/new/IF.v:63]
-WARNING: [VRFC 10-3091] actual bit length 1 differs from formal bit length 32 for port 'i_address' [Q:/Xilinx/Projectos/TpFinal/tpFinal.srcs/sources_1/new/IF.v:72]
-WARNING: [VRFC 10-5021] port 'i_clk' is not connected on this instance [Q:/Xilinx/Projectos/TpFinal/tpFinal.srcs/sources_1/new/IF.v:66]
+WARNING: [VRFC 10-3091] actual bit length 1 differs from formal bit length 32 for port 'o_address' [D:/Facultad/ArquitecturaComputadoras/TpFinal/tpFinal.srcs/sources_1/new/IF.v:51]
 Completed static elaboration
 Starting simulation data flow analysis
 Completed simulation data flow analysis
 Time Resolution for simulation is 1ps
 Compiling module xil_defaultlib.PC
-Compiling module xil_defaultlib.Interface_PC
-Compiling module xil_defaultlib.instruction_mem
 Compiling module xil_defaultlib.IF
 Compiling module xil_defaultlib.tb_IF
 Compiling module xil_defaultlib.glbl
