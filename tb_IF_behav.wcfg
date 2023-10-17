@@ -11,15 +11,20 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="6,913 ps"></ZoomStartTime>
-      <ZoomEndTime time="12,699 ps"></ZoomEndTime>
-      <Cursor1Time time="10,500 ps"></Cursor1Time>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="23.541 ns"></ZoomEndTime>
+      <Cursor1Time time="15.478 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="276"></NameColumnWidth>
-      <ValueColumnWidth column_width="103"></ValueColumnWidth>
+      <ValueColumnWidth column_width="83"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="15" />
+   <WVObjectSize size="22" />
+   <wvobject type="divider" fp_name="divider34">
+      <obj_property name="label">IF</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#E0FFFF</obj_property>
+   </wvobject>
    <wvobject fp_name="/tb_IF/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -29,8 +34,12 @@
       <obj_property name="ObjectShortName">reset</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_IF/jump_address" type="array">
-      <obj_property name="ElementShortName">jump_address[31:0]</obj_property>
-      <obj_property name="ObjectShortName">jump_address[31:0]</obj_property>
+      <obj_property name="ElementShortName">jump_address[7:0]</obj_property>
+      <obj_property name="ObjectShortName">jump_address[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_IF/write_address" type="array">
+      <obj_property name="ElementShortName">write_address[7:0]</obj_property>
+      <obj_property name="ObjectShortName">write_address[7:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_IF/is_jump" type="logic">
       <obj_property name="ElementShortName">is_jump</obj_property>
@@ -40,23 +49,13 @@
       <obj_property name="ElementShortName">input_instruction[31:0]</obj_property>
       <obj_property name="ObjectShortName">input_instruction[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb_IF/control" type="logic">
-      <obj_property name="ElementShortName">control</obj_property>
-      <obj_property name="ObjectShortName">control</obj_property>
+   <wvobject fp_name="/tb_IF/write_enable" type="logic">
+      <obj_property name="ElementShortName">write_enable</obj_property>
+      <obj_property name="ObjectShortName">write_enable</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_IF/output_instruction" type="array">
       <obj_property name="ElementShortName">output_instruction[31:0]</obj_property>
       <obj_property name="ObjectShortName">output_instruction[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_IF/NB_PC" type="array">
-      <obj_property name="ElementShortName">NB_PC[31:0]</obj_property>
-      <obj_property name="ObjectShortName">NB_PC[31:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_IF/NB_INS" type="array">
-      <obj_property name="ElementShortName">NB_INS[31:0]</obj_property>
-      <obj_property name="ObjectShortName">NB_INS[31:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject type="divider" fp_name="divider263">
       <obj_property name="label">PC</obj_property>
@@ -67,20 +66,51 @@
       <obj_property name="ObjectShortName">i_reset</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_IF/u_IF/u_PC/i_jump_address" type="array">
-      <obj_property name="ElementShortName">i_jump_address[31:0]</obj_property>
-      <obj_property name="ObjectShortName">i_jump_address[31:0]</obj_property>
+      <obj_property name="ElementShortName">i_jump_address[7:0]</obj_property>
+      <obj_property name="ObjectShortName">i_jump_address[7:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_IF/u_IF/u_PC/i_is_jump" type="logic">
       <obj_property name="ElementShortName">i_is_jump</obj_property>
       <obj_property name="ObjectShortName">i_is_jump</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_IF/u_IF/u_PC/address" type="array">
-      <obj_property name="ElementShortName">address[31:0]</obj_property>
-      <obj_property name="ObjectShortName">address[31:0]</obj_property>
+      <obj_property name="ElementShortName">address[7:0]</obj_property>
+      <obj_property name="ObjectShortName">address[7:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_IF/u_IF/u_PC/o_address" type="array">
-      <obj_property name="ElementShortName">o_address[31:0]</obj_property>
-      <obj_property name="ObjectShortName">o_address[31:0]</obj_property>
+      <obj_property name="ElementShortName">o_address[7:0]</obj_property>
+      <obj_property name="ObjectShortName">o_address[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider33">
+      <obj_property name="label">Instruction Mem</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#800080</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_IF/u_IF/u_instruction_mem/i_write_enable" type="logic">
+      <obj_property name="ElementShortName">i_write_enable</obj_property>
+      <obj_property name="ObjectShortName">i_write_enable</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_IF/u_IF/u_instruction_mem/i_read_address" type="array">
+      <obj_property name="ElementShortName">i_read_address[7:0]</obj_property>
+      <obj_property name="ObjectShortName">i_read_address[7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_IF/u_IF/u_instruction_mem/i_write_address" type="array">
+      <obj_property name="ElementShortName">i_write_address[7:0]</obj_property>
+      <obj_property name="ObjectShortName">i_write_address[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_IF/u_IF/u_instruction_mem/i_instruction" type="array">
+      <obj_property name="ElementShortName">i_instruction[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_instruction[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_IF/u_IF/u_instruction_mem/ins_mem" type="array">
+      <obj_property name="ElementShortName">ins_mem[0:255][31:0]</obj_property>
+      <obj_property name="ObjectShortName">ins_mem[0:255][31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_IF/u_IF/u_instruction_mem/o_instruction" type="array">
+      <obj_property name="ElementShortName">o_instruction[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_instruction[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
 </wave_config>

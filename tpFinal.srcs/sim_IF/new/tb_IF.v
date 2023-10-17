@@ -21,15 +21,16 @@
 
 module tb_IF;
 
-parameter NB_PC = 32;
+parameter NB_PC = 8;
 parameter NB_INS = 32;
 
 reg clk;
 reg reset;
 reg [NB_PC-1:0]jump_address;
+reg [NB_PC-1:0]write_address;
 reg is_jump;
 reg [NB_INS-1:0]input_instruction;
-reg control;// 1 READ - 0 WRITE
+reg write_enable;// 1 READ - 0 WRITE
 wire [NB_INS-1:0]output_instruction;
 
 initial
@@ -38,9 +39,10 @@ begin
     clk = 0;
     reset = 1;
     jump_address = 0;
+    write_address = 0;
     is_jump = 0;
     input_instruction = 0;
-    control = 1;
+    write_enable = 0;
     #10
     reset = 0;
     $finish;  
@@ -58,9 +60,10 @@ u_IF
     .i_clk(clk),
     .i_reset(reset),     
     .i_jump_address(jump_address),
+    .i_write_address(write_address),
     .i_is_jump(is_jump), 
     .i_instruction(input_instruction), 
-    .i_control(control), // 1 READ - 0 WRITE
+    .i_write_enable(write_enable), // 1 READ - 0 WRITE
     .o_instruction(output_instruction) 
 );
 

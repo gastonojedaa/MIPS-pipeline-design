@@ -27,28 +27,31 @@ module instruction_mem
 )
 (
     input   i_clk,    
-    input   [NB_PC-1:0] i_address,
-    input   [NB_INS-1:0]i_instruction, 
-    input   i_control, // 1 READ - 0 WRITE
+    input  [NB_PC-1:0] i_read_address,
+    input   [NB_PC-1:0] i_write_address,
+    input   [NB_INS-1:0] i_instruction,
+    input   i_write_enable, // 0 READ - 1 WRITE
     output  [NB_INS-1:0] o_instruction
 );
 
+localparam MEM_SIZE = (2**NB_PC) - 1;
+
 integer i;
-reg [NB_PC-1:0] ins_mem[NB_INS-1:0];
+reg [NB_INS-1:0] ins_mem[0:MEM_SIZE];
 
 initial
 begin
-    for (i = 0; i <= NB_PC; i = i + 1) begin
-        ins_mem[i] = 32'b0;
+    for (i = 0; i <= MEM_SIZE; i = i + 1) begin
+        ins_mem[i] = i*2;
     end
 end
 
 always@(posedge i_clk)
 begin
-    if(!i_control)
-        ins_mem[i_address] <= i_instruction;    
+    if(i_write_enable)
+        ins_mem[i_write_address] <= i_instruction;    
 end
 
-assign o_instruction = ins_mem[i_address];
+assign o_instruction = ins_mem[i_read_address];
 
 endmodule

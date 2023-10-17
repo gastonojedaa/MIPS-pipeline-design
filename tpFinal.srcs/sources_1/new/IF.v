@@ -29,14 +29,15 @@ module IF
     input   i_clk,
     input   i_reset,     
     input   [NB_PC-1:0] i_jump_address,
+    input   [NB_PC-1:0] i_write_address,
     input   i_is_jump, 
     input   [NB_INS-1:0]i_instruction, 
-    input   i_control, // 1 READ - 0 WRITE
+    input   i_write_enable, // 0 READ - 1 WRITE
     output  [NB_INS-1:0] o_instruction   
 );
 
-wire new_address;
-wire address;
+wire [NB_PC-1:0] new_address;
+wire [NB_PC-1:0] address;
 
 PC
 #(
@@ -51,27 +52,18 @@ u_PC
     .o_address(address)        
 );
 
-// Interface_PC
-// #(
-//     NB_PC
-// )
-// u_Interface_PC
-// (
-//     .i_address(address),
-//     .i_jump_address(i_jump_address),
-//     .i_is_jump(i_is_jump),
-//     .o_new_address(new_address)          
-// );
-
-// instruction_mem
-// #(
-//     NB_INS
-// )
-// u_instruction_mem
-// (
-//     .i_address(address),
-//     .i_instruction(i_instruction), 
-//     .i_control(i_control), 
-//     .o_instruction(o_instruction)         
-// );
+ instruction_mem
+ #(
+     NB_PC,
+     NB_INS
+ )
+ u_instruction_mem
+ (
+     .i_clk(i_clk),
+     .i_read_address(address),
+     .i_write_address(i_write_address),
+     .i_instruction(i_instruction), 
+     .i_write_enable(i_write_enable), 
+     .o_instruction(o_instruction)         
+ );
 endmodule
