@@ -29,24 +29,30 @@ module PC
     input   i_reset,
     input   [NB_PC-1:0] i_jump_address,
     input   i_is_jump,
-    output  [NB_PC-1:0] o_address   
+    output  [NB_PC-1:0] o_current_address,
+    output  [NB_PC-1:0] o_new_address   
 );
 
 reg [NB_PC-1:0] address;
+reg [NB_PC-1:0] new_address;
+
+always@(*)
+begin
+    if(i_is_jump)
+        new_address = i_jump_address;
+    else
+        new_address = address + 4;
+end
 
 always@(posedge i_clk)
 begin
     if(i_reset)
         address <= 0;
     else
-    begin
-        if(i_is_jump)
-            address <= i_jump_address;
-        else
-            address <= address + 4;
-    end
+        address <= new_address;    
 end
 
-assign o_address = address;
+assign o_current_address = address;
+assign o_new_address = new_address;
 
 endmodule

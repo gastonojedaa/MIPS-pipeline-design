@@ -33,7 +33,8 @@ module IF
     input   i_is_jump, 
     input   [NB_INS-1:0]i_instruction, 
     input   i_write_enable, // 0 READ - 1 WRITE
-    output  [NB_INS-1:0] o_instruction   
+    output  [NB_INS-1:0] o_instruction,  
+    output  [NB_PC-1:0] o_new_address
 );
 
 wire [NB_PC-1:0] new_address;
@@ -49,7 +50,8 @@ u_PC
     .i_reset(i_reset),
     .i_jump_address(i_jump_address),
     .i_is_jump(i_is_jump),
-    .o_address(address)        
+    .o_current_address(address), 
+    .o_new_address(new_address)       
 );
 
  instruction_mem
@@ -66,4 +68,7 @@ u_PC
      .i_write_enable(i_write_enable), 
      .o_instruction(o_instruction)         
  );
+ 
+ assign o_new_address = new_address;
+ 
 endmodule
