@@ -32,7 +32,7 @@ reg is_jump;
 reg [NB_INS-1:0]input_instruction;
 reg write_enable;// 1 READ - 0 WRITE
 
-wire [NB_INS-1:0]output_instruction;
+wire [NB_INS-1:0]output_IF_instruction;
 wire [NB_PC-1:0] new_address;
 
 initial
@@ -66,7 +66,7 @@ u_IF
     .i_is_jump(is_jump), 
     .i_instruction(input_instruction), 
     .i_write_enable(write_enable), // 1 READ - 0 WRITE
-    .o_instruction(output_instruction), 
+    .o_instruction(output_IF_instruction), 
     .o_new_address(new_address)
 );
 
@@ -79,7 +79,7 @@ u_IF_ID
 (
     .i_clk(clk),
     .i_reset(reset),  
-    .i_instruction(output_instruction),  
+    .i_instruction(output_IF_instruction),  
     .o_instruction(),
     .i_new_address(new_address), 
     .o_new_address() 
