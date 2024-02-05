@@ -23,7 +23,7 @@ module register_bank
 #(
     parameter NB_DATA = 32,
     parameter N_REG = 32,
-    parameter NB_REG_ADDRESS = $clog2(N_REG)    
+    parameter NB_REG_ADDRESS = 5    
 )
 (
     input   i_clk,
@@ -31,7 +31,6 @@ module register_bank
     input   [NB_DATA-1:0] i_data,
     input   [NB_REG_ADDRESS-1:0] rs_address,
     input   [NB_REG_ADDRESS-1:0] rt_address,
-    input   [NB_REG_ADDRESS-1:0] rd_address,
     input   [NB_REG_ADDRESS-1:0] rw_address,
     input   i_write_enable,   
     output  [NB_DATA-1:0] rs_data,

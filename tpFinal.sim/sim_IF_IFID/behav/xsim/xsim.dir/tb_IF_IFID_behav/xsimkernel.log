@@ -1,7 +1,0 @@
-Running: xsim.dir/tb_IF_IFID_behav/xsimk.exe -simmode gui -wdb tb_IF_IFID_behav.wdb -simrunnum 0 -socket 50179
-Design successfully loaded
-Design Loading Memory Usage: 7260 KB (Peak: 7260 KB)
-Design Loading CPU Usage: 15 ms
-Simulation completed
-Simulation Memory Usage: 15880 KB (Peak: 15880 KB)
-Simulation CPU Usage: 484 ms
