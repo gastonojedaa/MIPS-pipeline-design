@@ -67,9 +67,9 @@ sign_ext
 )
 u_sign_ext
 (
-    .data_in(i_instruction[15:0]),
-    .data_out()
-);
+    .i_data_in(i_instruction[15:0]),
+    .o_sigext()
+); 
 
 assign o_opcode = i_instruction[NB_INS-1:NB_INS-NB_OP]; // [31:26]
 assign o_rs_address = i_instruction[NB_INS-NB_OP-1:NB_INS-NB_OP-NB_REG_ADDRESS]; // [25:21]

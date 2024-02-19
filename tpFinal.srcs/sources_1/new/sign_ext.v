@@ -26,9 +26,9 @@ module sign_ext
     parameter NB_DATA_OUT = 32
 )
 (
-    input  [NB_DATA_IN-1:0] data_in,
+    input  [NB_DATA_IN-1:0] i_data_in,
     output  [NB_DATA_OUT-1:0] o_sigext
 );
-    assign data_out = {{NB_DATA_OUT-NB_DATA_IN{data_in[NB_DATA_IN-1]}}, data_in}; //copia 16 veces el bit mas significativo de data_in y luego copia data_in
+    assign o_sigext = {{NB_DATA_OUT-NB_DATA_IN{i_data_in[NB_DATA_IN-1]}},  i_data_in}; //copia 16 veces el bit mas significativo de data_in y luego copia data_in
 
 endmodule

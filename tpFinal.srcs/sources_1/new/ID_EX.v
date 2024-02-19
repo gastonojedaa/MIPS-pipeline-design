@@ -23,7 +23,11 @@
 module ID_EX
 #(
     parameter NB_DATA = 32, 
-    parameter NB_INS = 32 
+    parameter NB_INS = 32,
+    parameter NB_DATA_OUT = 32,
+    parameter NB_DATA_IN = 16,
+    parameter NB_OP = 6,
+    parameter NB_REG_ADDRESS = 5    
 )
 (
     input i_clk,
@@ -37,7 +41,11 @@ module ID_EX
     input [NB_DATA_IN-1:0] i_inm_value,
     output reg [NB_DATA-1:0] o_rs_data,
     output reg [NB_DATA-1:0] o_rt_data,
-    output reg [NB_INS-1:0] o_sigext
+    output reg [NB_INS-1:0] o_sigext,
+    output reg [NB_OP-1:0] o_opcode,
+    output reg [NB_REG_ADDRESS-1:0] o_rs_address,
+    output reg [NB_REG_ADDRESS-1:0] o_rt_address,
+    output reg [NB_DATA_IN-1:0] o_inm_value
 );
     
 always@(posedge i_clk)

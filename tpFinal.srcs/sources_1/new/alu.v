@@ -9,8 +9,8 @@ module alu
         input [NB_DATA-1 : 0] i_data_a,
         input [NB_DATA-1 : 0] i_data_b,
         input [NB_OPS-1 : 0] i_ops,
-        output [NB_DATA : 0] o_res
-        output o_zero;
+        output [NB_DATA : 0] o_res,
+        output o_zero
     );
 
     localparam SLL_OPCODE = 5'b00000;
@@ -19,12 +19,12 @@ module alu
     localparam SLLV_OPCODE = 5'b00011;
     localparam SRLV_OPCODE = 5'b00100;
     localparam SRAV_OPCODE = 5'b00101;
-    localparam ADDU_OPCODE = 5'b00110;-
-    localparam SUBU_OPCODE = 5'b00111;-
-    localparam AND_OPCODE = 5'b01000;-
-    localparam OR_OPCODE = 5'b01001;-
-    localparam XOR_OPCODE = 5'b01010;-
-    localparam NOR_OPCODE = 5'b01011;-
+    localparam ADDU_OPCODE = 5'b00110;
+    localparam SUBU_OPCODE = 5'b00111;
+    localparam AND_OPCODE = 5'b01000;
+    localparam OR_OPCODE = 5'b01001;
+    localparam XOR_OPCODE = 5'b01010;
+    localparam NOR_OPCODE = 5'b01011;
     localparam SLT_OPCODE = 5'b01100;
     
     reg [NB_DATA-1 : 0] res;
@@ -41,7 +41,7 @@ module alu
                 {carry,res} = $signed(i_data_b) >>> i_data_a;
             SLLV_OPCODE:
                 {carry,res} = i_data_b << i_data_a;
-            SRLV:
+            SRLV_OPCODE:
                 {carry,res} = i_data_b >> i_data_a;
             SRAV_OPCODE:
                 {carry,res} = $signed(i_data_b) >>> i_data_a;
