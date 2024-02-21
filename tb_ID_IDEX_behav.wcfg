@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_ID_IDEX_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb_ID_IDEX" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="11,019 ps"></ZoomStartTime>
+      <ZoomEndTime time="11,809 ps"></ZoomEndTime>
+      <Cursor1Time time="11,610 ps"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="184"></NameColumnWidth>
+      <ValueColumnWidth column_width="58"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="23" />
+   <wvobject fp_name="/tb_ID_IDEX/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ID_IDEX/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider36">
+      <obj_property name="label">Top</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ID_IDEX/instruction" type="array">
+      <obj_property name="ElementShortName">instruction[31:0]</obj_property>
+      <obj_property name="ObjectShortName">instruction[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ID_IDEX/new_address" type="array">
+      <obj_property name="ElementShortName">new_address[31:0]</obj_property>
+      <obj_property name="ObjectShortName">new_address[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider34">
+      <obj_property name="label">ID</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ID_IDEX/u_ID/i_instruction" type="array">
+      <obj_property name="ElementShortName">i_instruction[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_instruction[31:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ID_IDEX/u_ID/o_rs_data" type="array">
+      <obj_property name="ElementShortName">o_rs_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_rs_data[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ID_IDEX/u_ID/o_rt_data" type="array">
+      <obj_property name="ElementShortName">o_rt_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_rt_data[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ID_IDEX/u_ID/o_opcode" type="array">
+      <obj_property name="ElementShortName">o_opcode[5:0]</obj_property>
+      <obj_property name="ObjectShortName">o_opcode[5:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ID_IDEX/u_ID/o_rs_address" type="array">
+      <obj_property name="ElementShortName">o_rs_address[4:0]</obj_property>
+      <obj_property name="ObjectShortName">o_rs_address[4:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ID_IDEX/u_ID/o_rt_address" type="array">
+      <obj_property name="ElementShortName">o_rt_address[4:0]</obj_property>
+      <obj_property name="ObjectShortName">o_rt_address[4:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ID_IDEX/u_ID/o_inm_value" type="array">
+      <obj_property name="ElementShortName">o_inm_value[15:0]</obj_property>
+      <obj_property name="ObjectShortName">o_inm_value[15:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ID_IDEX/u_ID/o_sigext" type="array">
+      <obj_property name="ElementShortName">o_sigext[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_sigext[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider35">
+      <obj_property name="label">ID_EX</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ID_IDEX/u_ID_EX/o_rs_data" type="array">
+      <obj_property name="ElementShortName">o_rs_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_rs_data[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ID_IDEX/u_ID_EX/o_rt_data" type="array">
+      <obj_property name="ElementShortName">o_rt_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_rt_data[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ID_IDEX/u_ID_EX/o_sigext" type="array">
+      <obj_property name="ElementShortName">o_sigext[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_sigext[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ID_IDEX/u_ID_EX/o_opcode" type="array">
+      <obj_property name="ElementShortName">o_opcode[5:0]</obj_property>
+      <obj_property name="ObjectShortName">o_opcode[5:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ID_IDEX/u_ID_EX/o_rs_address" type="array">
+      <obj_property name="ElementShortName">o_rs_address[4:0]</obj_property>
+      <obj_property name="ObjectShortName">o_rs_address[4:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ID_IDEX/u_ID_EX/o_rt_address" type="array">
+      <obj_property name="ElementShortName">o_rt_address[4:0]</obj_property>
+      <obj_property name="ObjectShortName">o_rt_address[4:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ID_IDEX/u_ID_EX/o_inm_value" type="array">
+      <obj_property name="ElementShortName">o_inm_value[15:0]</obj_property>
+      <obj_property name="ObjectShortName">o_inm_value[15:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ID_IDEX/u_ID_EX/o_new_address" type="array">
+      <obj_property name="ElementShortName">o_new_address[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_new_address[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+</wave_config>

@@ -38,7 +38,8 @@ module ID
     output  [NB_OP-1:0] o_opcode,
     output  [NB_REG_ADDRESS-1:0] o_rs_address,
     output  [NB_REG_ADDRESS-1:0] o_rt_address,
-    output  [NB_DATA_IN-1:0] o_inm_value
+    output  [NB_DATA_IN-1:0] o_inm_value,
+    output  [NB_DATA-1:0] o_sigext
 );
 
 register_bank
@@ -68,7 +69,7 @@ sign_ext
 u_sign_ext
 (
     .i_data_in(i_instruction[15:0]),
-    .o_sigext()
+    .o_sigext(o_sigext)
 ); 
 
 assign o_opcode = i_instruction[NB_INS-1:NB_INS-NB_OP]; // [31:26]

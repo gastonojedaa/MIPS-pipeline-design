@@ -3,7 +3,7 @@
 module alu
     #(
         parameter NB_DATA = 8,
-        parameter NB_OPS = 5
+        parameter NB_OPS = 5 //TODO: son 6 bits
     )
     (
         input [NB_DATA-1 : 0] i_data_a,
