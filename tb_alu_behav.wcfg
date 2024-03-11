@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_alu_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb_alu" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="39.651 ns"></ZoomEndTime>
+      <Cursor1Time time="95.400 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="180"></NameColumnWidth>
+      <ValueColumnWidth column_width="58"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="9" />
+   <wvobject fp_name="/tb_alu/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_alu/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_alu/data_a" type="array">
+      <obj_property name="ElementShortName">data_a[7:0]</obj_property>
+      <obj_property name="ObjectShortName">data_a[7:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_alu/data_b" type="array">
+      <obj_property name="ElementShortName">data_b[7:0]</obj_property>
+      <obj_property name="ObjectShortName">data_b[7:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_alu/ops" type="array">
+      <obj_property name="ElementShortName">ops[4:0]</obj_property>
+      <obj_property name="ObjectShortName">ops[4:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_alu/res" type="array">
+      <obj_property name="ElementShortName">res[7:0]</obj_property>
+      <obj_property name="ObjectShortName">res[7:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_alu/zero" type="logic">
+      <obj_property name="ElementShortName">zero</obj_property>
+      <obj_property name="ObjectShortName">zero</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_alu/NB_DATA" type="array">
+      <obj_property name="ElementShortName">NB_DATA[31:0]</obj_property>
+      <obj_property name="ObjectShortName">NB_DATA[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_alu/NB_OPS" type="array">
+      <obj_property name="ElementShortName">NB_OPS[31:0]</obj_property>
+      <obj_property name="ObjectShortName">NB_OPS[31:0]</obj_property>
+   </wvobject>
+</wave_config>
