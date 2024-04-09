@@ -3,7 +3,7 @@
 module alu
     #(
         parameter NB_DATA = 8,
-        parameter NB_OPS = 6 //TODO: son 6 bits
+        parameter NB_OPS = 6 
     )
     (
         input [NB_DATA-1 : 0] i_data_a,
@@ -32,38 +32,6 @@ module alu
     reg carry;
     
     always @(*)
-    /* begin
-        case(i_ops)
-            SLL_OPCODE:
-                {carry,res} = i_data_b << i_data_a;
-            SRL_OPCODE:
-                {carry,res} = i_data_b >> i_data_a;
-            SRA_OPCODE:
-                {carry,res} = $signed(i_data_b) >>> i_data_a;
-            SLLV_OPCODE:
-                {carry,res} = i_data_b << i_data_a;
-            SRLV_OPCODE:
-                {carry,res} = i_data_b >> i_data_a;
-            SRAV_OPCODE:
-                {carry,res} = $signed(i_data_b) >>> i_data_a;
-            ADDU_OPCODE:
-                {carry,res} = i_data_a + i_data_b;
-            SUBU_OPCODE:
-                {carry,res} = $signed(i_data_a) - $signed(i_data_b);
-            AND_OPCODE:
-                {carry,res} = {1'b0 , i_data_a & i_data_b};
-            OR_OPCODE:
-                {carry,res} = {1'b0 , i_data_a | i_data_b};
-            XOR_OPCODE:
-                {carry,res} = {1'b0 , i_data_a ^ i_data_b};
-            NOR_OPCODE:        
-                {carry,res} = {1'b0 , ~(i_data_a | i_data_b)};
-            SLT_OPCODE:
-                {carry,res} = (i_data_a < i_data_b);
-            default:
-                {carry,res} = 'hFF;
-        endcase
-    end */
     begin
         case(i_ops)
             SLL_OPCODE:
