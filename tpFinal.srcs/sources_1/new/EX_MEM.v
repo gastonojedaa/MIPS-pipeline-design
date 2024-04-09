@@ -31,13 +31,10 @@ module EX_MEM
     input i_reset,
     input [NB_DATA : 0] i_res,
     input i_zero,
+    input [NB_DATA:0] i_rt_data,
     output reg [NB_DATA : 0] o_res,
     output reg o_zero,
-
-    //entrada del o_inm_value
-    input [NB_DATA_IN-1:0] i_inm_value,  
-    output reg [NB_DATA_IN-1:0] o_rd_value //del bit 11 al 15 del inm_value 
-
+    output reg [NB_DATA : 0] o_rt_data
 );
 always@(posedge i_clk)
 begin 
@@ -45,20 +42,13 @@ begin
         begin
             o_res <= 0;
             o_zero <= 0;
-            o_rd_value <= 0;
-
+            o_rt_data <= 0;
         end
     else
         begin
             o_res <= i_res;
             o_zero <= i_zero;
-            o_rd_value <= i_inm_value[15:11];
+            o_rt_data <= i_rt_data;            
         end
 end
 endmodule
-
-/*
-* mi duda es si en la memoria de datos el dato que viene de la alu
-* es el dato que se va a guardar en la memoria de datos o es la
-* direccion de memoria a la que se va a guardar el dato?
-*/

@@ -2,7 +2,7 @@
 
 module alu
     #(
-        parameter NB_DATA = 8,
+        parameter NB_DATA = 32,
         parameter NB_OPS = 6 
     )
     (
