@@ -39,16 +39,16 @@ module ID_EX
     input [NB_OP-1:0] i_opcode,
     input [NB_REG_ADDRESS-1:0] i_rs_address,
     input [NB_REG_ADDRESS-1:0] i_rt_address,
-    input [NB_DATA_IN-1:0] i_inm_value,
-    input [NB_PC-1:0] i_new_address, //address from IF/ID
+    input [NB_REG_ADDRESS-1:0] i_write_address,
+    input [NB_PC-1:0] i_address_plus_4, //address from IF/ID
     output reg [NB_DATA-1:0] o_rs_data,
     output reg [NB_DATA-1:0] o_rt_data,
     output reg [NB_INS-1:0] o_sigext,
     output reg [NB_OP-1:0] o_opcode,
     output reg [NB_REG_ADDRESS-1:0] o_rs_address,
     output reg [NB_REG_ADDRESS-1:0] o_rt_address,
-    output reg [NB_DATA_IN-1:0] o_inm_value,
-    output reg [NB_PC-1:0] o_new_address
+    output reg [NB_REG_ADDRESS-1:0] o_write_address,
+    output reg [NB_PC-1:0] o_address_plus_4
 );
     
 always@(posedge i_clk)
@@ -61,8 +61,8 @@ begin
             o_opcode <= 0;
             o_rs_address <= 0;
             o_rt_address <= 0;
-            o_inm_value <= 0;
-            o_new_address <= 0;
+            o_write_address <= 0;
+            o_address_plus_4 <= 0;
         end
     else
         begin                              
@@ -72,8 +72,8 @@ begin
             o_opcode <= i_opcode;
             o_rs_address <= i_rs_address;
             o_rt_address <= i_rt_address;
-            o_inm_value <= i_inm_value;      
-            o_new_address <= i_new_address;     
+            o_write_address <= i_write_address;      
+            o_address_plus_4 <= i_address_plus_4;     
         end
 end
 

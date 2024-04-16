@@ -41,19 +41,23 @@ module EX
     input [4:0] i_rs_address,
     input [4:0] i_rt_address,
     input [15:0] i_inm_value,
-    input [31:0] i_new_address, //address from ID/EX
+    input [31:0] i_address_plus_4, //address from ID/EX
     output [NB_DATA : 0] o_res,
     output o_zero,
     output [NB_DATA : 0] o_rt_data,
+    output [NB_DATA - 1 : 0] o_jump_address,
 
     //input temporal
     input i_src_data_b //0 rt, 1 inmediate
 );
 
-wire [31:0] data_b;
+wire [NB_DATA-1:0] data_b;
 
 assign data_b = i_src_data_b ? i_sigext : i_rt_data;  //mux entre rt e sig_ext
 assign o_rt_data = i_rt_data; //rt que pasa directo
+
+// Calc jump address
+assign o_jump_address = i_address_plus_4 + i_sigext<<2;
 
 alu#(
     NB_DATA,

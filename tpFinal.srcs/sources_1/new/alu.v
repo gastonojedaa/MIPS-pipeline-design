@@ -9,7 +9,7 @@ module alu
         input [NB_DATA-1 : 0] i_data_a,
         input [NB_DATA-1 : 0] i_data_b,
         input [NB_OPS-1 : 0] i_ops,
-        output [NB_DATA : 0] o_res,
+        output [NB_DATA : 0] o_res, // carry + result
         output o_zero
     ); 
         

@@ -34,41 +34,50 @@ module IF
     input   [NB_INS-1:0]i_instruction, 
     input   i_write_enable, // 0 READ - 1 WRITE
     output  [NB_INS-1:0] o_instruction,  
-    output  [NB_PC-1:0] o_new_address
+    output  [NB_PC-1:0] o_address_plus_4
 );
 
 wire [NB_PC-1:0] new_address;
 wire [NB_PC-1:0] address;
+wire [NB_PC-1:0] address_plus_4;
+reg [NB_PC-1:0] pc;
 
-PC
+assign address_plus_4 = address + 4;
+
+// Mux PC - PC + 4 o jump address
+always@(*)
+begin
+    if(i_is_jump)
+        new_address = i_jump_address;
+    else
+        new_address = address_plus_4;
+end
+
+// PC
+always@(posedge i_clk)
+begin
+    if(i_reset)
+        pc <= 0;
+    else
+        pc <= new_address;
+end
+
+
+instruction_mem
 #(
-    NB_PC
+    NB_PC,
+    NB_INS
 )
-u_PC
+u_instruction_mem
 (
     .i_clk(i_clk),
-    .i_reset(i_reset),
-    .i_jump_address(i_jump_address),
-    .i_is_jump(i_is_jump),
-    .o_current_address(address), 
-    .o_new_address(new_address)       
+    .i_read_address(address),
+    .i_write_address(i_write_address),
+    .i_instruction(i_instruction), 
+    .i_write_enable(i_write_enable), 
+    .o_instruction(o_instruction)         
 );
 
- instruction_mem
- #(
-     NB_PC,
-     NB_INS
- )
- u_instruction_mem
- (
-     .i_clk(i_clk),
-     .i_read_address(address),
-     .i_write_address(i_write_address),
-     .i_instruction(i_instruction), 
-     .i_write_enable(i_write_enable), 
-     .o_instruction(o_instruction)         
- );
- 
- assign o_new_address = new_address;
- 
+assign o_address_plus_4 = address_plus_4;
+
 endmodule
