@@ -28,14 +28,13 @@ module MEM_WB
 (
 input i_clk,
 input i_reset,
-input [NB_REG_ADDRESS-1:0] i_write_address,
+input [NB_REG_ADDRESS-1:0] i_write_address,//pa que es esto
 input [NB_DATA:0] i_res, // TODO: Revisar si es necesario el +1 por el carry
-input [NB_DATA-1:0] i_mem_data, //TODO: Implementar MEM
-output reg [NB_REG_ADDRESS-1:0] o_write_address,
+input [NB_DATA-1:0] i_mem_data, 
+output reg [NB_REG_ADDRESS-1:0] o_write_address,//pa que es esto
 output reg [NB_DATA:0] o_res,
 output reg [NB_DATA-1:0] o_mem_data
-
-    );
+);
 
 always@(posedge i_clk)
 begin 

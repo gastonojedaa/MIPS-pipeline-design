@@ -37,7 +37,7 @@ module IF
     output  [NB_PC-1:0] o_address_plus_4
 );
 
-wire [NB_PC-1:0] new_address;
+reg [NB_PC-1:0] new_address;
 wire [NB_PC-1:0] address;
 wire [NB_PC-1:0] address_plus_4;
 reg [NB_PC-1:0] pc;

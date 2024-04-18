@@ -27,10 +27,10 @@ module data_mem
 )
 (
     input   i_clk,    
-    input   [NB_ADDR-1:0] i_mem_read_address,
-    input   [NB_ADDR-1:0] i_mem_write_address,
-    input   [NB_INS-1:0]  i_mem_data,
-    input   i_mem_write_enable, // 0 READ - 1 WRITE
+    input   [NB_ADDR-1:0] i_data_mem_read_address,
+    input   [NB_ADDR-1:0] i_data_mem_write_address,
+    input   [NB_INS-1:0]  i_data_mem_data,
+    input   i_data_mem_write_enable, // 0 READ - 1 WRITE
     output  [NB_INS-1:0] o_mem_data
 );
 
@@ -41,15 +41,18 @@ reg [NB_INS-1:0] mem_data[0:MEM_SIZE];
 
 initial
 begin  
-    //inicializar a memória     
+    //TODO: check if this is the correct initialization  
+    for (i = 0; i <= MEM_SIZE; i = i + 1) begin
+        mem_data[i] = 0;
+    end
 end
 
 always@(posedge i_clk)
 begin
-    if(i_write_enable)
-        mem_data[i_mem_write_address] <= i_mem_data;    
+    if(i_data_mem_write_enable)
+        mem_data[i_data_mem_write_address] <= i_data_mem_data;    
 end
 
-assign o_instruction = mem_data[i_read_address];
+assign o_mem_data = mem_data[i_data_mem_read_address];
 
 endmodule
