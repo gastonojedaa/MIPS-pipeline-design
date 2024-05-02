@@ -90,6 +90,7 @@ u_sign_ext
     .o_sigext(o_sigext)
 ); 
 
+//cortocircuito
 //dependiendo el valor de las flags va a recibir el valor de los registros o el valor de la etapa EX/MEM o MEM/WB
 always@(posedge i_clk)
 begin
