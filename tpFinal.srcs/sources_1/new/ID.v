@@ -27,6 +27,7 @@ module ID
     parameter NB_INS = 32,
     parameter NB_DATA_IN = 16,
     parameter NB_OP = 6,
+    parameter NB_REG_ADDRESS = $clog2(N_REG)
 )
 ( 
     input   i_clk,
@@ -43,8 +44,6 @@ module ID
     output  [NB_DATA_IN-1:0] o_inm_value,
     output  [NB_DATA-1:0] o_sigext
 );
-
-localparam NB_REG_ADDRESS = $clog2(N_REG);
 
 wire [NB_REG_ADDRESS-1:0] rs_address;
 wire [NB_REG_ADDRESS-1:0] rt_address;

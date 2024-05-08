@@ -23,14 +23,16 @@
 module top
 #(
     parameter NB_PC = 32,
-    parameter NB_INS = 32  
+    parameter NB_INS = 32,  
     parameter N_REG = 32,
+    parameter NB_DATA = 32,
     parameter NB_DATA_IN = 16,
-    parameter NB_OP = 6,
+    parameter NB_DATA_OUT = 32,
+    parameter NB_OP = 6
 )
 ( 
     input   i_clk,
-    input   i_reset,     
+    input   i_reset    
 );
 
 localparam NB_REG_ADDRESS = $clog2(N_REG);
@@ -61,11 +63,12 @@ IF_ID
     NB_PC,
     NB_INS
 )
+u_if_id
 ( 
     .i_clk(i_clk),
     .i_reset(i_reset),
     .i_instruction(if_instruction_if_id), 
-    .i_address_plus_4(if_address_plus_4_if_id)
+    .i_address_plus_4(if_address_plus_4_if_id),
     .o_instruction(if_id_instruction_id), 
     .o_address_plus_4(if_id_address_plus_4_id_ex)// TODO: Connect the other end of the signal
 );
@@ -81,6 +84,7 @@ ID
     NB_DATA_IN,
     NB_OP
 )
+u_id
 ( 
     .i_clk(i_clk),
     .i_reset(i_reset),
@@ -117,6 +121,7 @@ ID_EX
     NB_REG_ADDRESS,
     NB_PC        
 )
+u_id_ex
 (
     .i_clk(i_clk),
     .i_reset(i_reset),
@@ -156,8 +161,9 @@ EX
     NB_OP,
     NB_REG_ADDRESS,
     NB_PC,   
-    NB_OPS 
+    NB_OP 
 )
+u_ex
 (
     .i_clk(i_clk),
     .i_reset(i_reset),
@@ -186,10 +192,11 @@ wire [NB_DATA-1:0] ex_jump_address_ex_mem;
 EX_MEM
 #(
     NB_DATA,
-    NB_OPS,
+    NB_OP,
     NB_DATA_IN,
     NB_REG_ADDRESS
 )
+u_ex_mem
 (    
     .i_clk(i_clk),
     .i_reset(i_reset),
