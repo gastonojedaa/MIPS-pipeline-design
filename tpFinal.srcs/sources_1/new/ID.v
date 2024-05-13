@@ -27,7 +27,7 @@ module ID
     parameter NB_INS = 32,
     parameter NB_DATA_IN = 16,
     parameter NB_OP = 6,
-    parameter NB_REG_ADDRESS = $clog2(N_REG)  
+    parameter NB_REG_ADDRESS = $clog2(N_REG)
 )
 ( 
     input   i_clk,
