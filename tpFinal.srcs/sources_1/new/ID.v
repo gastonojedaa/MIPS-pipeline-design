@@ -73,7 +73,7 @@ u_register_bank
     .i_data(),
     .rs_address(i_instruction[25:21]),
     .rt_address(i_instruction[20:16]),    
-    .rw_address(),          //  vienen de la 
+    .rw_address(i_write_address),          //  vienen de la 
     .i_write_enable(),      //  etapa MEM/WB 
     .rs_data(o_rs_data),
     .rt_data(o_rt_data)    
@@ -98,12 +98,14 @@ begin
         2'b00: o_rs_address = rs_address; //no hay cortocircuito
         2'b10: o_rs_address = i_write_address_ex_mem; //de la etapa EX/MEM
         2'b01: o_rs_address = i_write_address_mem_wb; //de la etapa MEM/WB
+        2'b11: o_rs_address =  rs_address; //no deberia pasar
     endcase
 
     case(i_forward_b)
         2'b00: o_rt_address = rt_address; //no hay cortocircuito
         2'b10: o_rt_address = i_write_address_ex_mem; //de la etapa EX/MEM
         2'b01: o_rt_address = i_write_address_mem_wb; //de la etapa MEM/WB
+        2'b11: o_rt_address =  rt_address;
     endcase
 end
 
