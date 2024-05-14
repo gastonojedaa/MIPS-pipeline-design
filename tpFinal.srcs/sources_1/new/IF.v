@@ -34,15 +34,18 @@ module IF
     input   [NB_INS-1:0]i_instruction, 
     input   i_write_enable, // 0 READ - 1 WRITE
     output  [NB_INS-1:0] o_instruction,  
-    output  [NB_PC-1:0] o_address_plus_4
+    output  [NB_PC-1:0] o_address_plus_4,
+
+    //signal to hazard detection unit
+    input PCwrite
 );
 
 reg [NB_PC-1:0] new_address;
-wire [NB_PC-1:0] address;
+//wire [NB_PC-1:0] address;
 wire [NB_PC-1:0] address_plus_4;
 reg [NB_PC-1:0] pc;
 
-assign address_plus_4 = address + 4;
+assign address_plus_4 = pc + 4;
 
 // Mux PC - PC + 4 o jump address
 always@(*)
@@ -50,7 +53,12 @@ begin
     if(i_is_jump)
         new_address = i_jump_address;
     else
-        new_address = address_plus_4;
+        begin
+            if(PCwrite)
+                new_address = pc;
+            else
+                new_address = address_plus_4;
+        end
 end
 
 // PC
@@ -59,7 +67,7 @@ begin
     if(i_reset)
         pc <= 0;
     else
-        pc <= new_address;
+        pc <= new_address;   
 end
 
 
@@ -71,7 +79,7 @@ instruction_mem
 u_instruction_mem
 (
     .i_clk(i_clk),
-    .i_read_address(address),
+    .i_read_address(pc),
     .i_write_address(i_write_address),
     .i_instruction(i_instruction), 
     .i_write_enable(i_write_enable), 

@@ -31,8 +31,26 @@ module hazard_detection_unit
     input i_rt_address_id,
     //EX memRead y rt
     input i_mem_read_ex, //señal de control
-    input i_rt_address_ex
+    input i_rt_address_ex,
+    //signals to stall
+    output reg PCwrite,
+    output reg IFIDwrite
 );
+
+
+always@(*)
+begin
+    if(i_mem_read_ex && ((i_rt_address_ex == i_rs_address_id) || (i_rt_address_ex == i_rt_address_id)))
+        begin
+            PCwrite = 1;
+            IFIDwrite = 1;
+        end
+    else
+        begin
+            PCwrite = 0;
+            IFIDwrite = 0;
+        end
+end
 
 // if i_mem_read_ex and                                 --> si escribe en memoria es un load
 //((i_rt_address_ex == i_rs_address_id or               --> si coincide alguno de los operandos
