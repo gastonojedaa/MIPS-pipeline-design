@@ -51,7 +51,7 @@ begin
             o_jump_address <= 0;
             o_write_address <= 0;
         end
-    else
+    else if(i_enable_debug_unit)//TODO: add signal to every register
         begin
             o_res <= i_res;
             o_zero <= i_zero;

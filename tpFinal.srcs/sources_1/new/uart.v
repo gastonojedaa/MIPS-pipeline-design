@@ -1,4 +1,4 @@
-module debug_unit
+module uart
 #(
     parameter NB_UART_DATA = 8
 )
@@ -10,7 +10,8 @@ module debug_unit
     input i_rx_data,
     output o_tx_data,
     output [NB_UART_DATA-1:0 ] o_data_rx,
-    output o_valid_rx
+    output o_valid_rx,
+    output o_tx_done
 );
 
 baud_rate_generator
@@ -38,7 +39,8 @@ u_tx
     .i_tick(bdg_tick),
     .i_valid(i_valid_tx),
     .i_data(i_data_tx),
-    .o_tx_data(o_tx_data)
+    .o_tx_data(o_tx_data),
+    .o_tx_done(o_tx_done)
 );
 
 rx
