@@ -35,6 +35,7 @@ module ID
     input   [NB_INS-1:0] i_instruction,
     input i_ctrl_regdst,   
     input [NB_REG_ADDRESS-1:0] i_write_address,
+    input i_pipeline_stalled_to_control_unit,
     output  [NB_DATA-1:0] o_rs_data,    
     output  [NB_DATA-1:0] o_rt_data,    
     output  [NB_OP-1:0] o_opcode,
@@ -90,6 +91,28 @@ u_sign_ext
     .o_sigext(o_sigext)
 ); 
 
+//control unit
+
+control_unit
+#(
+    NB_FUNCTION,
+    NB_OP
+)
+u_control_unit
+(      
+    .i_opcode(),
+    .i_function(),
+    .i_pipeline_stalled(i_pipeline_stalled_to_control_unit),
+    .o_PcSrc(),
+    .o_RegDst(),
+    .O_ALUSrc(),
+    .o_ALUOp(),
+    .o_MemRead(),
+    .o_MemWrite(),
+    .o_Branch(),
+    .o_RegWrite(),
+    .o_MemtoReg()    
+);
 //cortocircuito
 //dependiendo el valor de las flags va a recibir el valor de los registros o el valor de la etapa EX/MEM o MEM/WB
 always@(posedge i_clk)

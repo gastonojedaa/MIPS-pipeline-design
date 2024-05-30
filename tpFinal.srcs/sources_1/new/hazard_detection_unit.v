@@ -30,25 +30,29 @@ module hazard_detection_unit
     input i_rs_address_id,
     input i_rt_address_id,
     //EX memRead y rt
-    input i_mem_read_ex, //señal de control
+    input i_MemRead, //señal de control
     input i_rt_address_ex,
     //signals to stall
-    output reg PCwrite,
-    output reg IFIDwrite
+    output reg o_PCwrite,
+    output reg o_IFIDwrite
+    output reg o_pipeline_stalled_to_ID,
 );
 
 
 always@(*)
 begin
-    if(i_mem_read_ex && ((i_rt_address_ex == i_rs_address_id) || (i_rt_address_ex == i_rt_address_id)))
+    if(i_MemRead && ((i_rt_address_ex == i_rs_address_id) || (i_rt_address_ex == i_rt_address_id)))
         begin
-            PCwrite = 1;
-            IFIDwrite = 1;
+            o_PCwrite = 1;
+            o_IFIDwrite = 1;          
+            //para la segunda parte del pipeline se insertan nops, se ponen a 0 las señales de control (enable)
+            o_pipeline_stalled_to_ID = 1'b1
         end
     else
         begin
-            PCwrite = 0;
-            IFIDwrite = 0;
+            o_PCwrite = 0;
+            o_IFIDwrite = 0;
+            o_pipeline_stalled_to_ID = 1'b0;
         end
 end
 

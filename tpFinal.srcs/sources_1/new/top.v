@@ -75,6 +75,7 @@ u_if_id
 
 wire [NB_INS-1:0] if_id_instruction_id;
 wire [NB_PC-1:0] if_id_address_plus_4_id_ex;
+wire pipeline_stalled_to_ID;
 
 ID
 #(
@@ -90,7 +91,8 @@ u_id
     .i_reset(i_reset),
     .i_instruction(if_id_instruction_id),
     .i_ctrl_regdst(),   
-    .i_write_address(), 
+    .i_write_address(),
+    .i_pipeline_stalled_to_control_unit(pipeline_stalled_to_ID),
     .o_rs_data(id_rs_data_id_ex),    
     .o_rt_data(id_rt_data_id_ex),    
     .o_opcode(id_opcode_id_ex),
@@ -210,6 +212,23 @@ u_ex_mem
     .o_rt_data(),
     .o_jump_address(),
     .o_write_address()
+);
+
+//hazard detection unit
+hazard_detection_unit
+#(
+    N_REG,
+    NB_REG_ADDRESS
+)
+u_hazard_detection_unit
+(
+    .i_rs_address_id(id_rs_address_id_ex),
+    .i_rt_address_id(id_rt_address_id_ex),
+    .i_MemRead(), //señal de control
+    .i_rt_address_ex(id_rt_address_ex),
+    .o_PCwrite(),
+    .o_IFIDwrite(),
+    .o_pipeline_stalled_to_ID(pipeline_stalled_to_ID)
 );
 
 endmodule
