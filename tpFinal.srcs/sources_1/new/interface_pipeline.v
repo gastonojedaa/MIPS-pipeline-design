@@ -12,6 +12,7 @@ module interface_pipeline
     // General
     input i_clk,
     input i_reset,
+    input i_halted,
 
     // Rx
     input [NB_UART_DATA-1:0] i_rx_data,
@@ -23,7 +24,7 @@ module interface_pipeline
     // Data mem
     input [NB_DATA-1:0] i_mem_data,
     // Tx in
-    input i_tx_done;
+    input i_tx_done,
 
     // To Pipeline
     // Enable
@@ -68,7 +69,7 @@ module interface_pipeline
     /* Utils */
     /* ------------------- */
     // Bytes loaded per 32 bit
-    reg [1:0] bytes_loaded;
+    reg [1:0] bytes_to_load;
     // Data
     reg [NB_DATA-1:0] work_reg;
     /* ------------------- */
@@ -96,7 +97,7 @@ module interface_pipeline
     /* Read data memory */
 
     /* ------------------- */
-
+    reg [NB_UART_DATA-1:0] tx_data;
     /*UART*/
     reg tx_valid;
     
@@ -113,13 +114,12 @@ module interface_pipeline
     begin
         if(i_reset)
         begin
-            bytes_loaded <= 0;
+            bytes_to_load <= 0;
             work_reg <= 0;
             ins_counter_flag <= 0;
             instructions_counter <= 0;
             first_instruction_loaded <= 0;
             instruction_mem_write_address <= 0;
-            pc_sent <= 0;
         end
         
         else
@@ -135,9 +135,14 @@ module interface_pipeline
                         end
                         else
                         begin
-                            work_reg <= work_reg | (i_rx_data << (8*bytes_loaded));
-                            bytes_loaded <= bytes_loaded + 1; // Automatically resets to 0
-                            if(bytes_loaded == 3)
+                            case (bytes_to_load)
+                                2'b00: work_reg[7:0]   <= i_rx_data;
+                                2'b01: work_reg[15:8]  <= i_rx_data;
+                                2'b10: work_reg[23:16] <= i_rx_data;
+                                2'b11: work_reg[31:24] <= i_rx_data;
+                            endcase
+                            bytes_to_load <= bytes_to_load + 1; // Automatically resets to 0
+                            if(bytes_to_load == 3)
                                 begin
                                     if(first_instruction_loaded == 0)
                                         first_instruction_loaded <= 1;
@@ -149,13 +154,11 @@ module interface_pipeline
                         end
                     end
                 READING_PC:
-                    if(i_tx_done)
-                        bytes_loaded <= bytes_loaded + 1;
-                        
-                    
+                begin
+                    bytes_to_load <= i_tx_done ? bytes_to_load + 1 : bytes_to_load;
+                end
                    
-                default:
-                    tx_valid <= 0;
+                   
             endcase
         end
     end
@@ -209,8 +212,10 @@ module interface_pipeline
                 next_state = READING_PC;
             READING_PC:
                 // TODO: if PC is transmitted move to next state
-                if(bytes_loaded == 0 && pc_sent=1){}
-                next_state = READING_REGS;
+                if(bytes_to_load == 3)
+                    next_state = READING_REGS;
+                else
+                    next_state = READING_PC;
             READING_REGS:
                 // TODO: If all registers are transmitted move to next state
                 next_state = READING_MEM;
@@ -220,6 +225,11 @@ module interface_pipeline
                     next_state = HALTED;
                 else
                     next_state = IDLE_STEP_BY_STEP;
+            HALTED:
+                if(i_rx_valid==1 && i_rx_data == CMD_RESET)
+                    next_state = UNINITIALIZED;
+                else
+                    next_state = HALTED;
             default:
                 next_state = UNINITIALIZED;
         endcase
@@ -231,12 +241,27 @@ module interface_pipeline
         
     end
 
-    assign o_write_enable = (state == LOADING_INSTRUCTIONS && bytes_loaded==0 && first_instruction_loaded==1) ? 1 : 0;
+    // Tx Data & tx_valid
+    always @(*)
+    begin
+        case(state)
+            READING_PC:
+            begin
+                tx_data <= i_pc[bytes_to_load*8 +: 8];
+                tx_valid <= i_tx_done;
+            end
+               
+            default:
+                tx_data <= 0;
+        endcase
+    end
+
+    assign o_write_enable = (state == LOADING_INSTRUCTIONS && bytes_to_load==0 && first_instruction_loaded==1) ? 1 : 0;
     assign o_instruction = work_reg;
     assign o_instruction_mem_write_address = instruction_mem_write_address;
 
     assign o_enable = (state == CONTINUOUS || state == RUN_STEP) ? 1 : 0;
 
-    assign o_tx_data = i_pc[(8*(bytes_loaded+1))-1 : bytes_loaded*8];
-
+    assign o_tx_valid = i_tx_done;
+    assign o_tx_data = tx_data;
 endmodule

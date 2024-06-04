@@ -35,6 +35,7 @@ module EX_MEM
     input [NB_DATA:0] i_rt_data,
     input [NB_DATA-1:0] i_jump_address,
     input [NB_REG_ADDRESS-1:0] i_write_address,
+    input i_enable_debug_unit,
     output reg [NB_DATA : 0] o_res,
     output reg o_zero,
     output reg [NB_DATA : 0] o_rt_data,

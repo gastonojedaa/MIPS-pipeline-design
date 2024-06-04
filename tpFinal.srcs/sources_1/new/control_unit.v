@@ -21,7 +21,7 @@
 
 module control_unit#(
     parameter NB_FUNCTION = 6,
-    parameter NB_OP = 6    
+    parameter NB_OP = 6,    
     parameter NB_CONTROL = 15 // capaz 16 xd
 
 )
