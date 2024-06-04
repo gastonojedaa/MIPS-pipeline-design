@@ -21,6 +21,8 @@ module interface_pipeline
     // From Pipeline
     // PC in
     input [NB_DATA-1:0] i_pc,
+    // Reg Bank In
+    input [NB_DATA-1:0] i_reg_data,
     // Data mem
     input [NB_DATA-1:0] i_mem_data,
     // Tx in
@@ -30,6 +32,9 @@ module interface_pipeline
     // Enable
     output o_enable,
 
+    // Reg Bank Out
+    output [NB_REGS-1:0] o_reg_address,
+    
     // Instruction mem
     output [NB_DATA-1:0] o_instruction_mem_write_address,
     output [NB_DATA-1:0] o_instruction,
@@ -44,6 +49,7 @@ module interface_pipeline
 
    
 ); 
+    localparam N_REGS = 2**NB_REGS;
 
     // States
     localparam UNINITIALIZED = 10'b0000000001;
@@ -91,10 +97,12 @@ module interface_pipeline
     /* ------------------- */
 
     /* Read registers */
+    reg [NB_REGS-1:0] regs_counter;
 
     /* ------------------- */
 
     /* Read data memory */
+    reg [NB_UART_DATA-1:0] mem_slot_counter;
 
     /* ------------------- */
     reg [NB_UART_DATA-1:0] tx_data;
@@ -120,6 +128,8 @@ module interface_pipeline
             instructions_counter <= 0;
             first_instruction_loaded <= 0;
             instruction_mem_write_address <= 0;
+            regs_counter <= 0;
+            mem_slot_counter <= 0;
         end
         
         else
@@ -156,6 +166,18 @@ module interface_pipeline
                 READING_PC:
                 begin
                     bytes_to_load <= i_tx_done ? bytes_to_load + 1 : bytes_to_load;
+                end
+                READING_REGS:
+                begin
+                   bytes_to_load <= i_tx_done ? bytes_to_load + 1 : bytes_to_load;
+                   if(bytes_to_load == 3)
+                        regs_counter <= regs_counter + 1; // Automatically resets to 0
+                end
+                READING_MEM:
+                begin
+                   bytes_to_load <= i_tx_done ? bytes_to_load + 1 : bytes_to_load;
+                   if(bytes_to_load == 3)
+                        mem_slot_counter <= mem_slot_counter + 1; // Automatically resets to 0
                 end
                    
                    
@@ -218,13 +240,20 @@ module interface_pipeline
                     next_state = READING_PC;
             READING_REGS:
                 // TODO: If all registers are transmitted move to next state
-                next_state = READING_MEM;
+                if(regs_counter == (N_REGS-1) && bytes_to_load == 3)
+                    next_state = READING_MEM;
+                else
+                    next_state = READING_REGS;
             READING_MEM:
                 // TODO: If all memory is transmitted move to next state
-                if(i_halted)
-                    next_state = HALTED;
+                if(mem_slot_counter == (MEM_DEPTH-1) && bytes_to_load == 3)
+                    if(i_halted)
+                        next_state = HALTED;
+                    else
+                        next_state = IDLE_STEP_BY_STEP;
                 else
-                    next_state = IDLE_STEP_BY_STEP;
+                    next_state = READING_MEM;
+               
             HALTED:
                 if(i_rx_valid==1 && i_rx_data == CMD_RESET)
                     next_state = UNINITIALIZED;
@@ -250,6 +279,16 @@ module interface_pipeline
                 tx_data <= i_pc[bytes_to_load*8 +: 8];
                 tx_valid <= i_tx_done;
             end
+            READING_REGS:
+            begin
+                tx_data <= i_reg_data[bytes_to_load*8 +: 8];
+                tx_valid <= i_tx_done;
+            end
+            READING_MEM:
+            begin
+                tx_data <= i_mem_data[bytes_to_load*8 +: 8];
+                tx_valid <= i_tx_done;
+            end
                
             default:
                 tx_data <= 0;
@@ -264,4 +303,6 @@ module interface_pipeline
 
     assign o_tx_valid = i_tx_done;
     assign o_tx_data = tx_data;
+    assign o_reg_address = regs_counter;
+    assign o_data_mem_read_address = mem_slot_counter;
 endmodule

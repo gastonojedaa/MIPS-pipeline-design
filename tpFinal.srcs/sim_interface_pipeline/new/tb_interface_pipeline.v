@@ -28,14 +28,45 @@ parameter NB_REGS = 5;
 parameter MEM_DEPTH = 256;
 parameter NB_STATE = 10;
 
+localparam N_REGS = 2**NB_REGS;
+
 reg clk;
 reg reset;
 reg halted;
 reg [NB_UART_DATA-1:0]rx_data;
 reg rx_valid;
 reg [NB_DATA-1:0]pc;
-reg [NB_DATA-1:0]mem_data;
+reg [NB_DATA-1:0]mem_data[0:MEM_DEPTH];
 reg tx_done;
+wire [NB_DATA-1:0]data_mem_read_address;
+
+wire [NB_DATA-1:0] mem_slot_data;
+wire [NB_REGS-1:0] reg_address;
+wire [NB_DATA-1:0] reg_data;
+reg [NB_DATA-1:0] reg_bank [0:N_REGS];
+
+
+assign mem_slot_data = mem_data[data_mem_read_address];
+
+
+integer i;
+initial
+begin
+    for (i = 0; i <= MEM_DEPTH; i = i + 1) begin
+        mem_data[i] = i*2;
+    end
+end
+
+
+
+assign reg_data = reg_bank[reg_address];
+
+initial
+begin
+    for (i = 0; i <= N_REGS; i = i + 1) begin
+        reg_bank[i] = i*3;
+    end
+end
 
 initial
 begin
@@ -46,7 +77,6 @@ begin
     rx_data = 0;
     rx_valid = 0;
     pc = 0;
-    mem_data = 0;
     tx_done = 1;
     #10
     reset = 0;
@@ -148,14 +178,16 @@ u_interface_pipeline
     .i_rx_data(rx_data),
     .i_rx_valid(rx_valid),
     .i_pc(pc),
-    .i_mem_data(mem_data),
+    .i_mem_data(mem_slot_data),
     .i_tx_done(tx_done),
+    .i_reg_data(reg_data),
     .o_enable(),
     .o_instruction_mem_write_address(),
     .o_instruction(),
     .o_write_enable(),
-    .o_data_mem_read_address(),
+    .o_data_mem_read_address(data_mem_read_address),
     .o_tx_data(),
-    .o_tx_valid()
+    .o_tx_valid(),
+    .o_reg_address(reg_address)
 );
 endmodule

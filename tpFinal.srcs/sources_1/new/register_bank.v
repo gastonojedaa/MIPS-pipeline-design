@@ -32,9 +32,12 @@ module register_bank
     input   [NB_REG_ADDRESS-1:0] rs_address,
     input   [NB_REG_ADDRESS-1:0] rt_address,
     input   [NB_REG_ADDRESS-1:0] rw_address,
-    input   i_write_enable,   
+    input   i_write_enable,
+    input   i_enable,
+    input   [NB_REG_ADDRESS-1:0] i_reg_address,
     output  [NB_DATA-1:0] rs_data,
-    output  [NB_DATA-1:0] rt_data    
+    output  [NB_DATA-1:0] rt_data,
+    output  [NB_DATA-1:0] reg_data
 );
 
 integer i;
@@ -55,4 +58,5 @@ end
 
 assign rs_data = reg_bank[rs_address];
 assign rt_data = reg_bank[rt_address];
+assign read_data = reg_bank[i_reg_address];
 endmodule
