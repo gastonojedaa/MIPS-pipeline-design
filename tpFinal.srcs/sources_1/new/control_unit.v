@@ -65,6 +65,17 @@
 `define JALR_FUNCT = 6'b001001
 
 module control_unit#(
+    
+    parameter   R_TYPE_ALUOP          =   4'b0000,
+    parameter   LOAD_STORE_ADDI_ALUOP =   4'b0001,
+    parameter   ANDI_ALUOP            =   4'b0010,
+    parameter   ORI_ALUOP             =   4'b0011,
+    parameter   XORI_ALUOP            =   4'b0100,
+    parameter   LUI_ALUOP             =   4'b0101,
+    parameter   SLTI_ALUOP            =   4'b0110,
+    parameter   BEQ_ALUOP             =   4'b0111,
+    parameter   BNE_ALUOP             =   4'b1000,
+
     parameter NB_FUNCTION = 6,
     parameter NB_OP = 6
 )
@@ -76,7 +87,7 @@ module control_unit#(
     output o_PcSrc,
     output o_RegDst,
     output O_ALUSrc,
-    output [1:0] o_ALUOp, //TODO: modificar esto porque son 4 bits (ver alu control)
+    output [3:0] o_ALUOp, //TODO: pegar una revisada general
     output o_MemRead,
     output o_MemWrite,
     output o_Branch,    
@@ -93,7 +104,7 @@ always @(*)
             PcSrc = 1'b0; 
             RegDst = 1'b0;
             ALUSrc = 1'b0; 
-            ALUOp = 2'b00;
+            ALUOp = 4'b00;
             MemRead = 1'b0;
             MemWrite = 1'b0;
             Branch = 1'b0;
@@ -113,7 +124,7 @@ always @(*)
                                     PcSrc = 1'b0;  
                                     RegDst = 1'b0;
                                     ALUSrc = 1'b0; 
-                                    ALUOp = 2'b00;
+                                    ALUOp = R_TYPE_ALUOP;
                                     MemRead = 1'b0;
                                     MemWrite = 1'b0;
                                     Branch =  1'b0;
@@ -127,7 +138,7 @@ always @(*)
                                     PcSrc = 1'b0; 
                                     RegDst = 1'b1;
                                     ALUSrc = 1'b0;
-                                    ALUOp = 2'b00;
+                                    ALUOp = R_TYPE_ALUOP;
                                     MemRead = 1'b0;
                                     MemWrite = 1'b0;
                                     Branch = 1'b0;
@@ -136,12 +147,12 @@ always @(*)
                                     /* BHW = 2'b00;  //no se usa
                                     ExtSign = 1'b0;//no se usa */
                             end
-                        default: //revisar
+                        default: // TODO: revisar
                             begin
                                     PcSrc = 1'b0; 
                                     RegDst = 1'b1;
                                     ALUSrc = 1'b0; 
-                                    ALUOp = 2'b10;
+                                    ALUOp = R_TYPE_ALUOP;
                                     MemRead = 1'b0;
                                     MemWrite = 1'b0;
                                     Branch = 1'b0;
@@ -157,7 +168,7 @@ always @(*)
                                     PcSrc = 0; //pc = pc + 4
                                     RegDst = 0; //rd
                                     ALUSrc = 0; // -------------> revisar
-                                    ALUOp = 2'b00; // -------------> revisar
+                                    ALUOp = 4'b00; // -------------> revisar
                                     MemRead = 0; //no lee memoria
                                     MemWrite = 0; //no escribe memoria
                                     Branch = 0; //no salta
@@ -171,7 +182,7 @@ always @(*)
                                     PcSrc = 0;
                                     RegDst = 0;
                                     ALUSrc = 0; // -------------> revisar
-                                    ALUOp = 2'b00; // -------------> revisar
+                                    ALUOp = 4'b00; // -------------> revisar
                                     MemRead = 0;
                                     MemWrite = 0;
                                     Branch = 0;
@@ -188,7 +199,7 @@ always @(*)
                     PcSrc = 1'b0; 
                     RegDst = 1'b0;
                     ALUSrc = 1'b1; 
-                    ALUOp = 2'b00;
+                    ALUOp = LOAD_STORE_ADDI_ALUOP;
                     MemRead = 1'b1;
                     MemWrite = 1'b0;
                     Branch = 1'b0;
@@ -202,7 +213,7 @@ always @(*)
                     PcSrc = 1'b0; 
                     RegDst = 1'b0;
                     ALUSrc = 1'b1; 
-                    ALUOp = 2'b00; 
+                    ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b1;
                     MemWrite = 1'b0;
                     Branch = 1'b0;
@@ -216,7 +227,7 @@ always @(*)
                     PcSrc = 1'b0;    
                     RegDst = 1'b0;
                     ALUSrc = 1'b1; 
-                    ALUOp = 2'b00; 
+                    ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b1;
                     MemWrite = 1'b0;
                     Branch = 1'b0;
@@ -230,7 +241,7 @@ always @(*)
                     PcSrc = 1'b0;  
                     RegDst = 1'b0;
                     ALUSrc = 1'b1; 
-                    ALUOp = 2'b00; 
+                    ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b1;
                     MemWrite = 1'b0;
                     Branch = 1'b0;
@@ -244,7 +255,7 @@ always @(*)
                     PcSrc = 1'b0; 
                     RegDst = 1'b0;
                     ALUSrc = 1'b1; 
-                    ALUOp = 2'b00; 
+                    ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b1;
                     MemWrite = 1'b0;
                     Branch = 1'b0;
@@ -258,7 +269,7 @@ always @(*)
                     PcSrc = 1'b0;  
                     RegDst = 1'b0;
                     ALUSrc = 1'b1; 
-                    ALUOp = 2'b00; 
+                    ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b1;
                     MemWrite = 1'b0;
                     Branch = 1'b0;
@@ -272,7 +283,7 @@ always @(*)
                     PcSrc = 1'b0; 
                     RegDst = 1'b0; //no se usa
                     ALUSrc = 1'b1; 
-                    ALUOp = 2'b00; 
+                    ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b0;
                     MemWrite = 1'b1;
                     Branch = 1'b0;
@@ -286,7 +297,7 @@ always @(*)
                     PcSrc = 1'b0; 
                     RegDst = 1'b0; //no se usa
                     ALUSrc = 1'b1; 
-                    ALUOp = 2'b00; 
+                    ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b0;
                     MemWrite = 1'b1;
                     Branch = 1'b0;
@@ -300,7 +311,7 @@ always @(*)
                     PcSrc = 1'b0;           
                     RegDst = 1'b0; //no se usa
                     ALUSrc = 1'b1; 
-                    ALUOp = 2'b00; 
+                    ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b0;
                     MemWrite = 1'b1;
                     Branch = 1'b0;
@@ -314,7 +325,7 @@ always @(*)
                     PcSrc = 1'b0; 
                     RegDst = 1'b0;  
                     ALUSrc = 1'b1;   
-                    ALUOp = 2'b00;
+                    ALUOp = LOAD_STORE_ADDI_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
                     Branch = 1'b0;
@@ -328,7 +339,7 @@ always @(*)
                     PcSrc = 1'b0;
                     RegDst = 1'b0;  
                     ALUSrc = 1'b1;   
-                    ALUOp = 2'b11;
+                    ALUOp = ANDI_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
                     Branch = 1'b0;
@@ -342,7 +353,7 @@ always @(*)
                     PcSrc = 1'b0;  
                     RegDst = 1'b0;  
                     ALUSrc = 1'b1;   
-                    ALUOp = 2'b11;
+                    ALUOp = ORI_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
                     Branch = 1'b0;
@@ -356,7 +367,7 @@ always @(*)
                     PcSrc = 1'b0; 
                     RegDst = 1'b0;  
                     ALUSrc = 1'b1;   
-                    ALUOp = 2'b11;
+                    ALUOp = XORI_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
                     Branch = 1'b0;
@@ -370,7 +381,7 @@ always @(*)
                     PcSrc = 1'b0; 
                     RegDst = 1'b0;  
                     ALUSrc = 1'b0;   
-                    ALUOp = 2'b00;
+                    ALUOp = LUI_ALUOP;
                     MemRead = 1'b1;
                     MemWrite = 1'b0;
                     Branch = 1'b0;
@@ -384,7 +395,7 @@ always @(*)
                     PcSrc = 1'b0; 
                     RegDst = 1'b0;  
                     ALUSrc = 1'b1;   
-                    ALUOp = 2'b11;
+                    ALUOp = SLTI_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
                     Branch = 1'b0;
@@ -398,7 +409,7 @@ always @(*)
                     PcSrc = 1'b0;  
                     RegDst = 1'b0;   //no se usa
                     ALUSrc = 1'b0;   
-                    ALUOp = 2'b01; 
+                    ALUOp = BEQ_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
                     Branch = 1'b1;
@@ -412,7 +423,7 @@ always @(*)
                     PcSrc = 1'b0; 
                     RegDst = 1'b0;   //no se usa
                     ALUSrc = 1'b0;   
-                    ALUOp = 2'b01; 
+                    ALUOp = BNE_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
                     Branch = 1'b1; //capaz hay que hacer un NeBranch 
@@ -427,7 +438,7 @@ always @(*)
                     PcSrc = 1'b1;  
                     RegDst = 1'b0;   //no se usa
                     ALUSrc = 1'b0;   //no se usa
-                    ALUOp = 2'b00;  //no se usa
+                    ALUOp = R_TYPE_ALUOP; //no se usa
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
                     Branch = 1'b0;
@@ -441,7 +452,7 @@ always @(*)
                     PcSrc = 1'b1;  
                     RegDst = 1'b0;   
                     ALUSrc = 1'b0;   //no se usa
-                    ALUOp = 2'b00;  //no se usa
+                    ALUOp = R_TYPE_ALUOP; //no se usa
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
                     Branch = 1'b0;
@@ -455,7 +466,7 @@ always @(*)
                     PcSrc = 1'b0; 
                     RegDst = 1'b0;  
                     ALUSrc = 1'b0;   
-                    ALUOp = 2'b00; 
+                    ALUOp = R_TYPE_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
                     Branch = 1'b0;
@@ -469,7 +480,7 @@ always @(*)
                     PcSrc = 1'b0; 
                     RegDst = 1'b0;  
                     ALUSrc = 1'b0;   
-                    ALUOp = 2'b11; 
+                    ALUOp = R_TYPE_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
                     Branch = 1'b0;
