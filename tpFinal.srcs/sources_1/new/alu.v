@@ -2,64 +2,74 @@
 
 module alu
     #(
+
+        parameter  SLL_ALUCODE =  4'b0000,
+        parameter  SRL_ALUCODE =  4'b0001,
+        parameter  SRA_ALUCODE =  4'b0010,
+        parameter  SLLV_ALUCODE = 4'b1010,
+        parameter  SRLV_ALUCODE = 4'b1011,
+        parameter  SRAV_ALUCODE = 4'b1100,
+        parameter  ADD_ALUCODE =  4'b0011,
+        parameter  SUB_ALUCODE =  4'b0100,
+        parameter  AND_ALUCODE =  4'b0101,
+        parameter  OR_ALUCODE  =  4'b0110,
+        parameter  XOR_ALUCODE =  4'b0111,
+        parameter  NOR_ALUCODE =  4'b1000,
+        parameter  SLT_ALUCODE =  4'b1001,
+        parameter  LUI_ALUCODE =  4'b1101,
+        parameter  BNE_ALUCODE =  4'b1110,
+
         parameter NB_DATA = 32,
-        parameter NB_OPS = 6 
+        parameter NB_ALUCODE = 4 
     )
     (
         input [NB_DATA-1 : 0] i_data_a,
         input [NB_DATA-1 : 0] i_data_b,
-        input [NB_OPS-1 : 0] i_ops,
+        input [NB_ALUCODE-1 : 0] i_alucode,
         output [NB_DATA : 0] o_res, // carry + result
         output o_zero
     ); 
-        
-    localparam SLL_OPCODE = 6'b000000;
-    localparam SRL_OPCODE = 6'b000001;
-    localparam SRA_OPCODE = 6'b000010;
-    localparam SLLV_OPCODE = 6'b000011;
-    localparam SRLV_OPCODE = 6'b000100;
-    localparam SRAV_OPCODE = 6'b000101;
-    localparam ADDU_OPCODE = 6'b000110;
-    localparam SUBU_OPCODE = 6'b000111;
-    localparam AND_OPCODE = 6'b001000;
-    localparam OR_OPCODE = 6'b001001;
-    localparam XOR_OPCODE = 6'b001010;
-    localparam NOR_OPCODE = 6'b001011;
-    localparam SLT_OPCODE = 6'b001100;   
-
     
     reg [NB_DATA-1 : 0] res;
     reg carry;
     
     always @(*)
     begin
-        case(i_ops)
-            SLL_OPCODE:
+        case(i_alucode)
+            SLL_ALUCODE:
                 {carry,res} = i_data_a << i_data_b;
-            SRL_OPCODE:
+            SRL_ALUCODE:
                 {carry,res} = i_data_a >> i_data_b;
-            SRA_OPCODE:
+            SRA_ALUCODE:
                 {carry,res} = $signed(i_data_a) >>> i_data_b;
-            SLLV_OPCODE:
+            SLLV_ALUCODE:
                 {carry,res} = i_data_a << i_data_b;
-            SRLV_OPCODE:
+            SRLV_ALUCODE:
                 {carry,res} = i_data_a >> i_data_b;
-            SRAV_OPCODE:
+            SRAV_ALUCODE:
                 {carry,res} = $signed(i_data_a) >>> i_data_b;
-            ADDU_OPCODE:
+            ADD_ALUCODE:
                 {carry,res} = i_data_a + i_data_b;
-            SUBU_OPCODE:
+            SUB_ALUCODE:
                 {carry,res} = $signed(i_data_a) - $signed(i_data_b);
-            AND_OPCODE:
+            AND_ALUCODE:
                 {carry,res} = {1'b0, i_data_a & i_data_b};
-            OR_OPCODE:
+            OR_ALUCODE:
                 {carry,res} = {1'b0, i_data_a | i_data_b};
-            XOR_OPCODE:
+            XOR_ALUCODE:
                 {carry,res} = {1'b0, i_data_a ^ i_data_b};
-            NOR_OPCODE:        
+            NOR_ALUCODE:        
                 {carry,res} = {1'b0, ~(i_data_a | i_data_b)};
-            SLT_OPCODE:
+            SLT_ALUCODE:
                 {carry,res} = (i_data_a < i_data_b); 
+            LUI_ALUCODE:
+                {carry,res} = i_data_b << 16;
+            BNE_ALUCODE:
+                {carry,res} = (i_data_a != i_data_b);
+            //JR_OPCODE:
+            //    {carry,res} = i_data_a; //TODO: check if this is correct, JALR too
+            //JALR_OPCODE:
+            //    {carry,res} = i_data_a;            
             default:
                 {carry,res} = 'hFF;
         endcase

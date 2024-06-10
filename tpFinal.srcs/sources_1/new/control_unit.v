@@ -76,7 +76,7 @@ module control_unit#(
     output o_PcSrc,
     output o_RegDst,
     output O_ALUSrc,
-    output [1:0] o_ALUOp,
+    output [1:0] o_ALUOp, //TODO: modificar esto porque son 4 bits (ver alu control)
     output o_MemRead,
     output o_MemWrite,
     output o_Branch,    
@@ -493,20 +493,9 @@ assign o_MemtoReg = MemtoReg;
 
 endmodule
 
+// TODO: cuando se toma un salto se deben eliminar las instrucciones que entraron en el pipeline despues del salto?
 
-//señaes de control
-//IF
-////PCSrc
-//EX
-////RegDst
-////ALUSrc
-////ALUOp
-//MEM
-////MemRead
-////MemWrite
-////Branch
-//WB
-////RegWrite
-////MemtoReg
+
+
 
 
