@@ -34,6 +34,7 @@ module ID
     input   i_reset,
     input   [NB_INS-1:0] i_instruction,
     input i_ctrl_regdst,   
+    input i_debug_unit_enable,
     input [NB_REG_ADDRESS-1:0] i_write_address,
     output  [NB_DATA-1:0] o_rs_data,    
     output  [NB_DATA-1:0] o_rt_data,    
@@ -71,6 +72,7 @@ u_register_bank
     .i_clk(i_clk),
     .i_reset(i_reset),
     .i_data(),
+    .i_debug_unit_enable(i_debug_unit_enable),
     .rs_address(i_instruction[25:21]),
     .rt_address(i_instruction[20:16]),    
     .rw_address(i_write_address),          //  vienen de la 
@@ -94,19 +96,22 @@ u_sign_ext
 //dependiendo el valor de las flags va a recibir el valor de los registros o el valor de la etapa EX/MEM o MEM/WB
 always@(posedge i_clk)
 begin
-    case(i_forward_a)
-        2'b00: o_rs_address = rs_address; //no hay cortocircuito
-        2'b10: o_rs_address = i_write_address_ex_mem; //de la etapa EX/MEM
-        2'b01: o_rs_address = i_write_address_mem_wb; //de la etapa MEM/WB
-        2'b11: o_rs_address =  rs_address; //no deberia pasar
-    endcase
+    if(i_debug_unit_enable)
+    begin
+        case(i_forward_a)
+            2'b00: o_rs_address = rs_address; //no hay cortocircuito
+            2'b10: o_rs_address = i_write_address_ex_mem; //de la etapa EX/MEM
+            2'b01: o_rs_address = i_write_address_mem_wb; //de la etapa MEM/WB
+            2'b11: o_rs_address =  rs_address; //no deberia pasar
+        endcase
 
-    case(i_forward_b)
-        2'b00: o_rt_address = rt_address; //no hay cortocircuito
-        2'b10: o_rt_address = i_write_address_ex_mem; //de la etapa EX/MEM
-        2'b01: o_rt_address = i_write_address_mem_wb; //de la etapa MEM/WB
-        2'b11: o_rt_address =  rt_address;
-    endcase
+        case(i_forward_b)
+            2'b00: o_rt_address = rt_address; //no hay cortocircuito
+            2'b10: o_rt_address = i_write_address_ex_mem; //de la etapa EX/MEM
+            2'b01: o_rt_address = i_write_address_mem_wb; //de la etapa MEM/WB
+            2'b11: o_rt_address =  rt_address;
+        endcase
+    end
 end
 
 

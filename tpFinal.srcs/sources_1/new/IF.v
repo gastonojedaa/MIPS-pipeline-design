@@ -26,7 +26,7 @@ module IF #(
 ) (
     input i_clk,
     input i_reset,
-    input i_enable,
+    input i_debug_unit_enable,
     input [NB_PC-1:0] i_jump_address,
     input [NB_PC-1:0] i_write_address,
     input i_is_jump,
@@ -53,7 +53,7 @@ module IF #(
 
   // Mux PC - PC + 4 o jump address
   always @(*) begin
-    if (PCwrite || is_halted || !i_enable) new_address = pc;
+    if (PCwrite || is_halted || !i_debug_unit_enable) new_address = pc;
     else begin
       if (i_is_jump) new_address = i_jump_address;
       else new_address = address_plus_4;
