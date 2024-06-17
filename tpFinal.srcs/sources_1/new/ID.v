@@ -45,6 +45,10 @@ module ID
     output  [NB_DATA_IN-1:0] o_inm_value,
     output  [NB_DATA-1:0] o_sigext,
 
+    output o_PcSrc_to_IF,
+    output o_RegDst_to_EX,
+    output o_ALUSrc_to_EX,
+    output o_MemtoReg_to_WB,
 
     input [1:0]i_forward_a,
     input [1:0]i_forward_b,
@@ -56,6 +60,8 @@ module ID
 wire [NB_REG_ADDRESS-1:0] rs_address;
 wire [NB_REG_ADDRESS-1:0] rt_address;
 wire [NB_REG_ADDRESS-1:0] rd_address;
+
+wire RegWrite;
 
 assign rs_address = i_instruction[25:21];
 assign rt_address = i_instruction[20:16];
@@ -75,7 +81,7 @@ u_register_bank
     .rs_address(i_instruction[25:21]),
     .rt_address(i_instruction[20:16]),    
     .rw_address(i_write_address),          //  vienen de la 
-    .i_write_enable(),      //  etapa MEM/WB 
+    .i_RegWrite(RegWrite), //señal de control
     .rs_data(o_rs_data),
     .rt_data(o_rt_data)    
 );
@@ -100,18 +106,18 @@ control_unit
 )
 u_control_unit
 (      
-    .i_opcode(),
-    .i_function(),
+    .i_opcode(i_instruction[NB_INS-1:NB_INS-NB_OP]),
+    .i_function(i.instruction[5:0]),
     .i_pipeline_stalled(i_pipeline_stalled_to_control_unit),
-    .o_PcSrc(),
-    .o_RegDst(),
-    .O_ALUSrc(),
-    .o_ALUOp(),
+    .o_PcSrc(o_PcSrc_to_IF),
+    .o_RegDst(o_RegDst_to_EX),
+    .O_ALUSrc(o_ALUSrc_to_EX),
+    .o_ALUOp(), //TODO: conectar al control de la alu
     .o_MemRead(),
     .o_MemWrite(),
     .o_Branch(),
-    .o_RegWrite(),
-    .o_MemtoReg()    
+    .o_RegWrite(RegWrite),
+    .o_MemtoReg(o_MemtoReg_to_WB),    
 );
 //cortocircuito
 //dependiendo el valor de las flags va a recibir el valor de los registros o el valor de la etapa EX/MEM o MEM/WB

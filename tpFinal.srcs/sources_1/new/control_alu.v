@@ -19,7 +19,6 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-//TODO: revisar los aluOP provenientes de la unidad de control 
 `define  R_TYPE_ALUOP          4'b0000
 `define  LOAD_STORE_ADDI_ALUOP 4'b0001
 `define  ANDI_ALUOP            4'b0010
@@ -66,7 +65,7 @@
 
 module control_alu
 #(
-    parameter NB_OP = 6,
+    parameter NB_OP = 4,
     parameter NB_FUNCTION = 6,
     parameter NB_ALUCODE = 4
 

@@ -97,12 +97,12 @@ module control_unit#(
 
 reg PCSrc, RegDst, ALUSrc, MemRead, MemWrite, Branch, RegWrite, MemtoReg;
 reg [1:0] ALUOp;
-
+//TODO: revisar valores de las señales de control
 always @(*)
     if (i_pipeline_stalled == 1'b1)
         begin
             PcSrc = 1'b0; 
-            RegDst = 1'b0;
+            RegDst = 1'b0; 
             ALUSrc = 1'b0; 
             ALUOp = 4'b00;
             MemRead = 1'b0;
@@ -118,10 +118,38 @@ always @(*)
             case(i_opcode)
                 R_type: // SLL, SRL, SRA, SLLV, SRLV, SRAV, ADDU, SUBU, AND, OR, XOR, NOR, SLT, JR, JALR
                 begin        
-                    case (i_function)            
+                    case (i_function)    
+                        SLL_FUNCT, SRL_FUNCT, SRA_FUNCT:
+                            begin
+                                    PcSrc = 1'b0; //FIXME: implementar 2 bits (00 pc+4, 01 offset, 10 jump, 11 jump register)
+                                    RegDst = 1'b1;
+                                    ALUSrc = 1'b1; //TODO: revisar
+                                    ALUOp = R_TYPE_ALUOP;
+                                    MemRead = 1'b0;
+                                    MemWrite = 1'b0;
+                                    Branch = 1'b0;
+                                    RegWrite = 1'b1;
+                                    MemtoReg = 1'b1; 
+                                    /* BHW = 2'b00;  //no se usa
+                                    ExtSign = 1'b0;//no se usa */
+                            end
+                        SLLV_FUNCT, SRLV_FUNCT, SRAV_FUNCT, ADDU_FUNCT, SUBU_FUNCT, AND_FUNCT, OR_FUNCT, XOR_FUNCT, NOR_FUNCT, SLT_FUNCT:
+                            begin
+                                    PcSrc = 1'b0; 
+                                    RegDst = 1'b1;
+                                    ALUSrc = 1'b0; 
+                                    ALUOp = R_TYPE_ALUOP;
+                                    MemRead = 1'b0;
+                                    MemWrite = 1'b0;
+                                    Branch = 1'b0;
+                                    RegWrite = 1'b1;
+                                    MemtoReg = 1'b1; 
+                                    /* BHW = 2'b00;  //no se usa
+                                    ExtSign = 1'b0;//no se usa */
+                            end
                         JR_FUNCT:
                             begin
-                                    PcSrc = 1'b0;  
+                                    PcSrc = 1'b1;  
                                     RegDst = 1'b0;
                                     ALUSrc = 1'b0; 
                                     ALUOp = R_TYPE_ALUOP;
@@ -135,7 +163,7 @@ always @(*)
                             end
                         JALR_FUNCT:
                             begin
-                                    PcSrc = 1'b0; 
+                                    PcSrc = 1'b1; 
                                     RegDst = 1'b1;
                                     ALUSrc = 1'b0;
                                     ALUOp = R_TYPE_ALUOP;
@@ -143,56 +171,13 @@ always @(*)
                                     MemWrite = 1'b0;
                                     Branch = 1'b0;
                                     RegWrite = 1'b1;
-                                    MemtoReg = 1'b0; 
+                                    MemtoReg = 1'b1; 
                                     /* BHW = 2'b00;  //no se usa
                                     ExtSign = 1'b0;//no se usa */
                             end
-                        default: // TODO: revisar
-                            begin
-                                    PcSrc = 1'b0; 
-                                    RegDst = 1'b1;
-                                    ALUSrc = 1'b0; 
-                                    ALUOp = R_TYPE_ALUOP;
-                                    MemRead = 1'b0;
-                                    MemWrite = 1'b0;
-                                    Branch = 1'b0;
-                                    RegWrite = 1'b1;
-                                    MemtoReg = 1'b0; 
-                                    /* BHW = 2'b00;  //no se usa
-                                    ExtSign = 1'b0;//no se usa */
-                            end
-
-                            //en teoria en el default de arriba entran todas las funciones de R_type que faltan
-                            /* SLL_FUNCT, SRL_FUNCT, SRA_FUNCT:
-                            begin
-                                    PcSrc = 0; //pc = pc + 4
-                                    RegDst = 0; //rd
-                                    ALUSrc = 0; // -------------> revisar
-                                    ALUOp = 4'b00; // -------------> revisar
-                                    MemRead = 0; //no lee memoria
-                                    MemWrite = 0; //no escribe memoria
-                                    Branch = 0; //no salta
-                                    RegWrite = 1; // -------------> revisar
-                                    MemtoReg = 0; // el dato viene de la ALU 
-                                    BHW = 2'b00;  //revisar
-                                    ExtSign = 1'b0;//revisar 
-                            end
-                        SLLV_FUNCT, SRLV_FUNCT, SRAV_FUNCT, ADDU_FUNCT, SUBU_FUNCT, AND_FUNCT, OR_FUNCT, XOR_FUNCT, NOR_FUNCT, SLT_FUNCT:
-                            begin
-                                    PcSrc = 0;
-                                    RegDst = 0;
-                                    ALUSrc = 0; // -------------> revisar
-                                    ALUOp = 4'b00; // -------------> revisar
-                                    MemRead = 0;
-                                    MemWrite = 0;
-                                    Branch = 0;
-                                    RegWrite = 1; // -------------> revisar
-                                    MemtoReg = 0; 
-                                    BHW = 2'b00;//no se usa
-                                    ExtSign = 1'b0;//no se usa 
-                            end */
-                    endcase
-                end
+                        default:   
+                    endcase               
+                end                            
                 //I_type -> LB, LH, LW, LWU, LBU, LHU, SB, SH, SW, ADDI, ANDI, ORI, XORI, LUI, SLTI, BEQ, BNE
                 LB_OP:
                 begin
@@ -492,7 +477,7 @@ always @(*)
             endcase
         end
 
-assign o_PcSrc = PcSrc;
+assign o_PcSrc = PcSrc; 
 assign o_RegDst = RegDst;
 assign O_ALUSrc = ALUSrc;
 assign o_ALUOp = ALUOp;
@@ -505,6 +490,17 @@ assign o_MemtoReg = MemtoReg;
 endmodule
 
 // TODO: cuando se toma un salto se deben eliminar las instrucciones que entraron en el pipeline despues del salto?
+
+//info de en que etapa se conecta cada señal de control
+//PcSrc -> IF antes de asignar la nueva direccion de pc
+//RegDst -> EX entre instruction[15:11] y instruction[20:16] (rd y rt)
+//ALUSrc -> EX entre dato b y sign extend
+//ALUOp -> va al control de la ALU
+//MemRead -> MEM
+//MemWrite -> MEM
+//Branch -> MEM
+//RegWrite -> ID (bancos de registros)
+//MemtoReg -> WB
 
 
 
