@@ -28,6 +28,7 @@ module IF_ID
 ( 
     input   i_clk,
     input   i_reset, 
+    input i_debug_unit_enable,
     input   [NB_INS-1:0] i_instruction,
     input   [NB_PC-1:0] i_address_plus_4,
     output reg  [NB_INS-1:0] o_instruction,
@@ -44,7 +45,7 @@ begin
             o_instruction <= 'hFFFFFFFF;
             o_address_plus_4 <= 0; 
         end 
-    else
+    else if(i_debug_unit_enable)
         begin
             //handle the stall signal
             if(IFIDwrite)

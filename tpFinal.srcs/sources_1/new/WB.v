@@ -27,22 +27,26 @@ module WB
 )
 (
     input i_clk,    
-    input [NB_REG_ADDRESS-1:0] i_write_address, //pa que es esto
+    input i_debug_unit_enable,
+    input [NB_REG_ADDRESS-1:0] i_write_address,
     input [NB_DATA:0] i_res,
     input [NB_DATA-1:0] i_mem_data,
     input i_MemtoReg,
-    output reg o_write_in_register_bank
+    output reg o_write_in_register_bank 
 );
 
 always@(posedge i_clk)
-begin    
-    if(i_MemtoReg)
-    begin        
-        o_write_in_register_bank <= i_mem_data;
-    end
-    else
-    begin        
-        o_write_in_register_bank <= i_res;
+begin
+    if(i_debug_unit_enable)
+    begin
+        if(i_MemtoReg)
+        begin        
+            o_write_in_register_bank <= i_mem_data;
+        end
+        else
+        begin        
+            o_write_in_register_bank <= i_res;
+        end
     end
 end        
 endmodule

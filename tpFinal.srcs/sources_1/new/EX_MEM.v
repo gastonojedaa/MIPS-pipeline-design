@@ -35,6 +35,7 @@ module EX_MEM
     input [NB_DATA:0] i_rt_data,
     input [NB_DATA-1:0] i_jump_address,
     input [NB_REG_ADDRESS-1:0] i_write_address,
+    input i_debug_unit_enable,
     output reg [NB_DATA : 0] o_res,
     output reg o_zero,
     output reg [NB_DATA : 0] o_rt_data,
@@ -51,7 +52,7 @@ begin
             o_jump_address <= 0;
             o_write_address <= 0;
         end
-    else
+    else if(i_debug_unit_enable)
         begin
             o_res <= i_res;
             o_zero <= i_zero;

@@ -33,6 +33,7 @@ module ID_EX
 (
     input i_clk,
     input i_reset,
+    input i_debug_unit_enable,
     input [NB_DATA-1:0] i_rs_data,
     input [NB_DATA-1:0] i_rt_data,
     input [NB_DATA_OUT-1:0] i_sigext,    
@@ -64,7 +65,7 @@ begin
             o_write_address <= 0;
             o_address_plus_4 <= 0;
         end
-    else
+    else if(i_debug_unit_enable)
         begin                              
             o_rs_data <= i_rs_data;
             o_rt_data <= i_rt_data;

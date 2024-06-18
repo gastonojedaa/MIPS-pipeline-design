@@ -9,7 +9,8 @@ module tx
     input i_reset,
     input i_tick,
     input i_valid,
-    input [NB_DATA-1:0]i_data,
+    input [NB_DATA-1:0] i_data,
+    output o_tx_done,
     output o_tx_data
 );
 
@@ -108,5 +109,6 @@ module tx
     end
     
     assign o_tx_data = tx_data;
+    assign o_tx_done = (state == STATE_0) ? 1 : 0;
 
 endmodule

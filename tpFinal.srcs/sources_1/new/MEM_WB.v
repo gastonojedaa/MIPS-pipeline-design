@@ -28,6 +28,7 @@ module MEM_WB
 (
 input i_clk,
 input i_reset,
+input i_debug_unit_enable,
 input [NB_REG_ADDRESS-1:0] i_write_address,//pa que es esto
 input [NB_DATA:0] i_res, // TODO: Revisar si es necesario el +1 por el carry
 input [NB_DATA-1:0] i_mem_data, 
@@ -44,7 +45,7 @@ begin
             o_res <= 0;
             o_mem_data <= 0;
         end
-    else
+    else if(i_debug_unit_enable)
         begin
             o_write_address <= i_write_address;
             o_res <= i_res;
