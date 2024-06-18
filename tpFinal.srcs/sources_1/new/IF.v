@@ -19,7 +19,6 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
 module IF #(
     parameter NB_PC  = 32,
     parameter NB_INS = 32
@@ -29,7 +28,7 @@ module IF #(
     input i_debug_unit_enable,
     input [NB_PC-1:0] i_jump_address,
     input [NB_PC-1:0] i_write_address,
-    input i_is_jump,
+    input   i_PcSrc, // señal de control
     input [NB_INS-1:0] i_instruction,
     input i_write_enable,  // 0 READ - 1 WRITE
     output [NB_INS-1:0] o_instruction,
@@ -55,7 +54,7 @@ module IF #(
   always @(*) begin
     if (PCwrite || is_halted || !i_debug_unit_enable) new_address = pc;
     else begin
-      if (i_is_jump) new_address = i_jump_address;
+      if (i_PcSrc) new_address = i_jump_address;
       else new_address = address_plus_4;
     end
   end
