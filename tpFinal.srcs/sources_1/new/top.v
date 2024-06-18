@@ -37,6 +37,15 @@ module top
 
 localparam NB_REG_ADDRESS = $clog2(N_REG);
 
+wire PcSrc;
+wire RegDst;
+wire ALUSrc;
+wire ALUOp;
+wire MemRead;
+wire MemWrite;
+wire Branch;
+wire MemToReg;
+
 IF
 #(
     NB_PC,
@@ -48,7 +57,7 @@ u_IF
     .i_reset(i_reset),
     .i_jump_address(),// TODO: Connect to a signal
     .i_write_address(),// TODO: Connect to a signal
-    .i_is_jump(), // TODO: Connect to a signal
+    .i_PcSrc(PcSrc), 
     .i_instruction(), // TODO: Connect to a signal
     .i_write_enable(),// TODO: Connect to a signal
     .o_instruction(if_instruction_if_id),  
@@ -75,6 +84,7 @@ u_if_id
 
 wire [NB_INS-1:0] if_id_instruction_id;
 wire [NB_PC-1:0] if_id_address_plus_4_id_ex;
+wire pipeline_stalled_to_ID;
 
 ID
 #(
@@ -90,7 +100,8 @@ u_id
     .i_reset(i_reset),
     .i_instruction(if_id_instruction_id),
     .i_ctrl_regdst(),   
-    .i_write_address(), 
+    .i_write_address(),
+    .i_pipeline_stalled_to_control_unit(pipeline_stalled_to_ID),    
     .o_rs_data(id_rs_data_id_ex),    
     .o_rt_data(id_rt_data_id_ex),    
     .o_opcode(id_opcode_id_ex),
@@ -98,7 +109,11 @@ u_id
     .o_rt_address(id_rt_address_id_ex),
     .o_write_address(id_write_address_id_ex),
     .o_inm_value(id_inm_value_id_ex),
-    .o_sigext(id_sigext_id_ex)
+    .o_sigext(id_sigext_id_ex),
+    .o_PcSrc_to_IF(PcSrc),
+    .o_RegDst_to_EX(RegDst),
+    .o_ALUSrc_to_EX(ALUSrc),
+    .o_MemtoReg_to_WB(MemToReg)
 );
 
 wire [NB_DATA-1:0] id_rs_data_id_ex;
@@ -175,13 +190,14 @@ u_ex
     .i_rt_address(id_ex_rt_address_ex),
     .i_inm_value(),
     .i_address_plus_4(id_ex_address_plus_4_ex),
+
+    .i_RegDst(RegDst),
+    .i_ALUSrc(ALUSrc),
+
     .o_res(ex_res_ex_mem),
     .o_zero(ex_zero_ex_mem),
     .o_rt_data(ex_rt_data_ex_mem),
-    .o_jump_address(ex_jump_address_ex_mem),
-
-    //input temporal
-    .i_src_data_b() //0 rt, 1 inmediate
+    .o_jump_address(ex_jump_address_ex_mem)   
 );
 
 wire [NB_DATA-1:0] ex_res_ex_mem;
@@ -210,6 +226,32 @@ u_ex_mem
     .o_rt_data(),
     .o_jump_address(),
     .o_write_address()
+);
+
+WB
+#(
+    
+)
+u_wb
+(
+    .i_MemtoReg(MemtoReg)
+);
+
+//hazard detection unit
+hazard_detection_unit
+#(
+    N_REG,
+    NB_REG_ADDRESS
+)
+u_hazard_detection_unit
+(
+    .i_rs_address_id(id_rs_address_id_ex),
+    .i_rt_address_id(id_rt_address_id_ex),
+    .i_MemRead(), //señal de control
+    .i_rt_address_ex(id_rt_address_ex),
+    .o_PCwrite(),
+    .o_IFIDwrite(),
+    .o_pipeline_stalled_to_ID(pipeline_stalled_to_ID)
 );
 
 endmodule

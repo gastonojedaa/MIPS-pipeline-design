@@ -30,7 +30,7 @@ module IF
     input   i_reset,     
     input   [NB_PC-1:0] i_jump_address,
     input   [NB_PC-1:0] i_write_address,
-    input   i_is_jump, 
+    input   i_PcSrc, // señal de control
     input   [NB_INS-1:0]i_instruction, 
     input   i_write_enable, // 0 READ - 1 WRITE
     output  [NB_INS-1:0] o_instruction,  
@@ -50,7 +50,7 @@ assign address_plus_4 = pc + 4;
 // Mux PC - PC + 4 o jump address
 always@(*)
 begin
-    if(i_is_jump)
+    if(i_PcSrc)
         new_address = i_jump_address;
     else
         begin

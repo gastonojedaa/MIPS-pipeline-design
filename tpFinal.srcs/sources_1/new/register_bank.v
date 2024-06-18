@@ -32,7 +32,7 @@ module register_bank
     input   [NB_REG_ADDRESS-1:0] rs_address,
     input   [NB_REG_ADDRESS-1:0] rt_address,
     input   [NB_REG_ADDRESS-1:0] rw_address,
-    input   i_write_enable,   
+    input   i_RegWrite,   
     output  [NB_DATA-1:0] rs_data,
     output  [NB_DATA-1:0] rt_data    
 );
@@ -49,7 +49,7 @@ end
 
 always@(posedge i_clk)
 begin
-    if(i_write_enable)
+    if(i_RegWrite)
         reg_bank[rw_address] <= i_data;    
 end
 
