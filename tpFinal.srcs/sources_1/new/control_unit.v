@@ -19,50 +19,6 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-//OPCODES
-`define R_type = 6'b000000
-//I_type
-`define LB_OP = 6'b100000
-`define LH_OP = 6'b100001
-`define LW_OP = 6'b100011
-`define LWU_OP = 6'b100111
-`define LBU_OP = 6'b100100
-`define LHU_OP = 6'b100101
-`define SB_OP = 6'b101000
-`define SH_OP = 6'b101001
-`define SW_OP = 6'b101011
-`define ADDI_OP = 6'b001000
-`define ANDI_OP = 6'b001100
-`define ORI_OP = 6'b001101
-`define XORI_OP = 6'b001110
-`define LUI_OP = 6'b001111
-`define SLTI_OP = 6'b001010
-`define BEQ_OP = 6'b000100
-`define BNE_OP = 6'b000101
-
-//J_TYPE
-`define J_OP = 6'b000010
-`define JAL_OP = 6'b000011
-
-//HALT
-`define HALT_OP = 6'b111111
-
-//R_TYPE FUNCTIONS
-`define SLL_FUNCT = 6'b000000
-`define SRL_FUNCT = 6'b000010
-`define SRA_FUNCT = 6'b000011
-`define SLLV_FUNCT = 6'b000100
-`define SRLV_FUNCT = 6'b000110
-`define SRAV_FUNCT = 6'b000111
-`define ADDU_FUNCT = 6'b100001
-`define SUBU_FUNCT = 6'b100011
-`define AND_FUNCT = 6'b100100
-`define OR_FUNCT = 6'b100101
-`define XOR_FUNCT = 6'b100110
-`define NOR_FUNCT = 6'b100111
-`define SLT_FUNCT = 6'b101010
-`define JR_FUNCT = 6'b001000 
-`define JALR_FUNCT = 6'b001001
 
 module control_unit#(
     parameter   R_TYPE_ALUOP          =   4'b0000,
@@ -75,7 +31,52 @@ module control_unit#(
     parameter   BEQ_ALUOP             =   4'b0111,
     parameter   BNE_ALUOP             =   4'b1000,
     parameter NB_FUNCTION = 6,
-    parameter NB_OP = 6
+    parameter NB_OP = 6,
+
+    //OPCODES
+    parameter R_type = 6'b000000,
+    //I_type
+    parameter LB_OP = 6'b100000,
+    parameter LH_OP = 6'b100001,
+    parameter LW_OP = 6'b100011,
+    parameter LWU_OP = 6'b100111,
+    parameter LBU_OP = 6'b100100,
+    parameter LHU_OP = 6'b100101,
+    parameter SB_OP = 6'b101000,
+    parameter SH_OP = 6'b101001,
+    parameter SW_OP = 6'b101011,
+    parameter ADDI_OP = 6'b001000,
+    parameter ANDI_OP = 6'b001100,
+    parameter ORI_OP = 6'b001101,
+    parameter XORI_OP = 6'b001110,
+    parameter LUI_OP = 6'b001111,
+    parameter SLTI_OP = 6'b001010,
+    parameter BEQ_OP = 6'b000100,
+    parameter BNE_OP = 6'b000101,
+
+    //J_TYPE
+    parameter J_OP = 6'b000010,
+    parameter JAL_OP = 6'b000011,
+
+    //HALT
+    parameter HALT_OP = 6'b111111,
+
+    //R_TYPE FUNCTIONS
+    parameter SLL_FUNCT = 6'b000000,
+    parameter SRL_FUNCT = 6'b000010,
+    parameter SRA_FUNCT = 6'b000011,
+    parameter SLLV_FUNCT = 6'b000100,
+    parameter SRLV_FUNCT = 6'b000110,
+    parameter SRAV_FUNCT = 6'b000111,
+    parameter ADDU_FUNCT = 6'b100001,
+    parameter SUBU_FUNCT = 6'b100011,
+    parameter AND_FUNCT = 6'b100100,
+    parameter OR_FUNCT = 6'b100101,
+    parameter XOR_FUNCT = 6'b100110,
+    parameter NOR_FUNCT = 6'b100111,
+    parameter SLT_FUNCT = 6'b101010,
+    parameter JR_FUNCT = 6'b001000,
+    parameter JALR_FUNCT = 6'b001001
 )
 (
     input [NB_OP-1:0] i_opcode,
@@ -93,7 +94,7 @@ module control_unit#(
     output o_MemtoReg    
 );
 
-reg PCSrc, RegDst, ALUSrc, MemRead, MemWrite, Branch, RegWrite, MemtoReg;
+reg PcSrc, RegDst, ALUSrc, MemRead, MemWrite, Branch, RegWrite, MemtoReg;
 reg [1:0] ALUOp;
 //TODO: revisar valores de las señales de control
 always @(*)
@@ -173,7 +174,21 @@ always @(*)
                                     /* BHW = 2'b00;  //no se usa
                                     ExtSign = 1'b0;//no se usa */
                             end
-                        default:   
+                        default: 
+                        begin
+                                    PcSrc = 1'b0; 
+                                    RegDst = 1'b0;
+                                    ALUSrc = 1'b0;
+                                    ALUOp = R_TYPE_ALUOP;
+                                    MemRead = 1'b0;
+                                    MemWrite = 1'b0;
+                                    Branch = 1'b0;
+                                    RegWrite = 1'b0;
+                                    MemtoReg = 1'b0; 
+                                    /* BHW = 2'b00;  //no se usa
+                                    ExtSign = 1'b0;//no se usa */                          
+                        end
+                                     
                     endcase               
                 end                            
                 //I_type -> LB, LH, LW, LWU, LBU, LHU, SB, SH, SW, ADDI, ANDI, ORI, XORI, LUI, SLTI, BEQ, BNE
