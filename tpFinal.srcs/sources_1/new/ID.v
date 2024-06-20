@@ -27,7 +27,8 @@ module ID
     parameter NB_INS = 32,
     parameter NB_DATA_IN = 16,
     parameter NB_OP = 6,
-    parameter NB_REG_ADDRESS = $clog2(N_REG)
+    parameter NB_REG_ADDRESS = $clog2(N_REG),
+    parameter NB_FUNCTION = 6
 )
 ( 
     input   i_clk,
@@ -119,7 +120,7 @@ u_control_unit
     .o_MemWrite(),
     .o_Branch(),
     .o_RegWrite(RegWrite),
-    .o_MemtoReg(o_MemtoReg_to_WB),    
+    .o_MemtoReg(o_MemtoReg_to_WB)
 );
 //cortocircuito
 //dependiendo el valor de las flags va a recibir el valor de los registros o el valor de la etapa EX/MEM o MEM/WB

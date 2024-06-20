@@ -1,6 +1,8 @@
 module uart
 #(
-    parameter NB_UART_DATA = 8
+    parameter NB_UART_DATA = 8,
+    parameter CLK_FREQ = 100000000,
+    parameter BAUD_RATE = 9600
 )
 (
     input i_clk,
@@ -16,8 +18,8 @@ module uart
 
 baud_rate_generator
 #(
-    .CLK_FREQ(100000000),
-    .BAUD_RATE(9600)
+    .CLK_FREQ(CLK_FREQ),
+    .BAUD_RATE(BAUD_RATE)
 )
 u_baud_rate_generator
 (

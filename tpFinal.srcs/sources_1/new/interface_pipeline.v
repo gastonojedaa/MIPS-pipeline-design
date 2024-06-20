@@ -233,7 +233,7 @@ module interface_pipeline
             RUN_STEP:
                 next_state = READING_PC;
             READING_PC:
-                // TODO: if PC is transmitted move to next state
+                // TODO: if PC is transmitted move to next state. FIXME It is transmitting only the first 3 bytes
                 if(bytes_to_load == 3)
                     next_state = READING_REGS;
                 else
@@ -301,7 +301,8 @@ module interface_pipeline
 
     assign o_enable = (state == CONTINUOUS || state == RUN_STEP) ? 1 : 0;
 
-    assign o_tx_valid = i_tx_done;
+    assign o_tx_valid = (state == READING_PC || state == READING_REGS || state == READING_MEM) && i_tx_done ? 1 : 0;
+    
     assign o_tx_data = tx_data;
     assign o_reg_address = regs_counter;
     assign o_data_mem_read_address = mem_slot_counter;

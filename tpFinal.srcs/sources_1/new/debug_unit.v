@@ -2,14 +2,17 @@ module debug_unit
 #(
     parameter NB_UART_DATA = 8,
     parameter NB_DATA = 32,
-    parameter NB_STATE = 10
+    parameter NB_STATE = 10,
+    parameter CLK_FREQ = 100000000,
+    parameter BAUD_RATE = 9600
 )
 (
     input i_clk,
     input i_reset,
     input i_rx_data,
     input i_halted,
-    input i_pc,
+    input [NB_DATA-1:0] i_pc,
+    input [NB_DATA-1:0] i_reg_data,
     input [NB_DATA-1:0] i_mem_data,
     output [NB_DATA-1:0] o_data_mem_read_address,
     output o_tx_data,
@@ -19,12 +22,14 @@ module debug_unit
 // Signals
 wire [NB_UART_DATA-1:0] data_tx;
 wire valid_tx;
-wire data_rx;
+wire [NB_UART_DATA-1:0] data_rx;
 wire valid_rx;
 
 uart
 #(
-    .NB_UART_DATA(NB_UART_DATA)
+    .NB_UART_DATA(NB_UART_DATA),
+    .CLK_FREQ(CLK_FREQ),
+    .BAUD_RATE(BAUD_RATE)
 )
 u_uart
 (
@@ -49,12 +54,14 @@ u_interface_pipeline
 (
     .i_clk(i_clk),
     .i_reset(i_reset),
+    .i_halted(i_halted),
     .i_rx_data(data_rx),
     .i_rx_valid(valid_rx),
-    .i_pc(),
-    .i_mem_data(),
+    .i_pc(i_pc),
+    .i_reg_data(i_reg_data),
+    .i_mem_data(i_mem_data),
     .i_tx_done(tx_done),
-    .o_data_mem_read_address(),
+    .o_data_mem_read_address(o_data_mem_read_address),
     .o_tx_data(data_tx),
     .o_tx_valid(valid_tx)
 );

@@ -14,9 +14,8 @@ module tx
     output o_tx_data
 );
 
-    localparam STATE_0 = 3'b001;
-    localparam STATE_1 = 3'b010;
-    localparam STATE_2 = 3'b100;
+    localparam STATE_0 = 2'b01;
+    localparam STATE_1 = 2'b10;
 
     reg[2:0] state;
     reg[2:0] next_state;
@@ -38,16 +37,21 @@ module tx
         if(i_reset)
         begin
             data[0] <= 0;
+            tick_counter <= 0;
+            tx_bit_counter <= 0;
         end
             
         else
         begin
             case(state) 
-            STATE_1:
+            STATE_0:
                 begin
-                    data[NB_DATA:1] <= i_data;
+                    if(i_valid)
+                        data[NB_DATA:1] <= i_data;
+                    tx_bit_counter <= 0;
+                    tick_counter <= 0;
                 end
-            STATE_2:
+            STATE_1:
                 begin
                    if(i_tick)
                    begin
@@ -59,11 +63,6 @@ module tx
                           tx_bit_counter <= tx_bit_counter + 1;
                         end
                    end
-                end
-            default:
-                begin
-                    tx_bit_counter <= 0;
-                    tick_counter <= 0;
                 end
         endcase 
         end
@@ -82,16 +81,13 @@ module tx
                 else
                     next_state = STATE_0;
             end
-                  
+                       
             STATE_1:
-                next_state = STATE_2;
-                          
-            STATE_2:
             begin
                 if(tx_bit_counter == 9)
                     next_state = STATE_0;
                 else
-                    next_state = STATE_2;
+                    next_state = STATE_1;
             end
             default:
                 next_state = STATE_0;                 
@@ -101,7 +97,7 @@ module tx
     always@(*)
     begin
         case(state)
-            STATE_2:
+            STATE_1:
                 tx_data = data[0];
             default:
                 tx_data = 1;
