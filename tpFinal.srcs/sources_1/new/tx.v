@@ -14,12 +14,15 @@ module tx
     output o_tx_data
 );
 
-    localparam STATE_0 = 2'b01;
-    localparam STATE_1 = 2'b10;
+    // States
+    localparam IDLE = 2'b01;
+    localparam TRANSMITTING = 2'b10;
 
     reg[2:0] state;
     reg[2:0] next_state;
-    reg[NB_DATA:0] data;
+    reg[NB_DATA+1:0] data;  //[NB_DATA+1] end of transmission bit 
+                            //[NB_DATA:1] data;
+                            //0 transmission bit
     reg[3:0] tick_counter;
     reg[3:0] tx_bit_counter;
     reg tx_data;
@@ -27,7 +30,7 @@ module tx
     always @(posedge i_clk) 
     begin
         if(i_reset)
-            state <= STATE_0;
+            state <= IDLE;
         else
             state <= next_state;
     end
@@ -36,7 +39,7 @@ module tx
     begin
         if(i_reset)
         begin
-            data[0] <= 0;
+            data <= 512;
             tick_counter <= 0;
             tx_bit_counter <= 0;
         end
@@ -44,14 +47,14 @@ module tx
         else
         begin
             case(state) 
-            STATE_0:
+            IDLE:
                 begin
                     if(i_valid)
                         data[NB_DATA:1] <= i_data;
                     tx_bit_counter <= 0;
                     tick_counter <= 0;
                 end
-            STATE_1:
+            TRANSMITTING:
                 begin
                    if(i_tick)
                    begin
@@ -59,7 +62,7 @@ module tx
                         
                         if(tick_counter==15)
                         begin
-                          data <= {data[0],data[NB_DATA:1]};
+                          data <= {data[0],data[NB_DATA+1:1]};
                           tx_bit_counter <= tx_bit_counter + 1;
                         end
                    end
@@ -74,37 +77,40 @@ module tx
     always @(*)
     begin
         case(state)
-            STATE_0:
+            IDLE:
             begin
                 if(i_valid)
-                    next_state = STATE_1;
+                    next_state = TRANSMITTING;
                 else
-                    next_state = STATE_0;
+                    next_state = IDLE;
             end
                        
-            STATE_1:
+            TRANSMITTING:
             begin
-                if(tx_bit_counter == 9)
-                    next_state = STATE_0;
+                if(tx_bit_counter == 10)
+                    next_state = IDLE;
                 else
-                    next_state = STATE_1;
+                    next_state = TRANSMITTING;
             end
             default:
-                next_state = STATE_0;                 
+                next_state = IDLE;                 
         endcase
     end
     
     always@(*)
     begin
         case(state)
-            STATE_1:
-                tx_data = data[0];
+            TRANSMITTING:
+                if(tx_bit_counter == 10)
+                    tx_data = 1;
+                else
+                    tx_data = data[0];
             default:
                 tx_data = 1;
         endcase
     end
     
     assign o_tx_data = tx_data;
-    assign o_tx_done = (state == STATE_0) ? 1 : 0;
+    assign o_tx_done = (state == IDLE) ? 1 : 0;
 
 endmodule
