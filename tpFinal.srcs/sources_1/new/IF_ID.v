@@ -35,7 +35,7 @@ module IF_ID
     output reg  [NB_PC-1:0] o_address_plus_4,
 
     //signal from hazard detection unit
-    input IFIDwrite        
+    input i_IFIDwrite        
 );
 
 always@(posedge i_clk)
@@ -48,7 +48,7 @@ begin
     else if(i_debug_unit_enable)
         begin
             //handle the stall signal
-            if(IFIDwrite)
+            if(i_IFIDwrite)
                 begin
                     o_instruction <= o_instruction;
                     o_address_plus_4 <= o_address_plus_4;

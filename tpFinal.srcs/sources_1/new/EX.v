@@ -49,6 +49,7 @@ module EX
     input i_ALUSrc, //señal de control
     input i_Branch_from_ID_EX, //señal de control
     input i_ALUOp_from_ID_EX, //señal de control
+    input [NB_FUNCTION-1:0]i_function_from_id_ex, //señal de control
     
     output [NB_DATA : 0] o_res,
     output o_alu_zero_to_ex_mem,
@@ -81,7 +82,7 @@ alu#(
 u_alu(
     .i_data_a(i_rs_data),
     .i_data_b(data_b),
-    .i_alucode(), //TODO: conectar
+    .i_alucode(o_alu_control), //TODO: esta bien conectado?
     .o_res(o_res),
     .o_zero(o_alu_zero_to_ex_mem)
 );
@@ -94,8 +95,8 @@ control_alu
 )
 u_control_alu(
     .i_ALUOp(i_ALUOp_from_ID_EX),
-    .i_funct(), //TODO: conectar 
-    .o_alu_control()
+    .i_funct(i_function_from_id_ex), 
+    .o_alu_control(o_alu_control)
 );
 
 

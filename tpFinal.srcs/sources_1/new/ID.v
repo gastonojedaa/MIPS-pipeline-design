@@ -55,6 +55,8 @@ module ID
     output o_MemtoReg_to_WB,
     output o_Branch_to_ID_EX,
     output o_ALUOp_to_ID_EX,
+    output o_MemRead_to_MEM,
+    output [NB_FUNCTION-1:0] o_function,
    
 
     input [1:0]i_forward_a,
@@ -73,6 +75,7 @@ wire RegWrite;
 assign rs_address = i_instruction[25:21];
 assign rt_address = i_instruction[20:16];
 assign rd_address = i_instruction[15:11];
+assign o_function = i_instruction[5:0];
 
 register_bank
 #(
@@ -123,7 +126,7 @@ u_control_unit
     .o_RegDst(o_RegDst_to_EX),
     .O_ALUSrc(o_ALUSrc_to_EX),
     .o_ALUOp(o_ALUOp_to_ID_EX),
-    .o_MemRead(),
+    .o_MemRead(o_MemRead_to_MEM),
     .o_MemWrite(),
     .o_Branch(o_Branch_to_ID_EX),
     .o_RegWrite(RegWrite),
