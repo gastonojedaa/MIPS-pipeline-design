@@ -4,7 +4,8 @@ module debug_unit
     parameter NB_DATA = 32,
     parameter NB_STATE = 10,
     parameter CLK_FREQ = 100000000,
-    parameter BAUD_RATE = 9600
+    parameter BAUD_RATE = 9600,
+    parameter NB_REGS = 5
 )
 (
     input i_clk,
@@ -14,7 +15,11 @@ module debug_unit
     input [NB_DATA-1:0] i_pc,
     input [NB_DATA-1:0] i_reg_data,
     input [NB_DATA-1:0] i_mem_data,
+    output [NB_REGS-1:0] o_reg_address,
     output [NB_DATA-1:0] o_data_mem_read_address,
+    output [NB_DATA-1:0] o_instruction_mem_write_address,
+    output [NB_DATA-1:0] o_instruction,
+    output o_write_enable,
     output o_tx_data,
     output o_tx_valid
 );
@@ -61,6 +66,11 @@ u_interface_pipeline
     .i_reg_data(i_reg_data),
     .i_mem_data(i_mem_data),
     .i_tx_done(tx_done),
+    .o_enable(),
+    .o_reg_address(o_reg_address),
+    .o_instruction_mem_write_address(),
+    .o_instruction(),
+    .o_write_enable(),
     .o_data_mem_read_address(o_data_mem_read_address),
     .o_tx_data(data_tx),
     .o_tx_valid(valid_tx)

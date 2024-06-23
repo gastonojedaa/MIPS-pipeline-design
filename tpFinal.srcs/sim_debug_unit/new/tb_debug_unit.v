@@ -138,7 +138,7 @@ initial begin
     #1;
     halted = 1;
     
-    #10;
+    #100000;
     $finish;
 end 
 
@@ -160,7 +160,11 @@ u_debug_unit (
     .i_pc(pc),
     .i_reg_data(reg_data),
     .i_mem_data(mem_slot_data),
+    .o_reg_address(reg_address),
     .o_data_mem_read_address(data_mem_read_address),
+    .o_instruction_mem_write_address(),
+    .o_instruction(),
+    .o_write_enable(),
     .o_tx_data(),
     .o_tx_valid()
 );

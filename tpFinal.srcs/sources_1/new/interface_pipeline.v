@@ -170,14 +170,21 @@ module interface_pipeline
                 READING_REGS:
                 begin
                    bytes_to_load <= i_tx_done ? bytes_to_load + 1 : bytes_to_load;
-                   if(bytes_to_load == 3)
+                   
+                   if(bytes_to_load == 3 && i_tx_done == 1)
+                   begin
                         regs_counter <= regs_counter + 1; // Automatically resets to 0
+                   end
+                        
                 end
                 READING_MEM:
                 begin
                    bytes_to_load <= i_tx_done ? bytes_to_load + 1 : bytes_to_load;
-                   if(bytes_to_load == 3)
+                   if(bytes_to_load == 3 && i_tx_done == 1)
+                   begin
                         mem_slot_counter <= mem_slot_counter + 1; // Automatically resets to 0
+                   end
+                      
                 end
                    
                    
@@ -240,7 +247,7 @@ module interface_pipeline
                     next_state = READING_PC;
             READING_REGS:
                 // TODO: If all registers are transmitted move to next state
-                if(regs_counter == (N_REGS-1) && bytes_to_load == 3)
+                if(regs_counter == (N_REGS-1) && bytes_to_load == 3 && i_tx_done == 1)
                     next_state = READING_MEM;
                 else
                     next_state = READING_REGS;
