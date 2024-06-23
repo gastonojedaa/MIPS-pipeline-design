@@ -31,34 +31,38 @@ module EX_MEM
     input i_clk,
     input i_reset,
     input [NB_DATA : 0] i_res,
-    input i_zero,
+    input i_alu_zero_from_ex,
     input [NB_DATA:0] i_rt_data,
     input [NB_DATA-1:0] i_jump_address,
     input [NB_REG_ADDRESS-1:0] i_write_address,
     input i_debug_unit_enable,
+    input i_Branch_from_EX,
     output reg [NB_DATA : 0] o_res,
-    output reg o_zero,
+    output reg o_alu_zero_to_ID,
     output reg [NB_DATA : 0] o_rt_data,
     output reg [NB_DATA-1:0] o_jump_address,
-    output reg [NB_REG_ADDRESS-1:0] o_write_address
+    output reg [NB_REG_ADDRESS-1:0] o_write_address,
+    output reg o_Branch_to_ID
 );
 always@(posedge i_clk)
 begin 
     if(i_reset)
         begin
             o_res <= 0;
-            o_zero <= 0;
+            o_alu_zero_to_ID <= 0;
             o_rt_data <= 0;
             o_jump_address <= 0;
             o_write_address <= 0;
+            o_Branch_to_ID <= 0;
         end
     else if(i_debug_unit_enable)
         begin
             o_res <= i_res;
-            o_zero <= i_zero;
+            o_alu_zero_to_ID <= i_alu_zero_from_ex;
             o_rt_data <= i_rt_data;
             o_jump_address <= i_jump_address;        
             o_write_address <= i_write_address; 
+            o_Branch_to_ID <= i_Branch_from_EX;
         end
 end
 endmodule
