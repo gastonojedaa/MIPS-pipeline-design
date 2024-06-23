@@ -234,7 +234,7 @@ module interface_pipeline
                 next_state = READING_PC;
             READING_PC:
                 // TODO: if PC is transmitted move to next state. FIXME It is transmitting only the first 3 bytes
-                if(bytes_to_load == 3)
+                if(bytes_to_load == 3 && i_tx_done == 1)
                     next_state = READING_REGS;
                 else
                     next_state = READING_PC;
