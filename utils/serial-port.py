@@ -34,7 +34,7 @@ def send_program(ser, file_path):
         print(f"An error occurred: {e}")
 
 
-def read_from_port(ser):
+def read_from_port_debug(ser):
     while True:
         reading = ser.read(100)  # TODO: Adjust the buffer size as needed
         if reading:
@@ -45,8 +45,28 @@ def read_from_port(ser):
                 print(f"{byte:02x} ", end='')
                 # Accumulate the binary string representation
                 binary_str += format(byte, '08b') + ' '
-            print()  # Add a newline for better readability after printing all bytes
+            print()  # Add a newline
             print(f"Binary string format: {binary_str}")
+
+def read_from_port(ser):
+    # Read Program Counter (PC)
+    pc_data = ser.read(4)  # Read 4 bytes (32 bits)
+    pc = int.from_bytes(pc_data, byteorder='big')
+    print(f"Program Counter: {pc}")
+
+    # Read Registers
+    print("Registers:")
+    for i in range(32):  # 32 registers
+        reg_data = ser.read(4)  # Read 4 bytes (32 bits) for each register
+        reg_value = int.from_bytes(reg_data, byteorder='big')
+        print(f"R{i}: {reg_value}")
+
+    # Read Memory
+    print("Memory:")
+    for i in range(256):  # 256 memory slots
+        mem_data = ser.read(4)  # Read 4 bytes (32 bits) for each memory slot
+        mem_value = int.from_bytes(mem_data, byteorder='big')
+        print(f"Mem[{i}]: {mem_value}") 
 
 
 def write_to_port(ser):
