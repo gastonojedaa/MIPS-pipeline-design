@@ -48,11 +48,28 @@ def read_from_port_debug(ser):
             print()  # Add a newline
             print(f"Binary string format: {binary_str}")
 
+def write_mock_data_to_port(ser):
+    # Mock Program Counter (PC) data
+    pc = 0xaabbccdd  # Example PC value
+    ser.write(pc.to_bytes(4, byteorder='big'))
+
+    # Mock Registers data
+    for i in range(32):
+        reg_value = i*3  # Example register value
+        ser.write(reg_value.to_bytes(4, byteorder='big'))
+
+    # Mock Memory data
+    for i in range(256):
+        mem_value = i*2  # Example memory value
+        ser.write(mem_value.to_bytes(4, byteorder='big'))
+
+    print("Mock PC, registers, and memory data written to port.")
+
 def read_from_port(ser):
     # Read Program Counter (PC)
     pc_data = ser.read(4)  # Read 4 bytes (32 bits)
     pc = int.from_bytes(pc_data, byteorder='big')
-    print(f"Program Counter: {pc}")
+    print(f"Program Counter (Hex): {pc:08X}")
 
     # Read Registers
     print("Registers:")
@@ -111,7 +128,9 @@ def main():
                 thread.start()
 
                 # Function to write data to port
-                write_to_port(ser)
+                #write_to_port(ser)
+                # Testing
+                write_mock_data_to_port(ser)
 
                 # Wait before closing to ensure all data is transmitted/received
                 time.sleep(1)
