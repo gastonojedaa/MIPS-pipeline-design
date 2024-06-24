@@ -88,7 +88,7 @@ u_register_bank
     .i_clk(i_clk),
     .i_reset(i_reset),
     .i_data(),
-    .i_debug_unit_enable(i_debug_unit_enable),   
+    .i_debug_unit_enable(i_debug_unit_enable),
     .rs_address(i_instruction[25:21]),
     .rt_address(i_instruction[20:16]),    
     .rw_address(i_write_address),          //  vienen de la 

@@ -193,19 +193,18 @@ always @(*)
                             end
                         default: 
                             begin
-                                        PcSrc = 1'b0; 
-                                        RegDst = 1'b0;
-                                        ALUSrc = 1'b0;
-                                        ALUOp = R_TYPE_ALUOP;
-                                        MemRead = 1'b0;
-                                        MemWrite = 1'b0;
-                                        Branch = 1'b0;
-                                        RegWrite = 1'b0;
-                                        MemtoReg = 1'b0; 
-                                        /* BHW = 2'b00;  //no se usa
-                                        ExtSign = 1'b0;//no se usa */                          
-                            end
-                                     
+                                    PcSrc = 1'b0; 
+                                    RegDst = 1'b0;
+                                    ALUSrc = 1'b0;
+                                    ALUOp = R_TYPE_ALUOP;
+                                    MemRead = 1'b0;
+                                    MemWrite = 1'b0;
+                                    Branch = 1'b0;
+                                    RegWrite = 1'b0;
+                                    MemtoReg = 1'b0; 
+                                    /* BHW = 2'b00;  //no se usa
+                                    ExtSign = 1'b0;//no se usa */                          
+                            end                                     
                     endcase               
                 end                            
                 //I_type -> LB, LH, LW, LWU, LBU, LHU, SB, SH, SW, ADDI, ANDI, ORI, XORI, LUI, SLTI, BEQ, BNE
