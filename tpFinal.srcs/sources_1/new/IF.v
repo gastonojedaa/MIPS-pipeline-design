@@ -36,7 +36,7 @@ module IF #(
     output o_is_halted,
 
     //signal to hazard detection unit
-    input PCwrite  // stall. If 1 PC is not updated
+    input i_PCwrite  // stall. If 1 PC is not updated
 );
 
   wire [NB_INS-1:0] instruction_from_mem;
@@ -52,7 +52,8 @@ module IF #(
 
   // Mux PC - PC + 4 o jump address
   always @(*) begin
-    if (PCwrite || is_halted || !i_debug_unit_enable) new_address = pc;
+    if (i_PCwrite || is_halted || !i_debug_unit_enable) new_address = pc;
+
     else begin
       if (i_PcSrc) new_address = i_jump_address;
       else new_address = address_plus_4;

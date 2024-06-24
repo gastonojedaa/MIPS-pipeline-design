@@ -23,7 +23,7 @@
 module MEM_WB
 #(
     parameter NB_REG_ADDRESS = 5,
-    parameter NB_DATA = 32
+    parameter NB_DATA = 8 //FIXME: esto estaba en 32, revisar bits
 )
 (
 input i_clk,
