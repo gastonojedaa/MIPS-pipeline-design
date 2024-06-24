@@ -68,21 +68,21 @@ def write_mock_data_to_port(ser):
 def read_from_port(ser):
     # Read Program Counter (PC)
     pc_data = ser.read(4)  # Read 4 bytes (32 bits)
-    pc = int.from_bytes(pc_data, byteorder='big')
+    pc = int.from_bytes(pc_data, byteorder='little')
     print(f"Program Counter (Hex): {pc:08X}")
 
     # Read Registers
     print("Registers:")
     for i in range(32):  # 32 registers
         reg_data = ser.read(4)  # Read 4 bytes (32 bits) for each register
-        reg_value = int.from_bytes(reg_data, byteorder='big')
+        reg_value = int.from_bytes(reg_data, byteorder='little')
         print(f"R{i}: {reg_value}")
 
     # Read Memory
     print("Memory:")
     for i in range(256):  # 256 memory slots
         mem_data = ser.read(4)  # Read 4 bytes (32 bits) for each memory slot
-        mem_value = int.from_bytes(mem_data, byteorder='big')
+        mem_value = int.from_bytes(mem_data, byteorder='little')
         print(f"Mem[{i}]: {mem_value}") 
 
 
@@ -109,14 +109,21 @@ def write_to_port(ser):
 def main():
     try:
         # with serial.Serial('/dev/ttyUSB0', 9600, timeout=1) as ser:
-        with serial.serial_for_url(
-            "loop://",
-            timeout=1,
+         with serial.Serial(
+            "COM8",
             baudrate=9600,
             parity=serial.PARITY_NONE,
             stopbits=serial.STOPBITS_ONE,
             bytesize=serial.EIGHTBITS,
         ) as ser:
+        # with serial.serial_for_url(
+        #     "loop://",
+        #     timeout=1,
+        #     baudrate=9600,
+        #     parity=serial.PARITY_NONE,
+        #     stopbits=serial.STOPBITS_ONE,
+        #     bytesize=serial.EIGHTBITS,
+        # ) as ser:
             if ser.isOpen():
                 print("Using port:", ser.name)
                 ser.flushInput()
@@ -128,9 +135,9 @@ def main():
                 thread.start()
 
                 # Function to write data to port
-                #write_to_port(ser)
+                write_to_port(ser)
                 # Testing
-                write_mock_data_to_port(ser)
+                #write_mock_data_to_port(ser)
 
                 # Wait before closing to ensure all data is transmitted/received
                 time.sleep(1)
