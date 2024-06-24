@@ -65,11 +65,7 @@ module alu
             LUI_ALUCODE:
                 {carry,res} = i_data_b << 16;
             BNE_ALUCODE:
-                {carry,res} = (i_data_a != i_data_b);
-            //JR_OPCODE:
-            //    {carry,res} = i_data_a; //TODO: check if this is correct, JALR too
-            //JALR_OPCODE:
-            //    {carry,res} = i_data_a;            
+                {carry,res} = (i_data_a != i_data_b);                      
             default:
                 {carry,res} = 'hFF;
         endcase

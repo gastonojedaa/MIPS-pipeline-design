@@ -82,7 +82,7 @@ alu#(
 u_alu(
     .i_data_a(i_rs_data),
     .i_data_b(data_b),
-    .i_alucode(o_alu_control), //TODO: esta bien conectado?
+    .i_alucode(o_alu_control), 
     .o_res(o_res),
     .o_zero(o_alu_zero_to_ex_mem)
 );

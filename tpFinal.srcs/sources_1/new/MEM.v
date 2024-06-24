@@ -22,7 +22,7 @@
 
 module MEM
 #(
-    parameter NB_DATA = 8,
+    parameter NB_DATA = 32,
     parameter NB_REG_ADDRESS = 5,
     parameter NB_ADDR = 32,
     parameter NB_INS = 32  
