@@ -22,19 +22,21 @@
 
 module MEM_WB
 #(
-    parameter NB_REG_ADDRESS = 5,
-    parameter NB_DATA = 32 
+    parameter NB_DATA = 32,
+    parameter NB_REG_ADDRESS = 5
 )
 (
 input i_clk,
 input i_reset,
 input i_debug_unit_enable,
-input [NB_REG_ADDRESS-1:0] i_write_address,
+input [NB_DATA-1:0] i_write_address,
 input [NB_DATA:0] i_res,
 input [NB_DATA-1:0] i_mem_data, 
-output reg [NB_REG_ADDRESS-1:0] o_write_address,
+input [NB_DATA-1:0] i_address_plus_4,
+output reg [NB_DATA-1:0] o_write_address,
 output reg [NB_DATA:0] o_res,
-output reg [NB_DATA-1:0] o_mem_data
+output reg [NB_DATA-1:0] o_mem_data,
+output reg [NB_DATA-1:0] o_address_plus_4
 );
 
 always@(posedge i_clk)
@@ -44,12 +46,14 @@ begin
             o_write_address <= 0;
             o_res <= 0;
             o_mem_data <= 0;
+            o_address_plus_4 <= 0;
         end
     else if(i_debug_unit_enable)
         begin
             o_write_address <= i_write_address;
             o_res <= i_res;
             o_mem_data <= i_mem_data;
+            o_address_plus_4 <= i_address_plus_4;
         end
 end
 endmodule

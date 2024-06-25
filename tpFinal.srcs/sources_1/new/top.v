@@ -98,6 +98,7 @@ wire pipeline_stalled_to_ID;
 wire alu_zero_ID;
 wire ALUOp_to_id_ex;
 wire function_to_id_ex;
+wire write_address_to_id;
 
 wire MemRead_to_id_ex;
 wire MemRead_to_ex;
@@ -121,18 +122,17 @@ u_id
 ( 
     .i_clk(i_clk),
     .i_reset(i_reset),
-    .i_instruction(if_id_instruction_id),
-    .i_ctrl_regdst(),   
-    .i_write_address(write_address_to_register_bank),
+    .i_instruction(if_id_instruction_id),      
+    .i_write_address(write_address_to_id),
+    .i_data_to_write_in_register_bank(write_address_to_register_bank),
     .i_pipeline_stalled_to_control_unit(pipeline_stalled_to_ID),    
     .i_Branch_from_EX_MEM(Branch_to_ID),
     .i_alu_zero_from_ex_mem(alu_zero_ID),
     .o_rs_data(id_rs_data_id_ex),    
     .o_rt_data(id_rt_data_id_ex),    
-    .o_opcode(id_opcode_id_ex),
     .o_rs_address(id_rs_address_id_ex),
     .o_rt_address(id_rt_address_id_ex),
-    .o_write_address(id_write_address_id_ex),
+    .o_rd_address(id_rd_address_id_ex),
     .o_inm_value(id_inm_value_id_ex),
     .o_sigext(id_sigext_id_ex),
     .o_PcSrc_to_IF(PcSrc),
@@ -148,15 +148,14 @@ u_id
 
 wire [NB_DATA-1:0] id_rs_data_id_ex;
 wire [NB_DATA-1:0] id_rt_data_id_ex;
-wire [NB_OP-1:0] id_opcode_id_ex;
 wire [NB_REG_ADDRESS-1:0] id_rs_address_id_ex;
 wire [NB_REG_ADDRESS-1:0] id_rt_address_id_ex;
-wire [NB_REG_ADDRESS-1:0] id_write_address_id_ex;
+wire [NB_REG_ADDRESS-1:0] id_rd_address_id_ex;
 wire [NB_DATA_IN-1:0] id_inm_value_id_ex;
 wire [NB_DATA-1:0] id_sigext_id_ex;
 wire ALUOp_to_ex;
 wire function_to_ex;
-wire [NB_REG_ADDRESS-1:0] id_ex_write_address_to_ex;
+wire [NB_REG_ADDRESS-1:0] id_ex_rd_address_to_ex;
 
 
 ID_EX
@@ -175,11 +174,10 @@ u_id_ex
     .i_reset(i_reset),
     .i_rs_data(id_rs_data_id_ex),
     .i_rt_data(id_rt_data_id_ex),
-    .i_sigext(id_sigext_id_ex),    
-    .i_opcode(id_opcode_id_ex),
+    .i_sigext(id_sigext_id_ex),   
     .i_rs_address(id_rs_address_id_ex),
     .i_rt_address(id_rt_address_id_ex),
-    .i_write_address(id_write_address_id_ex),
+    .i_rd_address(id_rd_address_id_ex),
     .i_address_plus_4(if_id_address_plus_4_id_ex),
     .i_Branch_from_ID(Branch_to_ID_EX),
     .i_ALUOp_from_ID(ALUOp_to_id_ex),
@@ -189,10 +187,9 @@ u_id_ex
     .o_rs_data(id_ex_rs_data_ex),
     .o_rt_data(id_ex_rt_data_ex),
     .o_sigext(id_ex_sigext_ex),
-    .o_opcode(id_ex_opcode_ex),
     .o_rs_address(id_ex_rs_address_ex),
     .o_rt_address(id_ex_rt_address_ex),
-    .o_write_address(id_ex_write_address_to_ex),
+    .o_rd_address(id_ex_rd_address_to_ex),
     .o_address_plus_4(id_ex_address_plus_4_ex),
     .o_Branch_to_EX(Branch_to_EX),
     .o_ALUOp_to_EX(ALUOp_to_ex),
@@ -204,11 +201,11 @@ u_id_ex
 wire [NB_DATA-1:0] id_ex_rs_data_ex;
 wire [NB_DATA-1:0] id_ex_rt_data_ex;
 wire [NB_INS-1:0] id_ex_sigext_ex;
-wire [NB_OP-1:0] id_ex_opcode_ex;
 wire [NB_REG_ADDRESS-1:0] id_ex_rs_address_ex;
 wire [NB_REG_ADDRESS-1:0] id_ex_rt_address_ex;
 wire [NB_PC-1:0] id_ex_address_plus_4_ex;
 wire [NB_REG_ADDRESS-1:0] write_address_to_ex_mem;
+wire [NB_DATA-1:0] address_plus_4_to_ex_mem;
 
 EX
 #(    
@@ -228,12 +225,10 @@ u_ex
     .i_rs_data(id_ex_rs_data_ex),
     .i_rt_data(id_ex_rt_data_ex),
     .i_sigext(id_ex_sigext_ex),    
-    .i_opcode(id_ex_opcode_ex),
     .i_rs_address(id_ex_rs_address_ex),
-    .i_rt_address(id_ex_rt_address_ex),
-    .i_inm_value(),
+    .i_rt_address(id_ex_rt_address_ex),  
     .i_address_plus_4(id_ex_address_plus_4_ex),
-    .i_write_address(id_ex_write_address_to_ex),
+    .i_rd_address(id_ex_rd_address_to_ex),
 
     .i_RegDst(RegDst),
     .i_ALUSrc(ALUSrc),
@@ -242,20 +237,23 @@ u_ex
     .i_function_from_id_ex(function_to_ex),
     .i_MemRead_from_ID_EX(MemRead_to_ex),
     .i_MemWrite_from_ID_EX(MemWrite_to_ex),
+    .i_forward_a(data_a_mux),
+    .i_forward_b(data_b_mux),
+    .i_write_address_ex_mem(write_address_to_mem),
+    .i_write_address_mem_wb(write_address_to_register_bank),
 
     .o_res(ex_res_ex_mem),
     .o_alu_zero_to_ex_mem(alu_zero_ex_mem),
-    .o_rt_data(ex_rt_data_ex_mem),
     .o_jump_address(ex_jump_address_ex_mem),
     .o_Branch_to_EX_MEM(Branch_to_EX_MEM),
     .o_MemRead_to_EX_MEM(MemRead_to_ex_mem),
     .o_MemWrite_to_EX_MEM(MemWrite_to_ex_mem), 
-    .o_write_address(write_address_to_ex_mem)
+    .o_write_address(write_address_to_ex_mem),
+    .o_address_plus_4(address_plus_4_to_ex_mem)
 );
 
 wire [NB_DATA-1:0] ex_res_ex_mem;
 wire alu_zero_ex_mem;
-wire [NB_DATA-1:0] ex_rt_data_ex_mem;
 wire [NB_DATA-1:0] ex_jump_address_ex_mem;
 wire [NB_DATA-1:0] ex_res_to_mem;
 wire [NB_REG_ADDRESS-1:0] write_address_to_mem;
@@ -280,6 +278,7 @@ u_ex_mem
     .i_Branch_from_EX(Branch_to_EX_MEM),
     .i_MemRead_from_EX(MemRead_to_ex_mem),
     .i_MemWrite_from_EX(MemWrite_to_ex_mem),
+    .i_address_plus_4(address_plus_4_to_ex_mem),
     .o_res(ex_res_to_mem),
     .o_alu_zero_to_ID(alu_zero_ID),
     .o_rt_data(rt_data_to_mem),
@@ -287,7 +286,8 @@ u_ex_mem
     .o_write_address(write_address_to_mem),
     .o_Branch_to_ID(Branch_to_ID),
     .o_MemRead_to_MEM(MemRead_to_mem),
-    .o_MemWrite_to_MEM(MemWrite_to_mem)
+    .o_MemWrite_to_MEM(MemWrite_to_mem),
+    .o_address_plus_4(address_plus_4_to_mem)
 );
 
 wire [NB_REG_ADDRESS-1:0] write_address_to_mem_wb;
@@ -309,9 +309,11 @@ u_mem
     .i_write_address(write_address_to_mem),
     .i_MemRead_from_EX_MEM(MemRead_to_mem),
     .i_MemWrite_from_EX_MEM(MemWrite_to_mem),
+    .i_address_plus_4(address_plus_4_to_mem),
     .o_res(ex_res_to_mem),
     .o_mem_data(mem_data_to_mem_wb),
-    .o_write_address(write_address_to_mem_wb)    
+    .o_write_address(write_address_to_mem_wb),
+    .o_address_plus_4(address_plus_4_to_mem_wb)    
 );
 
 wire [NB_DATA-1:0] res_to_wb;
@@ -329,9 +331,11 @@ u_mem_wb
     .i_res(ex_res_to_mem),   
     .i_mem_data(mem_data_to_mem_wb),
     .i_write_address(write_address_to_mem_wb),
+    .i_address_plus_4(address_plus_4_to_mem_wb),
     .o_res(res_to_wb),
     .o_mem_data(mem_data_to_wb),
-    .o_write_address(write_address_to_wb)    
+    .o_write_address(write_address_to_id),
+    .o_address_plus_4(address_plus_4_to_wb)
 );
 
 WB
@@ -341,11 +345,12 @@ WB
 )
 u_wb
 (
+    .i_clk(i_clk),    
     .i_MemtoReg(MemtoReg),
     .i_res(res_to_wb),
-    .i_mem_data(mem_data_to_wb),
-    .i_write_address(write_address_to_wb),
-    .o_write_in_register_bank(write_address_to_register_bank)    
+    .i_mem_data(mem_data_to_wb), 
+    .i_address_plus_4(address_plus_4_to_wb),    
+    .o_write_in_register_bank(write_address_to_register_bank)   
 );
 
 //hazard detection unit
@@ -363,6 +368,21 @@ u_hazard_detection_unit
     .o_PCwrite(PCwrite_to_IF),
     .o_IFIDwrite(IFIDwrite),
     .o_pipeline_stalled_to_ID(pipeline_stalled_to_ID)
+);
+
+shortcircuit_unit
+#(
+    N_REG,
+    NB_REG_ADDRESS
+)
+u_shortcircuit_unit
+(
+    .i_rs_address_id_ex(id_ex_rs_address_ex),
+    .i_rt_address_id_ex(id_ex_rt_address_ex),
+    .i_write_address_ex_mem(write_address_to_mem),
+    .i_write_address_mem_wb(write_address_to_register_bank),
+    .o_forward_a(data_a_mux),
+    .o_forward_b(data_b_mux)
 );
 
 endmodule

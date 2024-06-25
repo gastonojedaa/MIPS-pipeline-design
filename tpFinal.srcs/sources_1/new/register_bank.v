@@ -28,7 +28,7 @@ module register_bank
 (
     input   i_clk,
     input   i_reset,
-    input   [NB_DATA-1:0] i_data,
+    input   [NB_DATA-1:0] i_data_to_write,
     input i_debug_unit_enable,
     input   [NB_REG_ADDRESS-1:0] rs_address,
     input   [NB_REG_ADDRESS-1:0] rt_address,
@@ -53,7 +53,7 @@ end
 always@(posedge i_clk)
 begin
     if(i_debug_unit_enable && i_RegWrite)
-        reg_bank[rw_address] <= i_data;    
+        reg_bank[rw_address] <= i_data_to_write;    
 end
 
 assign rs_data = reg_bank[rs_address];

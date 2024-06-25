@@ -39,6 +39,7 @@ module EX_MEM
     input i_Branch_from_EX,
     input i_MemRead_from_EX,
     input i_MemWrite_from_EX,
+    input i_address_plus_4,
     output reg [NB_DATA : 0] o_res,
     output reg o_alu_zero_to_ID,
     output reg [NB_DATA : 0] o_rt_data,
@@ -46,7 +47,8 @@ module EX_MEM
     output reg [NB_REG_ADDRESS-1:0] o_write_address,
     output reg o_Branch_to_ID,
     output reg o_MemRead_to_MEM,  
-    output reg o_MemWrite_to_MEM
+    output reg o_MemWrite_to_MEM,
+    output reg o_address_plus_4
 );
 always@(posedge i_clk)
 begin 
@@ -61,6 +63,7 @@ begin
             o_MemRead_to_MEM <= 0; 
             o_write_address <= 0; 
             o_MemWrite_to_MEM <= 0;
+            o_address_plus_4 <= 0;
         end
     else if(i_debug_unit_enable)
         begin
@@ -72,6 +75,7 @@ begin
             o_Branch_to_ID <= i_Branch_from_EX;
             o_MemRead_to_MEM <= i_MemRead_from_EX;
             o_MemWrite_to_MEM <= i_MemWrite_from_EX;
+            o_address_plus_4 <= i_address_plus_4;
         end
 end
 endmodule

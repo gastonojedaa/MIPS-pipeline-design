@@ -41,7 +41,7 @@ module ID_EX
     input [NB_OP-1:0] i_opcode,
     input [NB_REG_ADDRESS-1:0] i_rs_address,
     input [NB_REG_ADDRESS-1:0] i_rt_address,
-    input [NB_REG_ADDRESS-1:0] i_write_address,
+    input [NB_REG_ADDRESS-1:0] i_rd_address,
     input [NB_PC-1:0] i_address_plus_4, //address from IF/ID
     input i_Branch_from_ID,
     input i_ALUOp_from_ID,
@@ -54,7 +54,7 @@ module ID_EX
     output reg [NB_OP-1:0] o_opcode,
     output reg [NB_REG_ADDRESS-1:0] o_rs_address,
     output reg [NB_REG_ADDRESS-1:0] o_rt_address,
-    output reg [NB_REG_ADDRESS-1:0] o_write_address,
+    output reg [NB_REG_ADDRESS-1:0] o_rd_address,
     output reg [NB_PC-1:0] o_address_plus_4,
     output reg o_Branch_to_EX,
     output reg o_ALUOp_to_EX,
@@ -73,7 +73,7 @@ begin
             o_opcode <= 0;
             o_rs_address <= 0;
             o_rt_address <= 0;
-            o_write_address <= 0;
+            o_rd_address <= 0;
             o_address_plus_4 <= 0;      
             o_Branch_to_EX <= 0;
             o_ALUOp_to_EX <= 0;
@@ -89,7 +89,7 @@ begin
             o_opcode <= i_opcode;
             o_rs_address <= i_rs_address;
             o_rt_address <= i_rt_address;
-            o_write_address <= i_write_address;      
+            o_rd_address <= i_rd_address;      
             o_address_plus_4 <= i_address_plus_4;  
             o_Branch_to_EX <= i_Branch_from_ID;   
             o_ALUOp_to_EX <= i_ALUOp_from_ID;

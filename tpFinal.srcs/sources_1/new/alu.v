@@ -26,7 +26,7 @@ module alu
         input [NB_DATA-1 : 0] i_data_a,
         input [NB_DATA-1 : 0] i_data_b,
         input [NB_ALUCODE-1 : 0] i_alucode,
-        output [NB_DATA : 0] o_res, // carry + result
+        output [NB_DATA : 0] o_res, //TODO: carry + result
         output o_zero
     ); 
     

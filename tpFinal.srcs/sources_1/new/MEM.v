@@ -36,10 +36,15 @@ module MEM
     input [NB_REG_ADDRESS-1:0] i_write_address,
     input i_MemRead_from_EX_MEM,
     input i_MemWrite_from_EX_MEM,
-    output reg [NB_DATA:0] o_res,
-    output reg [NB_DATA-1:0] o_mem_data,
-    output reg [NB_REG_ADDRESS-1:0] o_write_address
+    input [NB_DATA-1:0] i_address_plus_4,
+    output [NB_DATA:0] o_res,
+    output [NB_DATA-1:0] o_mem_data,
+    output [NB_REG_ADDRESS-1:0] o_write_address,
+    output [NB_DATA-1:0] o_address_plus_4
 );
+assign o_address_plus_4 = i_address_plus_4;
+assign o_write_address = i_write_address;
+assign o_res = i_res;
 //FIXME: IMPLEMENTAR MEMORIA
 data_mem
 #(
@@ -53,6 +58,6 @@ u_data_mem
     .i_data_mem_write_address(),
     .i_data_mem_data(i_rt_data), //TODO: revisar si es correcto
     .i_data_mem_write_enable(),
-    .o_mem_data()
+    .o_mem_data(o_mem_data)
 );
 endmodule
