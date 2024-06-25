@@ -50,13 +50,17 @@ module EX
     input i_Branch_from_ID_EX, //señal de control
     input i_ALUOp_from_ID_EX, //señal de control
     input [NB_FUNCTION-1:0]i_function_from_id_ex, //señal de control
-    
+    input i_MemRead_from_ID_EX, //señal de control
+    input i_MemWrite_from_ID_EX, //señal de control
+
     output [NB_DATA : 0] o_res,
     output o_alu_zero_to_ex_mem,
     output [NB_DATA : 0] o_rt_data,
     output [NB_DATA - 1 : 0] o_jump_address,
     output reg [NB_REG_ADDRESS-1:0] o_write_address,
-    output o_Branch_to_EX_MEM
+    output o_Branch_to_EX_MEM,
+    output o_MemRead_to_EX_MEM,
+    output o_MemWrite_to_EX_MEM
 );
 
 wire [NB_DATA-1:0] data_b;
@@ -64,6 +68,8 @@ wire [NB_DATA-1:0] data_b;
 assign data_b = i_ALUSrc ? i_sigext : i_rt_data;  //mux entre rt e sig_ext
 assign o_rt_data = i_rt_data; //rt que pasa directo
 assign o_Branch_to_EX_MEM = i_Branch_from_ID_EX; //Branch que pasa directo
+assign o_MemRead_to_EX_MEM = i_MemRead_from_ID_EX; //MemRead que pasa directo
+assign o_MemWrite_to_EX_MEM = i_MemWrite_from_ID_EX; //MemWrite que pasa directo
 // Calc jump address
 assign o_jump_address = i_address_plus_4 + i_sigext<<2;
 

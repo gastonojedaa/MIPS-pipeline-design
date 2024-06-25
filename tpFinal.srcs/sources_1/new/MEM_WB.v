@@ -23,16 +23,16 @@
 module MEM_WB
 #(
     parameter NB_REG_ADDRESS = 5,
-    parameter NB_DATA = 8 //FIXME: esto estaba en 32, revisar bits
+    parameter NB_DATA = 32 
 )
 (
 input i_clk,
 input i_reset,
 input i_debug_unit_enable,
-input [NB_REG_ADDRESS-1:0] i_write_address,//pa que es esto
-input [NB_DATA:0] i_res, // TODO: Revisar si es necesario el +1 por el carry
+input [NB_REG_ADDRESS-1:0] i_write_address,
+input [NB_DATA:0] i_res,
 input [NB_DATA-1:0] i_mem_data, 
-output reg [NB_REG_ADDRESS-1:0] o_write_address,//pa que es esto
+output reg [NB_REG_ADDRESS-1:0] o_write_address,
 output reg [NB_DATA:0] o_res,
 output reg [NB_DATA-1:0] o_mem_data
 );

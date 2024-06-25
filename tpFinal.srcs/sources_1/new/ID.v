@@ -55,7 +55,8 @@ module ID
     output o_MemtoReg_to_WB,
     output o_Branch_to_ID_EX,
     output o_ALUOp_to_ID_EX,
-    output o_MemRead_to_MEM,
+    output o_MemRead_to_ID_EX,
+    output o_MemWrite_to_ID_EX,
     output [NB_FUNCTION-1:0] o_function,
    
 
@@ -126,8 +127,8 @@ u_control_unit
     .o_RegDst(o_RegDst_to_EX),
     .O_ALUSrc(o_ALUSrc_to_EX),
     .o_ALUOp(o_ALUOp_to_ID_EX),
-    .o_MemRead(o_MemRead_to_MEM),
-    .o_MemWrite(),
+    .o_MemRead(o_MemRead_to_ID_EX),
+    .o_MemWrite(o_MemWrite_to_ID_EX),
     .o_Branch(o_Branch_to_ID_EX),
     .o_RegWrite(RegWrite),
     .o_MemtoReg(o_MemtoReg_to_WB)   

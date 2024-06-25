@@ -31,49 +31,16 @@ module MEM
     input i_clk,
     input i_reset,
     input i_debug_unit_enable,
-    input [NB_DATA:0] i_res,
-    input i_zero,
+    input [NB_DATA:0] i_res,   
     input [NB_DATA:0] i_rt_data,
-    input [NB_DATA-1:0] i_jump_address,
     input [NB_REG_ADDRESS-1:0] i_write_address,
+    input i_MemRead_from_EX_MEM,
+    input i_MemWrite_from_EX_MEM,
     output reg [NB_DATA:0] o_res,
     output reg [NB_DATA-1:0] o_mem_data,
     output reg [NB_REG_ADDRESS-1:0] o_write_address
 );
-
-always@(posedge i_clk)
-begin 
-    if(i_reset)
-        begin
-            o_res <= 0;
-            o_mem_data <= 0;
-            o_write_address <= 0;
-        end
-    else if(i_debug_unit_enable)
-        begin
-            o_res <= i_res;
-            o_mem_data <= i_rt_data;
-            o_write_address <= i_write_address;
-        end
-end
-
-always@(*)
-begin //FIXME: qué
-    /* if(signal_control_mem_write) //se escribe en la memoria
-        begin
-            //se escribe en la memoria
-        end
-    else if(signal_control_mem_read) //se lee de la memoria
-        begin
-            //se lee de la memoria
-        end
-    else
-        begin
-            //no se hace nada
-        end    */    
-end
-
-
+//FIXME: IMPLEMENTAR MEMORIA
 data_mem
 #(
     NB_ADDR,
@@ -82,10 +49,10 @@ data_mem
 u_data_mem
 (
     .i_clk(i_clk),
-    .i_data_mem_read_address(i_res),
-    .i_data_mem_write_address(i_res),
-    .i_data_mem_data(i_rt_data),
+    .i_data_mem_read_address(), //TODO: revisar de donde viene este address
+    .i_data_mem_write_address(),
+    .i_data_mem_data(i_rt_data), //TODO: revisar si es correcto
     .i_data_mem_write_enable(),
-    .o_mem_data(o_mem_data)
+    .o_mem_data()
 );
 endmodule

@@ -46,6 +46,8 @@ module ID_EX
     input i_Branch_from_ID,
     input i_ALUOp_from_ID,
     input [NB_FUNCTION-1:0] i_function_from_id,
+    input i_MemRead_from_ID,
+    input i_MemWrite_from_ID,
     output reg [NB_DATA-1:0] o_rs_data,
     output reg [NB_DATA-1:0] o_rt_data,
     output reg [NB_INS-1:0] o_sigext,
@@ -56,8 +58,9 @@ module ID_EX
     output reg [NB_PC-1:0] o_address_plus_4,
     output reg o_Branch_to_EX,
     output reg o_ALUOp_to_EX,
-    output reg [NB_FUNCTION-1:0]o_function_to_EX
-
+    output reg [NB_FUNCTION-1:0]o_function_to_EX,
+    output reg o_MemRead_to_EX,
+    output reg o_MemWrite_to_EX
 );
     
 always@(posedge i_clk)
@@ -75,7 +78,8 @@ begin
             o_Branch_to_EX <= 0;
             o_ALUOp_to_EX <= 0;
             o_function_to_EX <= 0;
-
+            o_MemRead_to_EX <= 0;
+            o_MemWrite_to_EX <= 0;
         end
     else if(i_debug_unit_enable)
         begin                              
@@ -90,6 +94,8 @@ begin
             o_Branch_to_EX <= i_Branch_from_ID;   
             o_ALUOp_to_EX <= i_ALUOp_from_ID;
             o_function_to_EX <= i_function_from_id;
+            o_MemRead_to_EX <= i_MemRead_from_ID;
+            o_MemWrite_to_EX <= i_MemWrite_from_ID;
         end
 end
 
