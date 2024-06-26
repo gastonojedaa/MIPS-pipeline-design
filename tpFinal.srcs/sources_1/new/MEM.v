@@ -52,7 +52,7 @@ assign o_write_address = i_write_address;
 assign o_res = i_res;
 assign o_MemtoReg_to_MEM_WB = i_MemtoReg_from_EX_MEM;
 assign o_RegWrite_to_MEM_WB = i_RegWrite_from_EX_MEM;
-//FIXME: IMPLEMENTAR MEMORIA
+
 data_mem
 #(
     NB_ADDR,
@@ -61,10 +61,11 @@ data_mem
 u_data_mem
 (
     .i_clk(i_clk),
-    .i_data_mem_read_address(), //TODO: revisar de donde viene este address
-    .i_data_mem_write_address(),
-    .i_data_mem_data(i_rt_data), //TODO: revisar si es correcto
-    .i_data_mem_write_enable(),
+    .i_data_mem_read_address(i_res), 
+    .i_data_mem_write_address(i_res),
+    .i_data_mem_data(i_rt_data), 
+        // 0 NO WRITE - 1 WRITE
+    .i_data_mem_write_enable(i_MemWrite_from_EX_MEM), 
     .o_mem_data(o_mem_data)
 );
 endmodule
