@@ -48,6 +48,10 @@ module ID_EX
     input [NB_FUNCTION-1:0] i_function_from_id,
     input i_MemRead_from_ID,
     input i_MemWrite_from_ID,
+    input [1:0] i_MemtoReg_from_ID,
+    input [1:0] i_RegDst_from_ID,
+    input i_ALUSrc_from_ID,
+    input i_RegWrite_from_ID,
     output reg [NB_DATA-1:0] o_rs_data,
     output reg [NB_DATA-1:0] o_rt_data,
     output reg [NB_INS-1:0] o_sigext,
@@ -60,7 +64,11 @@ module ID_EX
     output reg o_ALUOp_to_EX,
     output reg [NB_FUNCTION-1:0]o_function_to_EX,
     output reg o_MemRead_to_EX,
-    output reg o_MemWrite_to_EX
+    output reg o_MemWrite_to_EX,
+    output reg [1:0] o_MemtoReg_to_EX,
+    output reg [1:0] o_RegDst_to_EX,
+    output reg o_ALUSrc_to_EX,
+    output reg o_RegWrite_to_EX
 );
     
 always@(posedge i_clk)
@@ -80,6 +88,10 @@ begin
             o_function_to_EX <= 0;
             o_MemRead_to_EX <= 0;
             o_MemWrite_to_EX <= 0;
+            o_MemtoReg_to_EX <= 0;
+            o_RegDst_to_EX <= 0;
+            o_ALUSrc_to_EX <= 0;
+            o_RegWrite_to_EX <= 0;
         end
     else if(i_debug_unit_enable)
         begin                              
@@ -96,6 +108,10 @@ begin
             o_function_to_EX <= i_function_from_id;
             o_MemRead_to_EX <= i_MemRead_from_ID;
             o_MemWrite_to_EX <= i_MemWrite_from_ID;
+            o_MemtoReg_to_EX <= i_MemtoReg_from_ID;
+            o_RegDst_to_EX <= i_RegDst_from_ID;
+            o_ALUSrc_to_EX <= i_ALUSrc_from_ID;
+            o_RegWrite_to_EX <= i_RegWrite_from_ID;
         end
 end
 

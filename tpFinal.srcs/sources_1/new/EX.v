@@ -49,13 +49,15 @@ module EX
     input [NB_DATA-1:0] i_write_address_ex_mem,
     input [NB_DATA-1:0] i_write_address_mem_wb,
 
-    input i_RegDst, //señal de control
-    input i_ALUSrc, //señal de control
+    input [1:0] i_RegDst_from_ID_EX, //señal de control
+    input i_ALUSrc_from_ID_EX, //señal de control
     input i_Branch_from_ID_EX, //señal de control
     input i_ALUOp_from_ID_EX, //señal de control
     input [NB_FUNCTION-1:0]i_function_from_id_ex, //señal de control
     input i_MemRead_from_ID_EX, //señal de control
     input i_MemWrite_from_ID_EX, //señal de control
+    input [1:0] i_MemtoReg_from_ID_EX, //señal de control
+    input i_RegWrite_from_ID_EX, //señal de control
 
     output [NB_DATA : 0] o_res,
     output o_alu_zero_to_ex_mem,
@@ -65,7 +67,9 @@ module EX
     output o_Branch_to_EX_MEM,
     output o_MemRead_to_EX_MEM,
     output o_MemWrite_to_EX_MEM,
-    output [NB_DATA-1:0] o_address_plus_4
+    output [NB_DATA-1:0] o_address_plus_4,
+    output [1:0] o_MemtoReg_to_EX_MEM,
+    output o_RegWrite_to_EX_MEM
 
 );
 
@@ -97,20 +101,24 @@ begin
     end
 end
 
-assign data_b = i_ALUSrc ? i_sigext : rt_data;  //mux entre rt e sig_ext
+assign data_b = i_ALUSrc_from_ID_EX ? i_sigext : rt_data;  //mux entre rt e sig_ext
 assign o_Branch_to_EX_MEM = i_Branch_from_ID_EX; //Branch que pasa directo
 assign o_MemRead_to_EX_MEM = i_MemRead_from_ID_EX; //MemRead que pasa directo
 assign o_MemWrite_to_EX_MEM = i_MemWrite_from_ID_EX; //MemWrite que pasa directo
 // Calc jump address
 assign o_jump_address = i_address_plus_4 + i_sigext<<2;
 assign o_address_plus_4 = i_address_plus_4;
+assign o_MemtoReg_to_EX_MEM = i_MemtoReg_from_ID_EX;
+assign o_RegWrite_to_EX_MEM = i_RegWrite_from_ID_EX;
 
 always @(*)
 begin
-    if(i_RegDst)
+    if(i_RegDst_from_ID_EX == 2'b00) 
+        o_write_address = i_rt_address;
+    else if(i_RegDst_from_ID_EX == 2'b01)
         o_write_address = i_rd_address;
     else
-        o_write_address = i_rt_address;
+        o_write_address = 5'b11111; //TODO: registro 31
 end
 
 alu#(

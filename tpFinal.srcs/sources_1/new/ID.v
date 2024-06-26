@@ -28,7 +28,8 @@ module ID
     parameter NB_DATA_IN = 16,
     parameter NB_OP = 6,
     parameter NB_REG_ADDRESS = $clog2(N_REG),
-    parameter NB_FUNCTION = 6
+    parameter NB_FUNCTION = 6,
+    parameter NB_PC = 32
 )
 ( 
     input   i_clk,
@@ -40,23 +41,27 @@ module ID
     input i_pipeline_stalled_to_control_unit,
     input i_Branch_from_EX_MEM,
     input i_alu_zero_from_ex_mem,
+    input [NB_PC-1:0] i_address_plus_4,
+    input i_RegWrite_from_WB,
     output  [NB_DATA-1:0] o_rs_data,    
     output  [NB_DATA-1:0] o_rt_data,    
-    output  [NB_REG_ADDRESS-1:0] o_rs_address, //TODO: le saque el reg
+    output  [NB_REG_ADDRESS-1:0] o_rs_address, 
     output  [NB_REG_ADDRESS-1:0] o_rt_address,
-    output [NB_REG_ADDRESS-1:0] o_rd_address,
+    output  [NB_REG_ADDRESS-1:0] o_rd_address,
     output  [NB_DATA_IN-1:0] o_inm_value,
     output  [NB_DATA-1:0] o_sigext,
 
     output o_PcSrc_to_IF,
-    output o_RegDst_to_EX,
-    output o_ALUSrc_to_EX,
-    output o_MemtoReg_to_WB,
+    output [1:0] o_RegDst_to_ID_EX,
+    output o_ALUSrc_to_ID_EX,
+    output o_MemtoReg_to_ID_EX,
     output o_Branch_to_ID_EX,
     output o_ALUOp_to_ID_EX,
     output o_MemRead_to_ID_EX,
     output o_MemWrite_to_ID_EX,
+    output o_RegWrite_to_ID_EX,
     output [NB_FUNCTION-1:0] o_function,
+    output [NB_PC-1:0] o_address_plus_4,
    
 
     input [1:0]i_forward_a,
@@ -77,6 +82,7 @@ assign rt_address = i_instruction[20:16];
 assign rd_address = i_instruction[15:11];
 assign o_function = i_instruction[5:0];
 
+
 register_bank
 #(
     NB_DATA,
@@ -92,7 +98,7 @@ u_register_bank
     .rs_address(i_instruction[25:21]),
     .rt_address(i_instruction[20:16]),    
     .rw_address(i_write_address),          //  vienen de la 
-    .i_RegWrite(RegWrite), //señal de control
+    .i_RegWrite(i_RegWrite_from_WB), //señal de control
     .rs_data(o_rs_data),
     .rt_data(o_rt_data)    
 );
@@ -123,21 +129,21 @@ u_control_unit
     .i_Branch(i_Branch_from_EX_MEM),
     .i_zero_from_alu(i_alu_zero_from_ex_mem),
     .o_PcSrc(o_PcSrc_to_IF),
-    .o_RegDst(o_RegDst_to_EX),
-    .O_ALUSrc(o_ALUSrc_to_EX),
+    .o_RegDst(o_RegDst_to_ID_EX),
+    .O_ALUSrc(o_ALUSrc_to_ID_EX),
     .o_ALUOp(o_ALUOp_to_ID_EX),
     .o_MemRead(o_MemRead_to_ID_EX),
     .o_MemWrite(o_MemWrite_to_ID_EX),
     .o_Branch(o_Branch_to_ID_EX),
-    .o_RegWrite(RegWrite),
-    .o_MemtoReg(o_MemtoReg_to_WB)   
+    .o_RegWrite(o_RegWrite_to_ID_EX),
+    .o_MemtoReg(o_MemtoReg_to_ID_EX)   
 );
 
 assign o_inm_value = i_instruction[NB_DATA_IN-1:0]; // [15:0]
 assign o_rs_address = rs_address;
 assign o_rt_address = rt_address;
-
 // Mux para seleccionar el registro destino
 assign o_rd_address = rd_address;
+assign o_address_plus_4 = i_address_plus_4;
 
 endmodule

@@ -31,12 +31,16 @@ module WB
     input i_debug_unit_enable,
     input [NB_DATA:0] i_res,
     input [NB_DATA-1:0] i_mem_data,
-    input [1:0] i_MemtoReg, //TODO: cambiar cantidad de bits en todo el recorrido
+    input [1:0] i_MemtoReg, 
     input [NB_ADDR-1:0] i_address_plus_4,
-    output reg o_write_in_register_bank
+    input i_RegWrite_from_MEM_WB,
+    output reg o_write_in_register_bank,
+    output o_RegWrite_to_ID
 );
 
 reg [NB_DATA-1:0] i_return_addr;
+
+assign o_RegWrite_to_ID = i_RegWrite_from_MEM_WB;
 
 always@(posedge i_clk)
 begin
