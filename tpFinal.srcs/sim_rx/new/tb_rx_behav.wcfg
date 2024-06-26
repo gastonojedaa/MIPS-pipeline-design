@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_rx_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb_rx" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="121,929.400 ns"></ZoomStartTime>
+      <ZoomEndTime time="121,956.121 ns"></ZoomEndTime>
+      <Cursor1Time time="121,944.500 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="262"></NameColumnWidth>
+      <ValueColumnWidth column_width="73"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="11" />
+   <wvobject fp_name="/tb_rx/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_rx/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_rx/tb_tick" type="logic">
+      <obj_property name="ElementShortName">tb_tick</obj_property>
+      <obj_property name="ObjectShortName">tb_tick</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_rx/rx_data" type="logic">
+      <obj_property name="ElementShortName">rx_data</obj_property>
+      <obj_property name="ObjectShortName">rx_data</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_rx/data" type="array">
+      <obj_property name="ElementShortName">data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">data[7:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_rx/valid" type="logic">
+      <obj_property name="ElementShortName">valid</obj_property>
+      <obj_property name="ObjectShortName">valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_rx/NB_DATA" type="array">
+      <obj_property name="ElementShortName">NB_DATA[31:0]</obj_property>
+      <obj_property name="ObjectShortName">NB_DATA[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_rx/u_rx/tick_counter_7" type="array">
+      <obj_property name="ElementShortName">tick_counter_7[2:0]</obj_property>
+      <obj_property name="ObjectShortName">tick_counter_7[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_rx/u_rx/tick_counter_15" type="array">
+      <obj_property name="ElementShortName">tick_counter_15[3:0]</obj_property>
+      <obj_property name="ObjectShortName">tick_counter_15[3:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_rx/u_rx/rx_bit_counter" type="array">
+      <obj_property name="ElementShortName">rx_bit_counter[3:0]</obj_property>
+      <obj_property name="ObjectShortName">rx_bit_counter[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_rx/u_rx/state" type="array">
+      <obj_property name="ElementShortName">state[3:0]</obj_property>
+      <obj_property name="ObjectShortName">state[3:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+</wave_config>

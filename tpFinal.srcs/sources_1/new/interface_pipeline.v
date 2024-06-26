@@ -45,7 +45,8 @@ module interface_pipeline
 
     // Tx out
     output [NB_UART_DATA-1:0] o_tx_data,
-    output o_tx_valid
+    output o_tx_valid,
+    output [NB_STATE-1:0] o_state
 
    
 ); 
@@ -170,14 +171,21 @@ module interface_pipeline
                 READING_REGS:
                 begin
                    bytes_to_load <= i_tx_done ? bytes_to_load + 1 : bytes_to_load;
-                   if(bytes_to_load == 3)
+                   
+                   if(bytes_to_load == 3 && i_tx_done == 1)
+                   begin
                         regs_counter <= regs_counter + 1; // Automatically resets to 0
+                   end
+                        
                 end
                 READING_MEM:
                 begin
                    bytes_to_load <= i_tx_done ? bytes_to_load + 1 : bytes_to_load;
-                   if(bytes_to_load == 3)
+                   if(bytes_to_load == 3 && i_tx_done == 1)
+                   begin
                         mem_slot_counter <= mem_slot_counter + 1; // Automatically resets to 0
+                   end
+                      
                 end
                    
                    
@@ -213,6 +221,8 @@ module interface_pipeline
                                     next_state <= SET_MODE;
                         endcase
                    end
+                else
+                    next_state = SET_MODE;
             CONTINUOUS:
                 if(i_halted)
                     next_state = READING_PC;
@@ -230,30 +240,28 @@ module interface_pipeline
                                 next_state = IDLE_STEP_BY_STEP;
                         endcase
                     end
+                else
+                    next_state = IDLE_STEP_BY_STEP;
             RUN_STEP:
                 next_state = READING_PC;
             READING_PC:
-                // TODO: if PC is transmitted move to next state
-                if(bytes_to_load == 3)
+                if(bytes_to_load == 3 && i_tx_done == 1)
                     next_state = READING_REGS;
                 else
                     next_state = READING_PC;
             READING_REGS:
-                // TODO: If all registers are transmitted move to next state
-                if(regs_counter == (N_REGS-1) && bytes_to_load == 3)
+                if(regs_counter == (N_REGS-1) && bytes_to_load == 3 && i_tx_done == 1)
                     next_state = READING_MEM;
                 else
                     next_state = READING_REGS;
             READING_MEM:
-                // TODO: If all memory is transmitted move to next state
-                if(mem_slot_counter == (MEM_DEPTH-1) && bytes_to_load == 3)
+                if(mem_slot_counter == (MEM_DEPTH-1) && bytes_to_load == 3 && i_tx_done == 1)
                     if(i_halted)
                         next_state = HALTED;
                     else
                         next_state = IDLE_STEP_BY_STEP;
                 else
                     next_state = READING_MEM;
-               
             HALTED:
                 if(i_rx_valid==1 && i_rx_data == CMD_RESET)
                     next_state = UNINITIALIZED;
@@ -262,12 +270,6 @@ module interface_pipeline
             default:
                 next_state = UNINITIALIZED;
         endcase
-    end
-    
-    // Instruction mem write address
-    always @(*)
-    begin
-        
     end
 
     // Tx Data & tx_valid
@@ -301,8 +303,11 @@ module interface_pipeline
 
     assign o_enable = (state == CONTINUOUS || state == RUN_STEP) ? 1 : 0;
 
-    assign o_tx_valid = i_tx_done;
+    assign o_tx_valid = (state == READING_PC || state == READING_REGS || state == READING_MEM) && i_tx_done ? 1 : 0;
+    
     assign o_tx_data = tx_data;
     assign o_reg_address = regs_counter;
     assign o_data_mem_read_address = mem_slot_counter;
+    
+    assign o_state = state;
 endmodule
