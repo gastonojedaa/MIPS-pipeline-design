@@ -97,7 +97,7 @@ begin
                     `SLT_FUNCT: o_alu_control = `SLT_ALUCODE;
                     default: o_alu_control = 'b1111  ;                                                     
             endcase  
-        `LOAD_STORE_ADDI_ALUOP: o_alu_control = `ADD_ALUCODE; //TODO: revisar
+        `LOAD_STORE_ADDI_ALUOP: o_alu_control = `ADD_ALUCODE; 
         `ANDI_ALUOP: o_alu_control = `AND_ALUCODE;
         `ORI_ALUOP: o_alu_control = `OR_ALUCODE;
         `XORI_ALUOP: o_alu_control = `XOR_ALUCODE; 
