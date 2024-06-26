@@ -52,7 +52,7 @@ module EX
     input [1:0] i_RegDst_from_ID_EX, //señal de control
     input i_ALUSrc_from_ID_EX, //señal de control
     input i_Branch_from_ID_EX, //señal de control
-    input i_ALUOp_from_ID_EX, //señal de control
+    input [3:0] i_ALUOp_from_ID_EX, //señal de control
     input [NB_FUNCTION-1:0]i_function_from_id_ex, //señal de control
     input i_MemRead_from_ID_EX, //señal de control
     input i_MemWrite_from_ID_EX, //señal de control

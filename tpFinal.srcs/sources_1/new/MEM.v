@@ -39,6 +39,7 @@ module MEM
     input [NB_DATA-1:0] i_address_plus_4,
     input [1:0] i_MemtoReg_from_EX_MEM,
     input i_RegWrite_from_EX_MEM,
+    
     output [NB_DATA:0] o_res,
     output [NB_DATA-1:0] o_mem_data,
     output [NB_REG_ADDRESS-1:0] o_write_address,

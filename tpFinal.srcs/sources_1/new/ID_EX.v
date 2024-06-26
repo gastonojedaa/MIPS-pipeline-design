@@ -44,7 +44,7 @@ module ID_EX
     input [NB_REG_ADDRESS-1:0] i_rd_address,
     input [NB_PC-1:0] i_address_plus_4, //address from IF/ID
     input i_Branch_from_ID,
-    input i_ALUOp_from_ID,
+    input [3:0] i_ALUOp_from_ID,
     input [NB_FUNCTION-1:0] i_function_from_id,
     input i_MemRead_from_ID,
     input i_MemWrite_from_ID,
@@ -61,7 +61,7 @@ module ID_EX
     output reg [NB_REG_ADDRESS-1:0] o_rd_address,
     output reg [NB_PC-1:0] o_address_plus_4,
     output reg o_Branch_to_EX,
-    output reg o_ALUOp_to_EX,
+    output reg [3:0] o_ALUOp_to_EX,
     output reg [NB_FUNCTION-1:0]o_function_to_EX,
     output reg o_MemRead_to_EX,
     output reg o_MemWrite_to_EX,
