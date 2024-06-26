@@ -28,7 +28,8 @@ module ID_EX
     parameter NB_DATA_IN = 16,
     parameter NB_OP = 6,
     parameter NB_REG_ADDRESS = 5,
-    parameter NB_PC = 32        
+    parameter NB_PC = 32,
+    parameter NB_FUNCTION = 6 
 )
 (
     input i_clk,
@@ -40,16 +41,34 @@ module ID_EX
     input [NB_OP-1:0] i_opcode,
     input [NB_REG_ADDRESS-1:0] i_rs_address,
     input [NB_REG_ADDRESS-1:0] i_rt_address,
-    input [NB_REG_ADDRESS-1:0] i_write_address,
+    input [NB_REG_ADDRESS-1:0] i_rd_address,
     input [NB_PC-1:0] i_address_plus_4, //address from IF/ID
+    input i_Branch_from_ID,
+    input i_ALUOp_from_ID,
+    input [NB_FUNCTION-1:0] i_function_from_id,
+    input i_MemRead_from_ID,
+    input i_MemWrite_from_ID,
+    input [1:0] i_MemtoReg_from_ID,
+    input [1:0] i_RegDst_from_ID,
+    input i_ALUSrc_from_ID,
+    input i_RegWrite_from_ID,
     output reg [NB_DATA-1:0] o_rs_data,
     output reg [NB_DATA-1:0] o_rt_data,
     output reg [NB_INS-1:0] o_sigext,
     output reg [NB_OP-1:0] o_opcode,
     output reg [NB_REG_ADDRESS-1:0] o_rs_address,
     output reg [NB_REG_ADDRESS-1:0] o_rt_address,
-    output reg [NB_REG_ADDRESS-1:0] o_write_address,
-    output reg [NB_PC-1:0] o_address_plus_4
+    output reg [NB_REG_ADDRESS-1:0] o_rd_address,
+    output reg [NB_PC-1:0] o_address_plus_4,
+    output reg o_Branch_to_EX,
+    output reg o_ALUOp_to_EX,
+    output reg [NB_FUNCTION-1:0]o_function_to_EX,
+    output reg o_MemRead_to_EX,
+    output reg o_MemWrite_to_EX,
+    output reg [1:0] o_MemtoReg_to_EX,
+    output reg [1:0] o_RegDst_to_EX,
+    output reg o_ALUSrc_to_EX,
+    output reg o_RegWrite_to_EX
 );
     
 always@(posedge i_clk)
@@ -62,8 +81,17 @@ begin
             o_opcode <= 0;
             o_rs_address <= 0;
             o_rt_address <= 0;
-            o_write_address <= 0;
-            o_address_plus_4 <= 0;
+            o_rd_address <= 0;
+            o_address_plus_4 <= 0;      
+            o_Branch_to_EX <= 0;
+            o_ALUOp_to_EX <= 0;
+            o_function_to_EX <= 0;
+            o_MemRead_to_EX <= 0;
+            o_MemWrite_to_EX <= 0;
+            o_MemtoReg_to_EX <= 0;
+            o_RegDst_to_EX <= 0;
+            o_ALUSrc_to_EX <= 0;
+            o_RegWrite_to_EX <= 0;
         end
     else if(i_debug_unit_enable)
         begin                              
@@ -73,8 +101,17 @@ begin
             o_opcode <= i_opcode;
             o_rs_address <= i_rs_address;
             o_rt_address <= i_rt_address;
-            o_write_address <= i_write_address;      
-            o_address_plus_4 <= i_address_plus_4;     
+            o_rd_address <= i_rd_address;      
+            o_address_plus_4 <= i_address_plus_4;  
+            o_Branch_to_EX <= i_Branch_from_ID;   
+            o_ALUOp_to_EX <= i_ALUOp_from_ID;
+            o_function_to_EX <= i_function_from_id;
+            o_MemRead_to_EX <= i_MemRead_from_ID;
+            o_MemWrite_to_EX <= i_MemWrite_from_ID;
+            o_MemtoReg_to_EX <= i_MemtoReg_from_ID;
+            o_RegDst_to_EX <= i_RegDst_from_ID;
+            o_ALUSrc_to_EX <= i_ALUSrc_from_ID;
+            o_RegWrite_to_EX <= i_RegWrite_from_ID;
         end
 end
 

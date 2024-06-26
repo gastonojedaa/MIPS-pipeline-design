@@ -26,7 +26,7 @@ module alu
         input [NB_DATA-1 : 0] i_data_a,
         input [NB_DATA-1 : 0] i_data_b,
         input [NB_ALUCODE-1 : 0] i_alucode,
-        output [NB_DATA : 0] o_res, // carry + result
+        output [NB_DATA : 0] o_res,
         output o_zero
     ); 
     
@@ -65,11 +65,7 @@ module alu
             LUI_ALUCODE:
                 {carry,res} = i_data_b << 16;
             BNE_ALUCODE:
-                {carry,res} = (i_data_a != i_data_b);
-            //JR_OPCODE:
-            //    {carry,res} = i_data_a; //TODO: check if this is correct, JALR too
-            //JALR_OPCODE:
-            //    {carry,res} = i_data_a;            
+                {carry,res} = (i_data_a != i_data_b);                      
             default:
                 {carry,res} = 'hFF;
         endcase

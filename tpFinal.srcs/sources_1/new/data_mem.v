@@ -30,7 +30,7 @@ module data_mem
     input   [NB_ADDR-1:0] i_data_mem_read_address,
     input   [NB_ADDR-1:0] i_data_mem_write_address,
     input   [NB_INS-1:0]  i_data_mem_data,
-    input   i_data_mem_write_enable, // 0 READ - 1 WRITE
+    input   i_data_mem_write_enable, // 0 NO WRITE - 1 WRITE
     output  [NB_INS-1:0] o_mem_data
 );
 
@@ -40,8 +40,7 @@ integer i;
 reg [NB_INS-1:0] mem_data[0:MEM_SIZE];
 
 initial
-begin  
-    //TODO: check if this is the correct initialization  
+begin      
     for (i = 0; i <= MEM_SIZE; i = i + 1) begin
         mem_data[i] = 0;
     end
