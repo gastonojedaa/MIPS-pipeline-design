@@ -29,7 +29,8 @@ module top
     parameter NB_DATA_IN = 16,
     parameter NB_DATA_OUT = 32,
     parameter NB_OP = 6,
-    parameter NB_ADDR = 32
+    parameter NB_ADDR = 32,
+    parameter NB_FUNCTION = 6
 )
 ( 
     input   i_clk,
@@ -118,7 +119,8 @@ ID
     N_REG, 
     NB_INS, 
     NB_DATA_IN,
-    NB_OP
+    NB_OP,
+    NB_FUNCTION
 )
 u_id
 ( 

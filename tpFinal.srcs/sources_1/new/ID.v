@@ -49,7 +49,7 @@ module ID
 
     output  [NB_DATA-1:0] o_rs_data,    
     output  [NB_DATA-1:0] o_rt_data,    
-    output  [NB_REG_ADDRESS-1:0] o_rs_address, //TODO: cantidad de bits bien?
+    output  [NB_REG_ADDRESS-1:0] o_rs_address, 
     output  [NB_REG_ADDRESS-1:0] o_rt_address,
     output  [NB_REG_ADDRESS-1:0] o_rd_address,
     output  [NB_DATA_IN-1:0] o_inm_value,
