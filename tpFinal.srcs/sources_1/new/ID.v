@@ -34,41 +34,38 @@ module ID
 ( 
     input   i_clk,
     input   i_reset,
+    input   i_debug_unit_enable,
+    input   i_pipeline_stalled_to_control_unit,
+    input   i_Branch_from_EX_MEM,
+    input   i_alu_zero_from_ex_mem,
+    input   i_RegWrite_from_WB,
     input   [NB_INS-1:0] i_instruction,  
-    input i_debug_unit_enable,
-    input [NB_REG_ADDRESS-1:0] i_write_address,
-    input [NB_DATA-1:0] i_data_to_write_in_register_bank,
-    input i_pipeline_stalled_to_control_unit,
-    input i_Branch_from_EX_MEM,
-    input i_alu_zero_from_ex_mem,
-    input [NB_PC-1:0] i_address_plus_4,
-    input i_RegWrite_from_WB,
+    input   [NB_REG_ADDRESS-1:0] i_write_address,
+    input   [NB_DATA-1:0] i_data_to_write_in_register_bank,
+    input   [NB_PC-1:0] i_address_plus_4,
+    //cortocircuitos
+    input   [1:0]i_forward_a,
+    input   [1:0]i_forward_b,
+
     output  [NB_DATA-1:0] o_rs_data,    
     output  [NB_DATA-1:0] o_rt_data,    
-    output  [NB_REG_ADDRESS-1:0] o_rs_address, 
+    output  [NB_REG_ADDRESS-1:0] o_rs_address, //TODO: cantidad de bits bien?
     output  [NB_REG_ADDRESS-1:0] o_rt_address,
     output  [NB_REG_ADDRESS-1:0] o_rd_address,
     output  [NB_DATA_IN-1:0] o_inm_value,
     output  [NB_DATA-1:0] o_sigext,
-
+    output [NB_FUNCTION-1:0] o_function,
+    output [NB_PC-1:0] o_address_plus_4,
+    //señales de control
     output o_PcSrc_to_IF,
     output [1:0] o_RegDst_to_ID_EX,
     output o_ALUSrc_to_ID_EX,
-    output o_MemtoReg_to_ID_EX,
-    output o_Branch_to_ID_EX,
-    output o_ALUOp_to_ID_EX,
+    output [3:0] o_ALUOp_to_ID_EX,
     output o_MemRead_to_ID_EX,
     output o_MemWrite_to_ID_EX,
+    output o_Branch_to_ID_EX,
     output o_RegWrite_to_ID_EX,
-    output [NB_FUNCTION-1:0] o_function,
-    output [NB_PC-1:0] o_address_plus_4,
-   
-
-    input [1:0]i_forward_a,
-    input [1:0]i_forward_b,
-
-    input [NB_REG_ADDRESS-1:0] i_write_address_ex_mem,
-    input [NB_REG_ADDRESS-1:0] i_write_address_mem_wb
+    output [1:0] o_MemtoReg_to_ID_EX
 );
 
 wire [NB_REG_ADDRESS-1:0] rs_address;

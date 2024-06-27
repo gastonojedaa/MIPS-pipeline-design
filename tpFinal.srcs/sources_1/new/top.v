@@ -38,20 +38,12 @@ module top
 
 localparam NB_REG_ADDRESS = $clog2(N_REG);
 
+wire [NB_PC-1:0] jump_address_to_if;
 wire PcSrc;
-wire RegDst;
-wire ALUSrc;
-wire ALUOp;
-wire MemRead;
-wire MemWrite;
-wire Branch;
-wire MemToReg;
-wire Branch_to_ID_EX;
-wire Branch_to_EX;
-wire Branch_to_EX_MEM;
-wire Branch_to_ID;
 wire PCwrite_to_IF;
-wire jump_address_to_if;
+wire [NB_INS-1:0] if_instruction_if_id;
+wire [NB_PC-1:0] if_address_plus_4_if_id;
+
 
 IF
 #(
@@ -72,9 +64,8 @@ u_IF
     .o_address_plus_4(if_address_plus_4_if_id)
 );
 
-wire [NB_INS-1:0] if_instruction_if_id;
-wire [NB_PC-1:0] if_address_plus_4_if_id;
 wire IFIDwrite;
+wire [NB_INS-1:0] if_id_instruction_id;
 wire [NB_PC-1:0] if_id_address_plus_4_id;
 
 IF_ID
@@ -93,7 +84,7 @@ u_if_id
     .o_address_plus_4(if_id_address_plus_4_id)
 );
 
-wire [NB_INS-1:0] if_id_instruction_id;
+
 wire [NB_PC-1:0] if_id_address_plus_4_id_ex;
 wire pipeline_stalled_to_ID;
 wire alu_zero_ID;
@@ -451,7 +442,7 @@ u_shortcircuit_unit
     .i_rs_address_id_ex(id_ex_rs_address_ex),
     .i_rt_address_id_ex(id_ex_rt_address_ex),
     .i_write_address_ex_mem(write_address_to_mem),
-    .i_write_address_mem_wb(write_address_to_register_bank),
+    .i_write_address_mem_wb(write_address_to_register_bank), 
     .o_forward_a(data_a_mux),
     .o_forward_b(data_b_mux)
 );
