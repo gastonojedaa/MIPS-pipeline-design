@@ -244,7 +244,7 @@ wire RegWrite_to_ex_mem;
 
 wire [NB_REG_ADDRESS-1:0] write_address_to_ex_mem;
 wire [NB_DATA-1:0] address_plus_4_to_ex_mem;
-
+wire [NB_DATA-1:0] id_ex_rt_data_ex_mem;
 
 EX
 #(    
@@ -297,16 +297,19 @@ u_ex
     .o_RegWrite_to_EX_MEM(RegWrite_to_ex_mem),
     
     .o_write_address(write_address_to_ex_mem),
-    .o_address_plus_4(address_plus_4_to_ex_mem)
+    .o_address_plus_4(address_plus_4_to_ex_mem),
+    .o_rt_data(id_ex_rt_data_ex_mem)
 );
 
-wire [NB_DATA-1:0] ex_res_to_mem;
-wire [NB_REG_ADDRESS-1:0] write_address_to_mem;
-wire [NB_DATA-1:0] rt_data_to_mem;
-wire [1:0] memtoReg_to_mem;
 //to MEM
+wire [NB_DATA:0] ex_res_to_mem;
+wire [NB_DATA-1:0] rt_data_to_mem;
+wire [NB_REG_ADDRESS-1:0] write_address_to_mem;
+wire [NB_PC-1:0] address_plus_4_to_mem;
 wire MemRead_to_mem;
 wire MemWrite_to_mem; 
+wire [1:0] memtoReg_to_mem;
+wire RegWrite_to_mem;
 
 EX_MEM
 #(
@@ -321,7 +324,7 @@ u_ex_mem
     .i_reset(i_reset),
     .i_res(ex_res_ex_mem),
     .i_alu_zero_from_ex(alu_zero_ex_mem),
-    .i_rt_data(id_rt_data_id_ex),
+    .i_rt_data(id_ex_rt_data_ex_mem),
     .i_jump_address(ex_jump_address_ex_mem),
     .i_write_address(write_address_to_ex_mem),
     .i_address_plus_4(address_plus_4_to_ex_mem),
@@ -348,9 +351,12 @@ u_ex_mem
     .o_RegWrite_to_MEM(RegWrite_to_mem)
 );
 
-wire [NB_REG_ADDRESS-1:0] write_address_to_mem_wb;
+wire [NB_DATA:0] ex_res_to_mem_wb;
 wire [NB_DATA-1:0] mem_data_to_mem_wb;
+wire [NB_REG_ADDRESS-1:0] write_address_to_mem_wb;
+wire [NB_PC-1:0] address_plus_4_to_mem_wb;
 wire [1:0] memtoReg_to_mem_wb;
+wire RegWrite_to_mem_wb;
 
 MEM
 #(
@@ -371,10 +377,10 @@ u_mem
     //señales de control
     .i_MemRead_from_EX_MEM(MemRead_to_mem),
     .i_MemWrite_from_EX_MEM(MemWrite_to_mem),
-    .i_RegWrite_from_EX_MEM(RegWrite_to_mem),
     .i_MemtoReg_from_EX_MEM(memtoReg_to_mem),
+    .i_RegWrite_from_EX_MEM(RegWrite_to_mem),
     
-    .o_res(ex_res_to_mem),
+    .o_res(ex_res_to_mem_wb),
     .o_mem_data(mem_data_to_mem_wb),
     .o_write_address(write_address_to_mem_wb),
     .o_address_plus_4(address_plus_4_to_mem_wb),
@@ -384,8 +390,11 @@ u_mem
     .o_RegWrite_to_MEM_WB(RegWrite_to_mem_wb)    
 );
 
-wire [NB_DATA-1:0] res_to_wb;
+wire [NB_DATA:0] res_to_wb;
 wire [NB_DATA-1:0] mem_data_to_wb;
+wire [NB_PC-1:0] address_plus_4_to_wb;
+wire [1:0] MemtoReg_to_wb;
+wire RegWrite_to_wb;
 
 MEM_WB
 #(
@@ -396,14 +405,14 @@ u_mem_wb
 (
     .i_clk(i_clk),
     .i_reset(i_reset),
-    .i_res(ex_res_to_mem),   
+    .i_res(ex_res_to_mem_wb),   
     .i_mem_data(mem_data_to_mem_wb),
     .i_write_address(write_address_to_mem_wb),
     .i_address_plus_4(address_plus_4_to_mem_wb),
 
     //señales de control
-    .i_RegWrite_from_MEM(RegWrite_to_mem_wb),
     .i_MemtoReg_from_MEM(memtoReg_to_mem_wb),
+    .i_RegWrite_from_MEM(RegWrite_to_mem_wb),
 
     .o_res(res_to_wb),
     .o_mem_data(mem_data_to_wb),
@@ -422,15 +431,14 @@ WB
 )
 u_wb
 (
-    .i_clk(i_clk),
-
-    //señales de control    
-    .i_RegWrite_from_MEM_WB(RegWrite_to_wb),    
-    .i_MemtoReg(MemtoReg_to_wb),
-
+    .i_clk(i_clk),    
     .i_res(res_to_wb),
     .i_mem_data(mem_data_to_wb), 
     .i_address_plus_4(address_plus_4_to_wb),
+    //señales de control    
+    .i_MemtoReg(MemtoReg_to_wb),
+    .i_RegWrite_from_MEM_WB(RegWrite_to_wb),    
+
     .o_write_in_register_bank(write_address_to_register_bank),  
     
     //señales de control

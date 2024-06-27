@@ -32,7 +32,7 @@ module MEM
     input i_reset,
     input i_debug_unit_enable,
     input [NB_DATA:0] i_res,   
-    input [NB_DATA:0] i_rt_data,
+    input [NB_DATA-1:0] i_rt_data,
     input [NB_REG_ADDRESS-1:0] i_write_address,
     input i_MemRead_from_EX_MEM,
     input i_MemWrite_from_EX_MEM,

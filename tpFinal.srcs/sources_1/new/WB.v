@@ -34,7 +34,7 @@ module WB
     input [1:0] i_MemtoReg, 
     input [NB_ADDR-1:0] i_address_plus_4,
     input i_RegWrite_from_MEM_WB,
-    output reg o_write_in_register_bank,
+    output reg [NB_DATA-1:0] o_write_in_register_bank,
     output o_RegWrite_to_ID
 );
 
