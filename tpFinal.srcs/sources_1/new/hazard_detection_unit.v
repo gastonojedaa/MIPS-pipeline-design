@@ -27,11 +27,11 @@ module hazard_detection_unit
 )
 ( 
     //source registers from ID
-    input i_rs_address_id,
-    input i_rt_address_id,
+    input [NB_REG_ADDRESS-1:0] i_rs_address_id,
+    input [NB_REG_ADDRESS-1:0] i_rt_address_id,
     //EX memRead y rt
     input i_MemRead, //señal de control
-    input i_rt_address_ex,
+    input [NB_REG_ADDRESS-1:0] i_rt_address_ex,
     //signals to stall
     output reg o_PCwrite,
     output reg o_IFIDwrite,
