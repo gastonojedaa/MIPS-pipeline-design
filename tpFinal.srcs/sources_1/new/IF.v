@@ -26,11 +26,11 @@ module IF #(
     input i_clk,
     input i_reset,
     input i_debug_unit_enable,
+    input i_PcSrc, // señal de control
+    input i_write_enable,  // 0 READ - 1 WRITE
     input [NB_PC-1:0] i_jump_address,
     input [NB_PC-1:0] i_write_address,
-    input   i_PcSrc, // señal de control
     input [NB_INS-1:0] i_instruction,
-    input i_write_enable,  // 0 READ - 1 WRITE
     output [NB_INS-1:0] o_instruction,
     output [NB_PC-1:0] o_address_plus_4,
     output o_is_halted,

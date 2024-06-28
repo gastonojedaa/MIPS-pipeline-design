@@ -27,15 +27,15 @@ module shortcircuit_unit
 )
 (
     //source registers from ID/EX
-    input i_rs_address_id_ex,
-    input i_rt_address_id_ex,  
+    input [NB_REG_ADDRESS-1:0] i_rs_address_id_ex,
+    input [NB_REG_ADDRESS-1:0] i_rt_address_id_ex,  
     //destination registers from EX/MEM
-    input i_write_address_ex_mem,
+    input [NB_REG_ADDRESS-1:0] i_write_address_ex_mem,
     //destination registers from MEM/WB
-    input i_write_address_mem_wb,     
+    input [NB_REG_ADDRESS-1:0] i_write_address_mem_wb,     
     
-    output reg [NB_REG_ADDRESS-1:0] o_forward_a,
-    output reg [NB_REG_ADDRESS-1:0] o_forward_b
+    output reg [1:0] o_forward_a,
+    output reg [1:0] o_forward_b
 );
 
 
