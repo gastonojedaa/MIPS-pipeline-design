@@ -22,15 +22,6 @@
 
 module tb_top;
 
-parameter NB_PC = 32;
-parameter NB_INS = 32;  
-parameter N_REG = 32;
-parameter NB_DATA = 32;
-parameter NB_DATA_IN = 16;
-parameter NB_DATA_OUT = 32;
-parameter NB_OP = 6;
-parameter NB_ADDR = 32;
-
 reg clk;
 reg reset;
 
@@ -47,14 +38,17 @@ end
 
 top
 #(
-    .NB_PC(NB_PC),
-    .NB_INS(NB_INS),
-    .N_REG(N_REG),
-    .NB_DATA(NB_DATA),
-    .NB_DATA_IN(NB_DATA_IN),
-    .NB_DATA_OUT(NB_DATA_OUT),
-    .NB_OP(NB_OP),
-    .NB_ADDR(NB_ADDR)
+    .NB_PC(32),
+    .NB_INS(32),
+    .N_REG(32),
+    .NB_DATA(32),
+    .NB_DATA_IN(16),
+    .NB_DATA_OUT(32),
+    .NB_OP(4),
+    .NB_ADDR(32),
+    .NB_FUNCTION(6),
+    .NB_OPS(6),
+    .NB_ALUCODE(4)
 )
 u_top
 ( 

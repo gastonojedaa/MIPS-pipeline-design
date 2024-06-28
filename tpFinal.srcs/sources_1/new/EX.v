@@ -25,7 +25,7 @@ module EX
     parameter NB_DATA = 32, 
     parameter NB_DATA_OUT = 32,
     parameter NB_DATA_IN = 16,
-    parameter NB_OP = 6,
+    parameter NB_OP = 4,
     parameter NB_REG_ADDRESS = 5,
     parameter NB_PC = 32,   
     parameter NB_OPS = 6,
@@ -38,7 +38,7 @@ module EX
     input [NB_DATA-1:0] i_rs_data,
     input [NB_DATA-1:0] i_rt_data,
     input [NB_DATA-1:0] i_sigext,    
-    input [NB_OP-1:0] i_opcode, 
+    input [NB_OPS-1:0] i_opcode, 
     input [NB_REG_ADDRESS-1:0] i_rs_address,
     input [NB_REG_ADDRESS-1:0] i_rt_address,    
     input [NB_DATA-1:0] i_address_plus_4, //address from ID/EX
@@ -122,6 +122,8 @@ begin
         o_write_address = 5'b11111; //TODO: registro 31
 end
 
+wire [NB_ALUCODE-1:0] alu_control;
+
 alu#(
     NB_DATA,
     NB_ALUCODE
@@ -129,7 +131,7 @@ alu#(
 u_alu(
     .i_data_a(rs_data),
     .i_data_b(data_b),
-    .i_alucode(o_alu_control), 
+    .i_alucode(alu_control), 
     .o_res(o_res),
     .o_zero(o_alu_zero_to_ex_mem)
 );
@@ -143,7 +145,7 @@ control_alu
 u_control_alu(
     .i_ALUOp(i_ALUOp_from_ID_EX),
     .i_funct(i_function_from_id_ex), 
-    .o_alu_control(o_alu_control)
+    .o_alu_control(alu_control)
 );
 
 

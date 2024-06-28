@@ -48,7 +48,7 @@ module IF #(
 
   assign is_halted = (instruction_from_mem[31:26] == 6'b111111);// 111111 is the opcode for HALT
 
-  assign address_plus_4 = pc + 4;
+  assign address_plus_4 = pc + 1;
 
   // Mux PC - PC + 4 o jump address
   always @(*) begin

@@ -26,7 +26,6 @@ module ID_EX
     parameter NB_INS = 32,
     parameter NB_DATA_OUT = 32,
     parameter NB_DATA_IN = 16,
-    parameter NB_OP = 6,
     parameter NB_REG_ADDRESS = 5,
     parameter NB_PC = 32,
     parameter NB_FUNCTION = 6 
@@ -38,7 +37,6 @@ module ID_EX
     input [NB_DATA-1:0] i_rs_data,
     input [NB_DATA-1:0] i_rt_data,
     input [NB_DATA_OUT-1:0] i_sigext,    
-    input [NB_OP-1:0] i_opcode,
     input [NB_REG_ADDRESS-1:0] i_rs_address,
     input [NB_REG_ADDRESS-1:0] i_rt_address,
     input [NB_REG_ADDRESS-1:0] i_rd_address,
@@ -56,7 +54,6 @@ module ID_EX
     output reg [NB_DATA-1:0] o_rs_data,
     output reg [NB_DATA-1:0] o_rt_data,
     output reg [NB_INS-1:0] o_sigext,
-    output reg [NB_OP-1:0] o_opcode,
     output reg [NB_REG_ADDRESS-1:0] o_rs_address,
     output reg [NB_REG_ADDRESS-1:0] o_rt_address,
     output reg [NB_REG_ADDRESS-1:0] o_rd_address,
@@ -79,7 +76,6 @@ begin
             o_rs_data <= 0;
             o_rt_data <= 0;
             o_sigext <= 0;
-            o_opcode <= 0;
             o_rs_address <= 0;
             o_rt_address <= 0;
             o_rd_address <= 0;
@@ -99,7 +95,6 @@ begin
             o_rs_data <= i_rs_data;
             o_rt_data <= i_rt_data;
             o_sigext <= i_sigext;
-            o_opcode <= i_opcode;
             o_rs_address <= i_rs_address;
             o_rt_address <= i_rt_address;
             o_rd_address <= i_rd_address;      

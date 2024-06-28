@@ -44,7 +44,7 @@ assign o_RegWrite_to_ID = i_RegWrite_from_MEM_WB;
 
 always@(posedge i_clk)
 begin
-    i_return_addr <= i_address_plus_4 + 4;    
+    i_return_addr <= i_address_plus_4 + 1;    
     if(i_debug_unit_enable)
     begin       
         if(i_MemtoReg == 2'b00)

@@ -26,7 +26,7 @@ module ID
     parameter N_REG = 32,
     parameter NB_INS = 32,
     parameter NB_DATA_IN = 16,
-    parameter NB_OP = 6,
+    parameter NB_OPS = 6,
     parameter NB_REG_ADDRESS = $clog2(N_REG),
     parameter NB_FUNCTION = 6,
     parameter NB_PC = 32
@@ -115,12 +115,12 @@ u_sign_ext
 
 control_unit
 #(
-    NB_FUNCTION,
-    NB_OP
+    .NB_FUNCTION(NB_FUNCTION),
+    .NB_OPS(NB_OPS)
 )
 u_control_unit
 (      
-    .i_opcode(i_instruction[NB_INS-1:NB_INS-NB_OP]),
+    .i_opcode(i_instruction[NB_INS-1:NB_INS-NB_OPS]),
     .i_function(i_instruction[5:0]),
     .i_pipeline_stalled(i_pipeline_stalled_to_control_unit),
     .i_Branch(i_Branch_from_EX_MEM),

@@ -23,7 +23,6 @@
 module EX_MEM
 #(
     parameter NB_DATA = 8,
-    parameter NB_OPS = 6,
     parameter NB_DATA_IN = 16,
     parameter NB_REG_ADDRESS = 5
 )

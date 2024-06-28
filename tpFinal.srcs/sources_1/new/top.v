@@ -28,9 +28,11 @@ module top
     parameter NB_DATA = 32,
     parameter NB_DATA_IN = 16,
     parameter NB_DATA_OUT = 32,
-    parameter NB_OP = 6,
+    parameter NB_OP = 4,
     parameter NB_ADDR = 32,
-    parameter NB_FUNCTION = 6
+    parameter NB_FUNCTION = 6,
+    parameter NB_OPS = 6,
+    parameter NB_ALUCODE = 4
 )
 ( 
     input   i_clk,
@@ -117,12 +119,13 @@ wire [NB_PC-1:0] if_id_address_plus_4_id_ex;
 
 ID
 #(
-    NB_DATA,      
-    N_REG, 
-    NB_INS, 
-    NB_DATA_IN,
-    NB_OP,
-    NB_FUNCTION
+    .NB_DATA(NB_DATA),
+    .N_REG(N_REG),
+    .NB_INS(NB_INS),
+    .NB_DATA_IN(NB_DATA_IN),
+    .NB_OPS(NB_OPS),
+    .NB_FUNCTION(NB_FUNCTION),
+    .NB_PC(NB_PC)
 )
 u_id
 ( 
@@ -252,16 +255,19 @@ wire [NB_REG_ADDRESS-1:0] write_address_to_ex_mem;
 wire [NB_DATA-1:0] address_plus_4_to_ex_mem;
 wire [NB_DATA-1:0] id_ex_rt_data_ex_mem;
 
+
+
 EX
 #(    
-    NB_DATA, 
-    NB_INS,
-    NB_DATA_OUT,
-    NB_DATA_IN,
-    NB_OP,
-    NB_REG_ADDRESS,
-    NB_PC,   
-    NB_OP 
+    .NB_DATA(NB_DATA),
+    .NB_DATA_OUT(NB_DATA_OUT),
+    .NB_DATA_IN(NB_DATA_IN),
+    .NB_OP(NB_OP),
+    .NB_REG_ADDRESS(NB_REG_ADDRESS),
+    .NB_PC(NB_PC),
+    .NB_OPS(NB_OPS),
+    .NB_ALUCODE(NB_ALUCODE),
+    .NB_FUNCTION(NB_FUNCTION)
 )
 u_ex
 (
@@ -321,7 +327,6 @@ wire RegWrite_to_mem;
 EX_MEM
 #(
     NB_DATA,
-    NB_OP,
     NB_DATA_IN,
     NB_REG_ADDRESS
 )

@@ -31,7 +31,7 @@ module control_unit#(
     parameter   BEQ_ALUOP             =   4'b0111,
     parameter   BNE_ALUOP             =   4'b1000,
     parameter NB_FUNCTION = 6,
-    parameter NB_OP = 6,
+    parameter NB_OPS = 6,
 
     //OPCODES
     parameter R_type = 6'b000000,
@@ -79,7 +79,7 @@ module control_unit#(
     parameter JALR_FUNCT = 6'b001001
 )
 (
-    input [NB_OP-1:0] i_opcode,
+    input [NB_OPS-1:0] i_opcode,
     input [NB_FUNCTION-1:0] i_function,     
     input i_pipeline_stalled, //viene de hazard_detection_unit para insertar nops 
     input i_Branch,
