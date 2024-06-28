@@ -55,6 +55,7 @@ u_IF
 (
     .i_clk(i_clk),
     .i_reset(i_reset),
+    .i_debug_unit_enable(1'b1),
     .i_jump_address(jump_address_to_if),
     .i_write_address(),// TODO: ??
     .i_PcSrc(PcSrc), 
@@ -78,6 +79,7 @@ u_if_id
 ( 
     .i_clk(i_clk),
     .i_reset(i_reset),
+    .i_debug_unit_enable(1'b1),
     .i_instruction(if_instruction_if_id), 
     .i_address_plus_4(if_address_plus_4_if_id),
     .i_IFIDwrite(IFIDwrite),
@@ -126,6 +128,7 @@ u_id
 ( 
     .i_clk(i_clk),
     .i_reset(i_reset),
+    .i_debug_unit_enable(1'b1),
     .i_instruction(if_id_instruction_id),      
     .i_write_address(write_address_to_id),
     .i_data_to_write_in_register_bank(write_address_to_register_bank),
@@ -191,6 +194,7 @@ u_id_ex
 (
     .i_clk(i_clk),
     .i_reset(i_reset),
+    .i_debug_unit_enable(1'b1),
     .i_rs_data(id_rs_data_id_ex),
     .i_rt_data(id_rt_data_id_ex),
     .i_sigext(id_sigext_id_ex),   
@@ -263,6 +267,7 @@ u_ex
 (
     .i_clk(i_clk),
     .i_reset(i_reset),
+    .i_debug_unit_enable(1'b1),
     .i_rs_data(id_ex_rs_data_ex),
     .i_rt_data(id_ex_rt_data_ex),
     .i_sigext(id_ex_sigext_ex),    
@@ -324,6 +329,7 @@ u_ex_mem
 (    
     .i_clk(i_clk),
     .i_reset(i_reset),
+    .i_debug_unit_enable(1'b1),
     .i_res(ex_res_ex_mem),
     .i_alu_zero_from_ex(alu_zero_ex_mem),
     .i_rt_data(id_ex_rt_data_ex_mem),
@@ -371,6 +377,7 @@ u_mem
 (
     .i_clk(i_clk),
     .i_reset(i_reset),
+    .i_debug_unit_enable(1'b1),
     .i_res(ex_res_to_mem),   
     .i_rt_data(rt_data_to_mem),
     .i_write_address(write_address_to_mem),
@@ -408,6 +415,7 @@ u_mem_wb
     .i_clk(i_clk),
     .i_reset(i_reset),
     .i_res(ex_res_to_mem_wb),   
+    .i_debug_unit_enable(1'b1),
     .i_mem_data(mem_data_to_mem_wb),
     .i_write_address(write_address_to_mem_wb),
     .i_address_plus_4(address_plus_4_to_mem_wb),
@@ -434,6 +442,7 @@ WB
 u_wb
 (
     .i_clk(i_clk),    
+    .i_debug_unit_enable(1'b1),
     .i_res(res_to_wb),
     .i_mem_data(mem_data_to_wb), 
     .i_address_plus_4(address_plus_4_to_wb),

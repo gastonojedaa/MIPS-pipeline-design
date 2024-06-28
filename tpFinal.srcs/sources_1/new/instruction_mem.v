@@ -34,16 +34,22 @@ module instruction_mem
     output  [NB_INS-1:0] o_instruction
 );
 
-localparam MEM_SIZE = (2**NB_PC) - 1;
+//localparam MEM_SIZE = (2**NB_PC) - 1;
+localparam MEM_SIZE = 255;
 
 integer i;
 reg [NB_INS-1:0] ins_mem[0:MEM_SIZE];
 
+// initial
+// begin
+//     for (i = 0; i <= MEM_SIZE; i = i + 1) begin
+//         ins_mem[i] = i*2;
+//     end
+// end
 initial
 begin
-    for (i = 0; i <= MEM_SIZE; i = i + 1) begin
-        ins_mem[i] = i*2;
-    end
+    ins_mem[0] = 32'b00111100000000110000000000001010;
+    ins_mem[1] = 32'b11111111111111111111111111111111;
 end
 
 always@(posedge i_clk)
