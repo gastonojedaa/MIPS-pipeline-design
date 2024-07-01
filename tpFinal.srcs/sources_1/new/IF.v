@@ -31,12 +31,12 @@ module IF #(
     input [NB_PC-1:0] i_jump_address,
     input [NB_PC-1:0] i_write_address,
     input [NB_INS-1:0] i_instruction,
+    //signal to hazard detection unit
+    input i_PCwrite,  // stall. If 1 PC is not updated
     output [NB_INS-1:0] o_instruction,
     output [NB_PC-1:0] o_address_plus_4,
-    output o_is_halted,
+    output o_is_halted
 
-    //signal to hazard detection unit
-    input i_PCwrite  // stall. If 1 PC is not updated
 );
 
   wire [NB_INS-1:0] instruction_from_mem;
@@ -67,7 +67,7 @@ module IF #(
   end
 
 
-  instruction_mem #(NB_PC, NB_INS) u_instruction_mem (
+  instruction_mem #(.NB_PC(NB_PC), .NB_INS(NB_INS)) u_instruction_mem (
       .i_clk(i_clk),
       .i_read_address(pc),
       .i_write_address(i_write_address),

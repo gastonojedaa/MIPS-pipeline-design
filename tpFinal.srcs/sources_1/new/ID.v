@@ -27,11 +27,11 @@ module ID
     parameter NB_INS = 32,
     parameter NB_DATA_IN = 16,
     parameter NB_OPS = 6,
-    parameter NB_REG_ADDRESS = $clog2(N_REG),
     parameter NB_FUNCTION = 6,
-    parameter NB_PC = 32
+    parameter NB_PC = 32,
+    parameter NB_DATA_OUT = 32
 )
-( 
+(
     input   i_clk,
     input   i_reset,
     input   i_debug_unit_enable,
@@ -42,10 +42,7 @@ module ID
     input   [NB_INS-1:0] i_instruction,  
     input   [NB_REG_ADDRESS-1:0] i_write_address,
     input   [NB_DATA-1:0] i_data_to_write_in_register_bank,
-    input   [NB_PC-1:0] i_address_plus_4,
-    //cortocircuitos
-    input   [1:0]i_forward_a,
-    input   [1:0]i_forward_b,
+    input   [NB_PC-1:0] i_address_plus_4,   
 
     output  [NB_DATA-1:0] o_rs_data,    
     output  [NB_DATA-1:0] o_rt_data,    
@@ -68,6 +65,8 @@ module ID
     output [1:0] o_MemtoReg_to_ID_EX
 );
 
+localparam NB_REG_ADDRESS = $clog2(N_REG);
+
 wire [NB_REG_ADDRESS-1:0] rs_address;
 wire [NB_REG_ADDRESS-1:0] rt_address;
 wire [NB_REG_ADDRESS-1:0] rd_address;
@@ -82,9 +81,9 @@ assign o_function = i_instruction[5:0];
 
 register_bank
 #(
-    NB_DATA,
-    N_REG,
-    NB_REG_ADDRESS
+    .NB_DATA(NB_DATA),
+    .N_REG(N_REG),
+    .NB_REG_ADDRESS(NB_REG_ADDRESS)
 )
 u_register_bank
 (
@@ -96,14 +95,16 @@ u_register_bank
     .rt_address(i_instruction[20:16]),    
     .rw_address(i_write_address),          //  vienen de la 
     .i_RegWrite(i_RegWrite_from_WB), //señal de control
+    .i_reg_address(), //TODO: viene de la contorl unit
     .rs_data(o_rs_data),
-    .rt_data(o_rt_data)    
+    .rt_data(o_rt_data),
+    .reg_data() //TODO: esto creo que nisiquiera va   
 );
 
 sign_ext
 #(
-    NB_DATA_IN,
-    NB_INS
+    .NB_DATA_IN(NB_DATA_IN),
+    .NB_DATA_OUT(NB_DATA_OUT)
 )
 u_sign_ext
 (

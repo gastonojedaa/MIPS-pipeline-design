@@ -33,8 +33,8 @@ module register_bank
     input   [NB_REG_ADDRESS-1:0] rs_address,
     input   [NB_REG_ADDRESS-1:0] rt_address,
     input   [NB_REG_ADDRESS-1:0] rw_address,
-    input   [NB_REG_ADDRESS-1:0] i_reg_address,
     input   i_RegWrite,   
+    input   [NB_REG_ADDRESS-1:0] i_reg_address,
     output  [NB_DATA-1:0] rs_data,
     output  [NB_DATA-1:0] rt_data,
     output  [NB_DATA-1:0] reg_data

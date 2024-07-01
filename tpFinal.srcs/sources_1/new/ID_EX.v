@@ -23,10 +23,10 @@
 module ID_EX
 #(
     parameter NB_DATA = 32, 
+    parameter N_REG = 32,
     parameter NB_INS = 32,
     parameter NB_DATA_OUT = 32,
-    parameter NB_DATA_IN = 16,
-    parameter NB_REG_ADDRESS = 5,
+    parameter NB_DATA_IN = 16,    
     parameter NB_PC = 32,
     parameter NB_FUNCTION = 6 
 )
@@ -58,17 +58,18 @@ module ID_EX
     output reg [NB_REG_ADDRESS-1:0] o_rt_address,
     output reg [NB_REG_ADDRESS-1:0] o_rd_address,
     output reg [NB_PC-1:0] o_address_plus_4,
-    output reg o_Branch_to_EX,
-    output reg [3:0] o_ALUOp_to_EX,
     output reg [NB_FUNCTION-1:0]o_function_to_EX,
-    output reg o_MemRead_to_EX,
-    output reg o_MemWrite_to_EX,
-    output reg [1:0] o_MemtoReg_to_EX,
     output reg [1:0] o_RegDst_to_EX,
     output reg o_ALUSrc_to_EX,
-    output reg o_RegWrite_to_EX
+    output reg o_MemRead_to_EX,
+    output reg o_MemWrite_to_EX,
+    output reg o_Branch_to_EX,
+    output reg o_RegWrite_to_EX,
+    output reg [1:0] o_MemtoReg_to_EX,
+    output reg [3:0] o_ALUOp_to_EX
 );
     
+localparam NB_REG_ADDRESS = $clog2(N_REG);
 always@(posedge i_clk)
 begin 
     if(i_reset)

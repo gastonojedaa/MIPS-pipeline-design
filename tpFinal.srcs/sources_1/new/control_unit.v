@@ -21,6 +21,10 @@
 
 
 module control_unit#(
+    parameter NB_FUNCTION = 6,
+    parameter NB_OPS = 6,
+    
+    //ALUOP
     parameter   R_TYPE_ALUOP          =   4'b0000,
     parameter   LOAD_STORE_ADDI_ALUOP =   4'b0001,
     parameter   ANDI_ALUOP            =   4'b0010,
@@ -30,8 +34,6 @@ module control_unit#(
     parameter   SLTI_ALUOP            =   4'b0110,
     parameter   BEQ_ALUOP             =   4'b0111,
     parameter   BNE_ALUOP             =   4'b1000,
-    parameter NB_FUNCTION = 6,
-    parameter NB_OPS = 6,
 
     //OPCODES
     parameter R_type = 6'b000000,

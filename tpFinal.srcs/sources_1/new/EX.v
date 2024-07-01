@@ -22,11 +22,12 @@
 
 module EX
 #(    
-    parameter NB_DATA = 32, 
+    parameter NB_DATA = 32,
+    parameter N_REG = 32, 
     parameter NB_DATA_OUT = 32,
     parameter NB_DATA_IN = 16,
     parameter NB_OP = 4,
-    parameter NB_REG_ADDRESS = 5,
+    parameter NB_REG_ADDRESS = $clog2(N_REG),
     parameter NB_PC = 32,   
     parameter NB_OPS = 6,
     parameter NB_ALUCODE = 4,
@@ -35,15 +36,15 @@ module EX
 (
     input i_clk,
     input i_reset,
+    input i_debug_unit_enable,
     input [NB_DATA-1:0] i_rs_data,
     input [NB_DATA-1:0] i_rt_data,
     input [NB_DATA-1:0] i_sigext,    
-    input [NB_OPS-1:0] i_opcode, 
     input [NB_REG_ADDRESS-1:0] i_rs_address,
     input [NB_REG_ADDRESS-1:0] i_rt_address,    
-    input [NB_DATA-1:0] i_address_plus_4, //address from ID/EX
     input [NB_REG_ADDRESS-1:0] i_rd_address, //para multiplexar con rt la señal de control
-    input i_debug_unit_enable,
+    input [NB_DATA-1:0] i_address_plus_4, //address from ID/EX
+    input [NB_FUNCTION-1:0]i_function_from_id_ex, //señal de control
     input [1:0] i_forward_a,
     input [1:0] i_forward_b,
     input [NB_DATA-1:0] i_write_address_ex_mem,
@@ -53,7 +54,6 @@ module EX
     input i_ALUSrc_from_ID_EX, //señal de control
     input i_Branch_from_ID_EX, //señal de control
     input [3:0] i_ALUOp_from_ID_EX, //señal de control
-    input [NB_FUNCTION-1:0]i_function_from_id_ex, //señal de control
     input i_MemRead_from_ID_EX, //señal de control
     input i_MemWrite_from_ID_EX, //señal de control
     input [1:0] i_MemtoReg_from_ID_EX, //señal de control

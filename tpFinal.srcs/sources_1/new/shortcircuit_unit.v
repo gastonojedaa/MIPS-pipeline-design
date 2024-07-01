@@ -19,7 +19,6 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
 module shortcircuit_unit
 #(
     parameter N_REG = 32,
@@ -37,6 +36,7 @@ module shortcircuit_unit
     output reg [1:0] o_forward_a,
     output reg [1:0] o_forward_b
 );
+
 
 
 always@(*)
