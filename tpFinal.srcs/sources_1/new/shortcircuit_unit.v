@@ -29,9 +29,9 @@ module shortcircuit_unit
     input [NB_REG_ADDRESS-1:0] i_rs_address_id_ex,
     input [NB_REG_ADDRESS-1:0] i_rt_address_id_ex,  
     //destination registers from EX/MEM
-    input [NB_REG_ADDRESS-1:0] i_write_address_ex_mem,
+    input [NB_REG_ADDRESS-1:0] i_rt_address_ex_mem,
     //destination registers from MEM/WB
-    input [NB_REG_ADDRESS-1:0] i_write_address_mem_wb,     
+    input [NB_REG_ADDRESS-1:0] i_rt_address_mem_wb,     
     
     output reg [1:0] o_forward_a,
     output reg [1:0] o_forward_b
@@ -41,16 +41,16 @@ module shortcircuit_unit
 
 always@(*)
 begin
-    if(i_rs_address_id_ex == i_write_address_ex_mem)
+    if(i_rs_address_id_ex == i_rt_address_ex_mem)
         o_forward_a = 2'b10;
-    else if(i_rs_address_id_ex == i_write_address_mem_wb)
+    else if(i_rs_address_id_ex == i_rt_address_mem_wb)
         o_forward_a = 2'b01;
     else
         o_forward_a = 2'b00;
 
-    if(i_rt_address_id_ex == i_write_address_ex_mem)
+    if(i_rt_address_id_ex == i_rt_address_ex_mem)
         o_forward_b = 2'b10;
-    else if(i_rt_address_id_ex == i_write_address_mem_wb)
+    else if(i_rt_address_id_ex == i_rt_address_mem_wb)
         o_forward_b = 2'b01;
     else
         o_forward_b = 2'b00;

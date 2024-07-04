@@ -47,8 +47,9 @@ module EX
     input [NB_FUNCTION-1:0]i_function_from_id_ex, //señal de control
     input [1:0] i_forward_a,
     input [1:0] i_forward_b,
-    input [NB_DATA-1:0] i_write_address_ex_mem,
-    input [NB_DATA-1:0] i_write_address_mem_wb,
+    //cortocircuito
+    input [NB_DATA-1:0] i_rt_data_ex_mem,
+    input [NB_DATA-1:0] i_rt_data_mem_wb,
 
     input [1:0] i_RegDst_from_ID_EX, //señal de control
     input i_ALUSrc_from_ID_EX, //señal de control
@@ -69,7 +70,9 @@ module EX
     output o_MemWrite_to_EX_MEM,
     output [NB_DATA-1:0] o_address_plus_4,
     output [1:0] o_MemtoReg_to_EX_MEM,
-    output o_RegWrite_to_EX_MEM
+    output o_RegWrite_to_EX_MEM,
+
+    output [NB_REG_ADDRESS-1:0] o_rt_address //to short circuit
 
 );
 
@@ -87,15 +90,15 @@ begin
     begin
         case(i_forward_a)
             2'b00: rs_data = i_rs_data; //no hay cortocircuito
-            2'b10: rs_data = i_write_address_ex_mem; //de la etapa EX/MEM
-            2'b01: rs_data = i_write_address_mem_wb; //de la etapa MEM/WB
+            2'b10: rs_data = i_rt_data_ex_mem; //de la etapa EX/MEM
+            2'b01: rs_data = i_rt_data_mem_wb; //de la etapa MEM/WB
             2'b11: rs_data = i_rs_data; //no deberia pasar
         endcase
 
         case(i_forward_b)
             2'b00: rt_data = i_rt_data; //no hay cortocircuito
-            2'b10: rt_data = i_write_address_ex_mem; //de la etapa EX/MEM
-            2'b01: rt_data = i_write_address_mem_wb; //de la etapa MEM/WB
+            2'b10: rt_data = i_rt_data_ex_mem; //de la etapa EX/MEM
+            2'b01: rt_data = i_rt_data_mem_wb; //de la etapa MEM/WB
             2'b11: rt_data = i_rt_data;
         endcase
     end
@@ -111,6 +114,7 @@ assign o_address_plus_4 = i_address_plus_4;
 assign o_MemtoReg_to_EX_MEM = i_MemtoReg_from_ID_EX;
 assign o_RegWrite_to_EX_MEM = i_RegWrite_from_ID_EX;
 assign o_rt_data = rt_data;
+assign o_rt_address = i_rt_address;
 
 always @(*)
 begin
