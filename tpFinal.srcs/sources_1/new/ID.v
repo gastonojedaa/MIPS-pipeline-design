@@ -58,7 +58,7 @@ module ID
     output [1:0] o_RegDst_to_ID_EX,
     output o_ALUSrc_to_ID_EX,
     output [3:0] o_ALUOp_to_ID_EX,
-    output o_MemRead_to_ID_EX,
+    output reg o_MemRead_to_ID_EX,
     output o_MemWrite_to_ID_EX,
     output o_Branch_to_ID_EX,
     output o_RegWrite_to_ID_EX,
@@ -77,6 +77,9 @@ assign rs_address = i_instruction[25:21];
 assign rt_address = i_instruction[20:16];
 assign rd_address = i_instruction[15:11];
 assign o_function = i_instruction[5:0];
+
+
+wire MemRead;
 
 
 register_bank
@@ -130,7 +133,7 @@ u_control_unit
     .o_RegDst(o_RegDst_to_ID_EX),
     .O_ALUSrc(o_ALUSrc_to_ID_EX),
     .o_ALUOp(o_ALUOp_to_ID_EX),
-    .o_MemRead(o_MemRead_to_ID_EX),
+    .o_MemRead(MemRead),
     .o_MemWrite(o_MemWrite_to_ID_EX),
     .o_Branch(o_Branch_to_ID_EX),
     .o_RegWrite(o_RegWrite_to_ID_EX),
@@ -143,5 +146,14 @@ assign o_rt_address = rt_address;
 // Mux para seleccionar el registro destino
 assign o_rd_address = rd_address;
 assign o_address_plus_4 = i_address_plus_4;
+
+
+always@(posedge i_clk)
+begin
+    if(i_reset)
+        o_MemRead_to_ID_EX <= 0;
+    else
+        o_MemRead_to_ID_EX <= MemRead;
+end
 
 endmodule
