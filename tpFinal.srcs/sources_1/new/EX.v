@@ -109,7 +109,8 @@ assign o_Branch_to_EX_MEM = i_Branch_from_ID_EX; //Branch que pasa directo
 assign o_MemRead_to_EX_MEM = i_MemRead_from_ID_EX; //MemRead que pasa directo
 assign o_MemWrite_to_EX_MEM = i_MemWrite_from_ID_EX; //MemWrite que pasa directo
 // Calc jump address
-assign o_jump_address = i_address_plus_4 + i_sigext<<2;
+//assign o_jump_address = i_address_plus_4 + i_sigext<<2;//TODO: replace to use 4 bytes instead of 1 word
+assign o_jump_address = i_address_plus_4 + i_sigext;//TODO: replace this
 assign o_address_plus_4 = i_address_plus_4;
 assign o_MemtoReg_to_EX_MEM = i_MemtoReg_from_ID_EX;
 assign o_RegWrite_to_EX_MEM = i_RegWrite_from_ID_EX;

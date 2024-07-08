@@ -306,7 +306,7 @@ u_ex
     .i_forward_a(data_a_mux),
     .i_forward_b(data_b_mux),
     .i_rt_data_ex_mem(ex_res_to_mem),//TODO: CHeck name
-    .i_rt_data_mem_wb(ex_res_to_mem_wb),//TODO: CHeck name
+    .i_rt_data_mem_wb(res_to_wb),//TODO: CHeck name
 
     .o_res(ex_res_ex_mem),
     .o_alu_zero_to_ex_mem(alu_zero_ex_mem),
