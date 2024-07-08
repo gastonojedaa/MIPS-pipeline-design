@@ -44,6 +44,7 @@ localparam NB_REG_ADDRESS = $clog2(N_REG);
 wire [NB_PC-1:0] jump_address_to_if;
 wire PcSrc;
 wire PCwrite_to_IF;
+wire execute_branch_to_IF;
 wire [NB_INS-1:0] if_instruction_if_id;
 wire [NB_PC-1:0] if_address_plus_4_if_id;
 
@@ -64,6 +65,7 @@ u_IF
     .i_write_address(),// TODO: ??
     .i_instruction(), // TODO: ??
     .i_PCwrite(PCwrite_to_IF),
+    .i_execute_branch(execute_branch_to_IF)
     .o_instruction(if_instruction_if_id),  
     .o_address_plus_4(if_address_plus_4_if_id),
     .o_is_halted()
@@ -162,7 +164,8 @@ u_id
     .o_MemWrite_to_ID_EX(MemWrite_to_id_ex),
     .o_Branch_to_ID_EX(Branch_to_ID_EX),
     .o_RegWrite_to_ID_EX(RegWrite_to_id_ex),
-    .o_MemtoReg_to_ID_EX(memtoReg_to_id_ex)
+    .o_MemtoReg_to_ID_EX(memtoReg_to_id_ex),
+    .o_execute_branch(execute_branch_to_IF)
 );
 
 //to EX

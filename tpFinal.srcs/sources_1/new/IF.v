@@ -32,7 +32,8 @@ module IF #(
     input [NB_PC-1:0] i_write_address,
     input [NB_INS-1:0] i_instruction,
     //signal to hazard detection unit
-    input i_PCwrite,  // stall. If 1 PC is not updated
+    input i_PCwrite,  // stall. If 1 PC is not updated,
+    input i_execute_branch,
     output [NB_INS-1:0] o_instruction,
     output [NB_PC-1:0] o_address_plus_4,
     output o_is_halted
@@ -55,7 +56,7 @@ module IF #(
     if (i_PCwrite || is_halted || !i_debug_unit_enable) new_address = pc;
 
     else begin
-      if (i_PcSrc) new_address = i_jump_address;
+      if (i_PcSrc || i_execute_branch) new_address = i_jump_address;
       else new_address = address_plus_4;
     end
   end

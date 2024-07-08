@@ -86,7 +86,7 @@ module control_unit#(
     input i_pipeline_stalled, //viene de hazard_detection_unit para insertar nops 
     input i_Branch,
     input i_zero_from_alu,
-
+    
     output o_PcSrc,
     output [1:0] o_RegDst,
     output O_ALUSrc,
@@ -95,10 +95,11 @@ module control_unit#(
     output o_MemWrite,
     output o_Branch,    
     output o_RegWrite,
-    output [1:0] o_MemtoReg    
+    output [1:0] o_MemtoReg,
+    output o_execute_branch    
 );
 
-reg PcSrc, ALUSrc, MemRead, MemWrite, Branch, RegWrite;
+reg PcSrc, ALUSrc, MemRead, MemWrite, Branch, RegWrite,execute_branch;
 reg [3:0] ALUOp;
 reg [1:0] MemtoReg; 
 reg [1:0] RegDst; 
@@ -110,6 +111,7 @@ always @(*)
     if(flush_pipeline)
     begin
         PcSrc = 1'b0;
+        execute_branch = 1'b1;
         RegDst = 2'b00;
         ALUSrc = 1'b0;
         ALUOp = R_TYPE_ALUOP;
@@ -121,6 +123,7 @@ always @(*)
     end
     else if (i_pipeline_stalled == 1'b1)
         begin
+            execute_branch = 1'b0;
             PcSrc = 1'b0; 
             RegDst = 2'b00; 
             ALUSrc = 1'b0; 
@@ -135,7 +138,8 @@ always @(*)
         end
     else
         begin
-            case(i_opcode)
+            execute_branch = 1'b0;
+            case(i_opcode)                
                 R_type: // SLL, SRL, SRA, SLLV, SRLV, SRAV, ADDU, SUBU, AND, OR, XOR, NOR, SLT, JR, JALR
                 begin        
                     case (i_function)    
@@ -519,5 +523,6 @@ assign o_MemWrite = MemWrite;
 assign o_Branch = Branch;
 assign o_RegWrite = RegWrite;
 assign o_MemtoReg = MemtoReg;
+assign o_execute_branch = execute_branch;
 
 endmodule
