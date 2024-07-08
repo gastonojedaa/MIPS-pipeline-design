@@ -53,8 +53,8 @@ module IF #(
 
   // Mux PC - PC + 4 o jump address
   always @(*) begin
-    if (i_PCwrite || is_halted || !i_debug_unit_enable) new_address = pc;
-
+    //if (i_PCwrite || is_halted || !i_debug_unit_enable) new_address = pc;
+    if (i_PCwrite || !i_debug_unit_enable) new_address = pc;
     else begin
       if (i_PcSrc || i_execute_branch) new_address = i_jump_address;
       else new_address = address_plus_4;

@@ -65,7 +65,7 @@ u_IF
     .i_write_address(),// TODO: ??
     .i_instruction(), // TODO: ??
     .i_PCwrite(PCwrite_to_IF),
-    .i_execute_branch(execute_branch_to_IF)
+    .i_execute_branch(execute_branch_to_IF),
     .o_instruction(if_instruction_if_id),  
     .o_address_plus_4(if_address_plus_4_if_id),
     .o_is_halted()
@@ -302,8 +302,8 @@ u_ex
 
     .i_forward_a(data_a_mux),
     .i_forward_b(data_b_mux),
-    .i_rt_data_ex_mem(rt_data_to_mem),
-    .i_rt_data_mem_wb(rt_data_to_ex_from_mem_wb),
+    .i_rt_data_ex_mem(ex_res_to_mem),//TODO: CHeck name
+    .i_rt_data_mem_wb(ex_res_to_mem_wb),//TODO: CHeck name
 
     .o_res(ex_res_ex_mem),
     .o_alu_zero_to_ex_mem(alu_zero_ex_mem),

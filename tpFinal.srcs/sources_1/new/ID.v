@@ -62,7 +62,8 @@ module ID
     output o_MemWrite_to_ID_EX,
     output o_Branch_to_ID_EX,
     output o_RegWrite_to_ID_EX,
-    output [1:0] o_MemtoReg_to_ID_EX
+    output [1:0] o_MemtoReg_to_ID_EX,
+    output o_execute_branch
 );
 
 localparam NB_REG_ADDRESS = $clog2(N_REG);
@@ -137,7 +138,8 @@ u_control_unit
     .o_MemWrite(o_MemWrite_to_ID_EX),
     .o_Branch(o_Branch_to_ID_EX),
     .o_RegWrite(o_RegWrite_to_ID_EX),
-    .o_MemtoReg(o_MemtoReg_to_ID_EX)   
+    .o_MemtoReg(o_MemtoReg_to_ID_EX),
+    .o_execute_branch(o_execute_branch)
 );
 
 assign o_inm_value = i_instruction[NB_DATA_IN-1:0]; // [15:0]

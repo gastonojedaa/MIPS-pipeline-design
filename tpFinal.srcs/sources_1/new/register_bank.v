@@ -47,6 +47,7 @@ initial
 begin
     for (i = 0; i <= N_REG; i = i + 1) begin
         reg_bank[i] = (i*2) << 16;
+        //reg_bank[i] = (i*2);
     end
 end
 
