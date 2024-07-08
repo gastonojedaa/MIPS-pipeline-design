@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="7,612 ps"></ZoomStartTime>
-      <ZoomEndTime time="16,093 ps"></ZoomEndTime>
-      <Cursor1Time time="7,827 ps"></Cursor1Time>
+      <ZoomStartTime time="10,125 ps"></ZoomStartTime>
+      <ZoomEndTime time="16,386 ps"></ZoomEndTime>
+      <Cursor1Time time="13,490 ps"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="264"></NameColumnWidth>
-      <ValueColumnWidth column_width="159"></ValueColumnWidth>
+      <ValueColumnWidth column_width="155"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="79" />
+   <WVObjectSize size="80" />
    <wvobject fp_name="/tb_top/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -44,6 +44,10 @@
    <wvobject fp_name="/tb_top/u_top/u_IF/i_PcSrc" type="logic">
       <obj_property name="ElementShortName">i_PcSrc</obj_property>
       <obj_property name="ObjectShortName">i_PcSrc</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/u_top/u_IF/i_execute_branch" type="logic">
+      <obj_property name="ElementShortName">i_execute_branch</obj_property>
+      <obj_property name="ObjectShortName">i_execute_branch</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top/u_top/u_IF/u_instruction_mem/ins_mem" type="array">
       <obj_property name="ElementShortName">ins_mem[0:255][31:0]</obj_property>
@@ -240,8 +244,8 @@
       <obj_property name="Radix">BINARYRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top/u_top/u_ex/u_alu/o_res" type="array">
-      <obj_property name="ElementShortName">o_res[32:0]</obj_property>
-      <obj_property name="ObjectShortName">o_res[32:0]</obj_property>
+      <obj_property name="ElementShortName">o_res[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_res[31:0]</obj_property>
    </wvobject>
    <wvobject type="divider" fp_name="divider127">
       <obj_property name="label">CONTROL_ALU</obj_property>
@@ -288,20 +292,20 @@
       <obj_property name="ObjectShortName">o_zero</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top/u_top/u_ex/u_alu/o_res" type="array">
-      <obj_property name="ElementShortName">o_res[32:0]</obj_property>
-      <obj_property name="ObjectShortName">o_res[32:0]</obj_property>
+      <obj_property name="ElementShortName">o_res[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_res[31:0]</obj_property>
    </wvobject>
    <wvobject type="divider" fp_name="divider84">
       <obj_property name="label">EX_MEM</obj_property>
       <obj_property name="DisplayName">label</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top/u_top/u_ex_mem/i_res" type="array">
-      <obj_property name="ElementShortName">i_res[32:0]</obj_property>
-      <obj_property name="ObjectShortName">i_res[32:0]</obj_property>
+      <obj_property name="ElementShortName">i_res[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_res[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top/u_top/u_ex_mem/o_res" type="array">
-      <obj_property name="ElementShortName">o_res[32:0]</obj_property>
-      <obj_property name="ObjectShortName">o_res[32:0]</obj_property>
+      <obj_property name="ElementShortName">o_res[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_res[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top/u_top/u_ex_mem/i_write_address" type="array">
       <obj_property name="ElementShortName">i_write_address[4:0]</obj_property>
