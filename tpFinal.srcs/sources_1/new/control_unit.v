@@ -96,10 +96,11 @@ module control_unit#(
     output o_Branch,    
     output o_RegWrite,
     output [1:0] o_MemtoReg,
-    output o_execute_branch    
+    output o_execute_branch,
+    output o_IF_ID_flush    
 );
 
-reg PcSrc, ALUSrc, MemRead, MemWrite, Branch, RegWrite,execute_branch;
+reg PcSrc, ALUSrc, MemRead, MemWrite, Branch, RegWrite,execute_branch, IF_ID_flush;
 reg [3:0] ALUOp;
 reg [1:0] MemtoReg; 
 reg [1:0] RegDst; 
@@ -110,8 +111,9 @@ wire flush_pipeline = i_Branch & i_zero_from_alu;
 always @(*)
     if(flush_pipeline)
     begin
-        PcSrc = 1'b0;
         execute_branch = 1'b1;
+        IF_ID_flush = 1'b1;
+        PcSrc = 1'b0;
         RegDst = 2'b00;
         ALUSrc = 1'b0;
         ALUOp = R_TYPE_ALUOP;
@@ -124,6 +126,7 @@ always @(*)
     else if (i_pipeline_stalled == 1'b1)
         begin
             execute_branch = 1'b0;
+            IF_ID_flush = 1'b0;
             PcSrc = 1'b0; 
             RegDst = 2'b00; 
             ALUSrc = 1'b0; 
@@ -139,6 +142,7 @@ always @(*)
     else
         begin
             execute_branch = 1'b0;
+            IF_ID_flush = 1'b0;
             case(i_opcode)                
                 R_type: // SLL, SRL, SRA, SLLV, SRLV, SRAV, ADDU, SUBU, AND, OR, XOR, NOR, SLT, JR, JALR
                 begin        
@@ -524,5 +528,6 @@ assign o_Branch = Branch;
 assign o_RegWrite = RegWrite;
 assign o_MemtoReg = MemtoReg;
 assign o_execute_branch = execute_branch;
+assign o_IF_ID_flush = IF_ID_flush;
 
 endmodule

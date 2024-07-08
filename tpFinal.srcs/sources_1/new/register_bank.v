@@ -43,17 +43,24 @@ module register_bank
 integer i;
 reg [NB_DATA-1:0] reg_bank[0:N_REG];
 
-initial
+/* initial
 begin
     for (i = 0; i <= N_REG; i = i + 1) begin
         reg_bank[i] = (i*2) << 16;
         //reg_bank[i] = (i*2);
     end
-end
+end */
 
 always@(posedge i_clk)
 begin
-    if(i_debug_unit_enable && i_RegWrite)
+    if(i_reset)
+    begin
+        for (i = 0; i <= N_REG; i = i + 1) begin
+            reg_bank[i] = (i*2) << 16;
+            //reg_bank[i] = (i*2);
+        end
+    end
+    else if(i_debug_unit_enable && i_RegWrite)
         reg_bank[rw_address] <= i_data_to_write;    
 end
 

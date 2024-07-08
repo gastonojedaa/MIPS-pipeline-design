@@ -74,6 +74,7 @@ u_IF
 wire IFIDwrite;
 wire [NB_INS-1:0] if_id_instruction_id;
 wire [NB_PC-1:0] if_id_address_plus_4_id;
+wire IF_ID_flush;
 
 IF_ID
 #(
@@ -88,6 +89,7 @@ u_if_id
     .i_instruction(if_instruction_if_id), 
     .i_address_plus_4(if_address_plus_4_if_id),
     .i_IFIDwrite(IFIDwrite),
+    .i_IF_ID_flush(IF_ID_flush),
     .o_instruction(if_id_instruction_id), 
     .o_address_plus_4(if_id_address_plus_4_id)
 );
@@ -165,7 +167,8 @@ u_id
     .o_Branch_to_ID_EX(Branch_to_ID_EX),
     .o_RegWrite_to_ID_EX(RegWrite_to_id_ex),
     .o_MemtoReg_to_ID_EX(memtoReg_to_id_ex),
-    .o_execute_branch(execute_branch_to_IF)
+    .o_execute_branch(execute_branch_to_IF),
+    .o_IF_ID_flush(IF_ID_flush)
 );
 
 //to EX
