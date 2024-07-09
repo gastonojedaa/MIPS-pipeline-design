@@ -66,7 +66,7 @@ module alu
             BNE_ALUCODE:
                 res = (i_data_a != i_data_b);                      
             default:
-                res = 'hFFFFFFFF;
+                res = 'hAAAAAAAA;
         endcase
     end
     

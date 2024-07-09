@@ -84,24 +84,21 @@ wire [NB_DATA-1:0] data_b;
 //aca hay que asignar el rt_data y rs_data a los mux de forward
 //cortocircuito
 //dependiendo el valor de las flags va a recibir el valor de los registros o el valor de la etapa EX/MEM o MEM/WB
-always@(posedge i_clk)
+always@(*)
 begin
-    if(i_debug_unit_enable)
-    begin
-        case(i_forward_a)
-            2'b00: rs_data = i_rs_data; //no hay cortocircuito
-            2'b10: rs_data = i_rt_data_ex_mem; //de la etapa EX/MEM
-            2'b01: rs_data = i_rt_data_mem_wb; //de la etapa MEM/WB
-            2'b11: rs_data = i_rs_data; //no deberia pasar
-        endcase
+    case(i_forward_a)
+        2'b00: rs_data = i_rs_data; //no hay cortocircuito
+        2'b10: rs_data = i_rt_data_ex_mem; //de la etapa EX/MEM
+        2'b01: rs_data = i_rt_data_mem_wb; //de la etapa MEM/WB
+        2'b11: rs_data = i_rs_data; //no deberia pasar
+    endcase
 
-        case(i_forward_b)
-            2'b00: rt_data = i_rt_data; //no hay cortocircuito
-            2'b10: rt_data = i_rt_data_ex_mem; //de la etapa EX/MEM
-            2'b01: rt_data = i_rt_data_mem_wb; //de la etapa MEM/WB
-            2'b11: rt_data = i_rt_data;
-        endcase
-    end
+    case(i_forward_b)
+        2'b00: rt_data = i_rt_data; //no hay cortocircuito
+        2'b10: rt_data = i_rt_data_ex_mem; //de la etapa EX/MEM
+        2'b01: rt_data = i_rt_data_mem_wb; //de la etapa MEM/WB
+        2'b11: rt_data = i_rt_data;
+    endcase
 end
 
 assign data_b = i_ALUSrc_from_ID_EX ? i_sigext : rt_data;  //mux entre rt e sig_ext

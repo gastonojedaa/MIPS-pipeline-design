@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="10,125 ps"></ZoomStartTime>
-      <ZoomEndTime time="16,386 ps"></ZoomEndTime>
-      <Cursor1Time time="13,490 ps"></Cursor1Time>
+      <ZoomStartTime time="10.416 ns"></ZoomStartTime>
+      <ZoomEndTime time="18.917 ns"></ZoomEndTime>
+      <Cursor1Time time="15.500 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="264"></NameColumnWidth>
-      <ValueColumnWidth column_width="155"></ValueColumnWidth>
+      <NameColumnWidth column_width="194"></NameColumnWidth>
+      <ValueColumnWidth column_width="70"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="80" />
+   <WVObjectSize size="88" />
    <wvobject fp_name="/tb_top/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -49,6 +49,10 @@
       <obj_property name="ElementShortName">i_execute_branch</obj_property>
       <obj_property name="ObjectShortName">i_execute_branch</obj_property>
    </wvobject>
+   <wvobject fp_name="/tb_top/u_top/u_IF/i_jump_address" type="array">
+      <obj_property name="ElementShortName">i_jump_address[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_jump_address[31:0]</obj_property>
+   </wvobject>
    <wvobject fp_name="/tb_top/u_top/u_IF/u_instruction_mem/ins_mem" type="array">
       <obj_property name="ElementShortName">ins_mem[0:255][31:0]</obj_property>
       <obj_property name="ObjectShortName">ins_mem[0:255][31:0]</obj_property>
@@ -56,14 +60,32 @@
    <wvobject fp_name="/tb_top/u_top/u_IF/new_address" type="array">
       <obj_property name="ElementShortName">new_address[31:0]</obj_property>
       <obj_property name="ObjectShortName">new_address[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top/u_top/u_IF/pc" type="array">
       <obj_property name="ElementShortName">pc[31:0]</obj_property>
       <obj_property name="ObjectShortName">pc[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top/u_top/u_IF/o_instruction" type="array">
       <obj_property name="ElementShortName">o_instruction[31:0]</obj_property>
       <obj_property name="ObjectShortName">o_instruction[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider180">
+      <obj_property name="label">IF_ID</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/u_top/u_if_id/i_IF_ID_flush" type="logic">
+      <obj_property name="ElementShortName">i_IF_ID_flush</obj_property>
+      <obj_property name="ObjectShortName">i_IF_ID_flush</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/u_top/u_if_id/o_instruction" type="array">
+      <obj_property name="ElementShortName">o_instruction[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_instruction[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/u_top/u_if_id/o_address_plus_4" type="array">
+      <obj_property name="ElementShortName">o_address_plus_4[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_address_plus_4[31:0]</obj_property>
    </wvobject>
    <wvobject type="divider" fp_name="divider16">
       <obj_property name="label">ID</obj_property>
@@ -101,6 +123,10 @@
       <obj_property name="ElementShortName">o_inm_value[15:0]</obj_property>
       <obj_property name="ObjectShortName">o_inm_value[15:0]</obj_property>
    </wvobject>
+   <wvobject fp_name="/tb_top/u_top/u_id/o_IF_ID_flush" type="logic">
+      <obj_property name="ElementShortName">o_IF_ID_flush</obj_property>
+      <obj_property name="ObjectShortName">o_IF_ID_flush</obj_property>
+   </wvobject>
    <wvobject type="divider" fp_name="divider112">
       <obj_property name="label">REGBANK</obj_property>
       <obj_property name="DisplayName">label</obj_property>
@@ -137,6 +163,7 @@
    <wvobject fp_name="/tb_top/u_top/u_id/u_register_bank/reg_bank" type="array">
       <obj_property name="ElementShortName">reg_bank[0:32][31:0]</obj_property>
       <obj_property name="ObjectShortName">reg_bank[0:32][31:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject type="divider" fp_name="divider120">
       <obj_property name="label">CONTROL_UNIT</obj_property>
@@ -152,6 +179,7 @@
       <obj_property name="ElementShortName">o_ALUOp[3:0]</obj_property>
       <obj_property name="ObjectShortName">o_ALUOp[3:0]</obj_property>
       <obj_property name="Radix">BINARYRADIX</obj_property>
+      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top/u_top/u_id/u_control_unit/MemRead" type="logic">
       <obj_property name="ElementShortName">MemRead</obj_property>
@@ -216,6 +244,10 @@
       <obj_property name="ElementShortName">i_ALUOp_from_ID_EX[3:0]</obj_property>
       <obj_property name="ObjectShortName">i_ALUOp_from_ID_EX[3:0]</obj_property>
       <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/u_top/u_ex/i_rs_address" type="array">
+      <obj_property name="ElementShortName">i_rs_address[4:0]</obj_property>
+      <obj_property name="ObjectShortName">i_rs_address[4:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top/u_top/u_ex/i_forward_a" type="array">
       <obj_property name="ElementShortName">i_forward_a[1:0]</obj_property>
@@ -328,16 +360,21 @@
       <obj_property name="ObjectShortName">i_write_address[4:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top/u_top/u_mem_wb/i_res" type="array">
-      <obj_property name="ElementShortName">i_res[32:0]</obj_property>
-      <obj_property name="ObjectShortName">i_res[32:0]</obj_property>
+      <obj_property name="ElementShortName">i_res[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_res[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top/u_top/u_mem_wb/o_write_address" type="array">
       <obj_property name="ElementShortName">o_write_address[4:0]</obj_property>
       <obj_property name="ObjectShortName">o_write_address[4:0]</obj_property>
    </wvobject>
+   <wvobject fp_name="/tb_top/u_top/u_mem_wb/o_rt_address" type="array">
+      <obj_property name="ElementShortName">o_rt_address[4:0]</obj_property>
+      <obj_property name="ObjectShortName">o_rt_address[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
    <wvobject fp_name="/tb_top/u_top/u_mem_wb/o_res" type="array">
-      <obj_property name="ElementShortName">o_res[32:0]</obj_property>
-      <obj_property name="ObjectShortName">o_res[32:0]</obj_property>
+      <obj_property name="ElementShortName">o_res[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_res[31:0]</obj_property>
    </wvobject>
    <wvobject type="divider" fp_name="divider34">
       <obj_property name="label">WB</obj_property>

@@ -42,7 +42,7 @@ always@(posedge i_clk)
 begin
     if(i_reset || i_IF_ID_flush)
         begin
-            o_instruction <= 'hFFFFFFFF;
+            o_instruction <= 'hBBBBBBBB;// Intruction not used
             o_address_plus_4 <= 0; 
         end 
     else if(i_debug_unit_enable)
