@@ -11,13 +11,13 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="10.416 ns"></ZoomStartTime>
-      <ZoomEndTime time="18.917 ns"></ZoomEndTime>
-      <Cursor1Time time="15.500 ns"></Cursor1Time>
+      <ZoomStartTime time="13.756 ns"></ZoomStartTime>
+      <ZoomEndTime time="24.507 ns"></ZoomEndTime>
+      <Cursor1Time time="20.801 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="194"></NameColumnWidth>
-      <ValueColumnWidth column_width="70"></ValueColumnWidth>
+      <NameColumnWidth column_width="155"></NameColumnWidth>
+      <ValueColumnWidth column_width="105"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="88" />
    <wvobject fp_name="/tb_top/clk" type="logic">
@@ -94,6 +94,7 @@
    <wvobject fp_name="/tb_top/u_top/u_id/i_instruction" type="array">
       <obj_property name="ElementShortName">i_instruction[31:0]</obj_property>
       <obj_property name="ObjectShortName">i_instruction[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top/u_top/u_id/rs_address" type="array">
       <obj_property name="ElementShortName">rs_address[4:0]</obj_property>
@@ -179,7 +180,6 @@
       <obj_property name="ElementShortName">o_ALUOp[3:0]</obj_property>
       <obj_property name="ObjectShortName">o_ALUOp[3:0]</obj_property>
       <obj_property name="Radix">BINARYRADIX</obj_property>
-      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top/u_top/u_id/u_control_unit/MemRead" type="logic">
       <obj_property name="ElementShortName">MemRead</obj_property>
@@ -291,6 +291,7 @@
    <wvobject fp_name="/tb_top/u_top/u_ex/u_control_alu/i_ALUOp" type="array">
       <obj_property name="ElementShortName">i_ALUOp[3:0]</obj_property>
       <obj_property name="ObjectShortName">i_ALUOp[3:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top/u_top/u_ex/u_control_alu/i_funct" type="array">
       <obj_property name="ElementShortName">i_funct[5:0]</obj_property>
@@ -381,8 +382,8 @@
       <obj_property name="DisplayName">label</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top/u_top/u_wb/i_res" type="array">
-      <obj_property name="ElementShortName">i_res[32:0]</obj_property>
-      <obj_property name="ObjectShortName">i_res[32:0]</obj_property>
+      <obj_property name="ElementShortName">i_res[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_res[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top/u_top/u_wb/o_write_in_register_bank" type="array">
       <obj_property name="ElementShortName">o_write_in_register_bank[31:0]</obj_property>

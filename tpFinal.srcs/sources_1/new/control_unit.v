@@ -97,10 +97,11 @@ module control_unit#(
     output o_RegWrite,
     output [1:0] o_MemtoReg,
     output o_execute_branch,
-    output o_IF_ID_flush    
+    output o_IF_ID_flush,
+    output o_EX_MEM_flush    
 );
 
-reg PcSrc, ALUSrc, MemRead, MemWrite, Branch, RegWrite,execute_branch, IF_ID_flush;
+reg PcSrc, ALUSrc, MemRead, MemWrite, Branch, RegWrite,execute_branch, IF_ID_flush, EX_MEM_flush;
 reg [3:0] ALUOp;
 reg [1:0] MemtoReg; 
 reg [1:0] RegDst; 
@@ -113,6 +114,7 @@ always @(*)
     begin
         execute_branch = 1'b1;
         IF_ID_flush = 1'b1;
+        EX_MEM_flush = 1'b1;
         PcSrc = 1'b0;
         RegDst = 2'b00;
         ALUSrc = 1'b0;
@@ -127,6 +129,7 @@ always @(*)
         begin
             execute_branch = 1'b0;
             IF_ID_flush = 1'b0;
+            EX_MEM_flush = 1'b0;
             PcSrc = 1'b0; 
             RegDst = 2'b00; 
             ALUSrc = 1'b0; 
@@ -143,6 +146,7 @@ always @(*)
         begin
             execute_branch = 1'b0;
             IF_ID_flush = 1'b0;
+            EX_MEM_flush = 1'b0;
             case(i_opcode)                
                 R_type: // SLL, SRL, SRA, SLLV, SRLV, SRAV, ADDU, SUBU, AND, OR, XOR, NOR, SLT, JR, JALR
                 begin        
@@ -529,5 +533,6 @@ assign o_RegWrite = RegWrite;
 assign o_MemtoReg = MemtoReg;
 assign o_execute_branch = execute_branch;
 assign o_IF_ID_flush = IF_ID_flush;
+assign o_EX_MEM_flush = EX_MEM_flush;
 
 endmodule

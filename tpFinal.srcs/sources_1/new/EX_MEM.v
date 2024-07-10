@@ -39,6 +39,7 @@ module EX_MEM
     input i_Branch_from_EX,
     input i_MemRead_from_EX,
     input i_MemWrite_from_EX,
+    input i_ex_mem_flush,
    
     input [1:0] i_MemtoReg_from_EX,
     input i_RegWrite_from_EX,
@@ -59,7 +60,7 @@ module EX_MEM
 );
 always@(posedge i_clk)
 begin 
-    if(i_reset)
+    if(i_reset || i_ex_mem_flush)
         begin
             o_res <= 0;
             o_alu_zero_to_ID <= 0;

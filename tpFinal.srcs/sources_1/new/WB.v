@@ -29,7 +29,7 @@ module WB
 (
     input i_clk,    
     input i_debug_unit_enable,
-    input [NB_DATA:0] i_res,
+    input [NB_DATA-1:0] i_res,
     input [NB_DATA-1:0] i_mem_data,
     input [NB_ADDR-1:0] i_address_plus_4,
     input [1:0] i_MemtoReg, 
