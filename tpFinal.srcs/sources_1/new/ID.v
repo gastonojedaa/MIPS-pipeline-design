@@ -60,12 +60,13 @@ module ID
     output [3:0] o_ALUOp_to_ID_EX,
     output reg o_MemRead_to_ID_EX,
     output o_MemWrite_to_ID_EX,
-    output o_Branch_to_ID_EX,
+    //output o_Branch_to_ID_EX,
     output o_RegWrite_to_ID_EX,
     output [1:0] o_MemtoReg_to_ID_EX,
-    output o_execute_branch,
+    output reg o_execute_branch,
     output o_IF_ID_flush,
-    output o_ex_mem_flush
+    output o_ex_mem_flush,
+    output [NB_PC-1:0] o_jump_address
 );
 
 localparam NB_REG_ADDRESS = $clog2(N_REG);
@@ -83,6 +84,11 @@ assign o_function = i_instruction[5:0];
 
 
 wire MemRead;
+wire [NB_DATA-1:0] rs_data;
+wire [NB_DATA-1:0] rt_data;
+wire [1:0] branch;
+
+wire  [NB_DATA-1:0] sigext;
 
 
 register_bank
@@ -102,9 +108,9 @@ u_register_bank
     .rw_address(i_write_address),          //  vienen de la 
     .i_RegWrite(i_RegWrite_from_WB), //señal de control
     .i_reg_address(), //TODO: viene de la contorl unit
-    .rs_data(o_rs_data),
-    .rt_data(o_rt_data),
-    .reg_data() //TODO: esto creo que nisiquiera va   
+    .o_rs_data(rs_data),
+    .o_rt_data(rt_data),
+    .o_reg_data() //TODO: esto creo que nisiquiera va   
 );
 
 sign_ext
@@ -115,7 +121,7 @@ sign_ext
 u_sign_ext
 (
     .i_data_in(i_instruction[15:0]),
-    .o_sigext(o_sigext)
+    .o_sigext(sigext)
 ); 
 
 //control unit
@@ -130,7 +136,6 @@ u_control_unit
     .i_opcode(i_instruction[NB_INS-1:NB_INS-NB_OPS]),
     .i_function(i_instruction[5:0]),
     .i_pipeline_stalled(i_pipeline_stalled_to_control_unit),
-    .i_Branch(i_Branch_from_EX_MEM),
     .i_zero_from_alu(i_alu_zero_from_ex_mem),
     .o_PcSrc(o_PcSrc_to_IF),
     .o_RegDst(o_RegDst_to_ID_EX),
@@ -138,13 +143,22 @@ u_control_unit
     .o_ALUOp(o_ALUOp_to_ID_EX),
     .o_MemRead(MemRead),
     .o_MemWrite(o_MemWrite_to_ID_EX),
-    .o_Branch(o_Branch_to_ID_EX),
+    .o_Branch(branch),
     .o_RegWrite(o_RegWrite_to_ID_EX),
     .o_MemtoReg(o_MemtoReg_to_ID_EX),
-    .o_execute_branch(o_execute_branch),
     .o_IF_ID_flush(o_IF_ID_flush),
     .o_EX_MEM_flush(o_ex_mem_flush)
 );
+
+always@(*)
+begin
+if(branch==2'b01 && rs_data == rt_data)
+    o_execute_branch = 1;
+else if(branch==2'b10 && rs_data != rt_data)
+    o_execute_branch = 1;
+else
+    o_execute_branch = 0;
+end
 
 assign o_inm_value = i_instruction[NB_DATA_IN-1:0]; // [15:0]
 assign o_rs_address = rs_address;
@@ -154,6 +168,10 @@ assign o_rd_address = rd_address;
 assign o_address_plus_4 = i_address_plus_4;
 
 
+assign o_jump_address = i_address_plus_4 + sigext;
+
+
+
 always@(posedge i_clk)
 begin
     if(i_reset)
@@ -161,5 +179,9 @@ begin
     else
         o_MemRead_to_ID_EX <= MemRead;
 end
+
+assign o_rs_data = rs_data;
+assign o_rt_data = rt_data;
+assign o_sigext = sigext;
 
 endmodule

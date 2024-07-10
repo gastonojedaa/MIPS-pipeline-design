@@ -89,7 +89,7 @@ u_if_id
     .i_instruction(if_instruction_if_id), 
     .i_address_plus_4(if_address_plus_4_if_id),
     .i_IFIDwrite(IFIDwrite),
-    .i_IF_ID_flush(IF_ID_flush),
+    .i_IF_ID_flush(execute_branch_to_IF),
     .o_instruction(if_id_instruction_id), 
     .o_address_plus_4(if_id_address_plus_4_id)
 );
@@ -157,6 +157,7 @@ u_id
     .o_sigext(id_sigext_id_ex),    
     .o_function(function_to_id_ex),
     .o_address_plus_4(if_id_address_plus_4_id_ex),
+    .o_jump_address(jump_address_to_if),
 
     //señales de control
     .o_PcSrc_to_IF(PcSrc),
@@ -165,7 +166,7 @@ u_id
     .o_ALUOp_to_ID_EX(ALUOp_to_id_ex),
     .o_MemRead_to_ID_EX(MemRead_to_id_ex),
     .o_MemWrite_to_ID_EX(MemWrite_to_id_ex),
-    .o_Branch_to_ID_EX(Branch_to_ID_EX),
+    //.o_Branch_to_ID_EX(Branch_to_ID_EX),
     .o_RegWrite_to_ID_EX(RegWrite_to_id_ex),
     .o_MemtoReg_to_ID_EX(memtoReg_to_id_ex),
     .o_execute_branch(execute_branch_to_IF),
@@ -268,7 +269,6 @@ wire [NB_REG_ADDRESS-1:0] rt_address_to_ex_mem;
 wire [NB_DATA-1:0] rt_data_to_ex_from_mem_wb;
 
 
-
 EX
 #(    
     .NB_DATA(NB_DATA),
@@ -312,7 +312,6 @@ u_ex
 
     .o_res(ex_res_ex_mem),
     .o_alu_zero_to_ex_mem(alu_zero_ex_mem),
-    .o_jump_address(ex_jump_address_ex_mem),
     
     //señales de control
     .o_MemRead_to_EX_MEM(MemRead_to_ex_mem),
@@ -369,7 +368,6 @@ u_ex_mem
     .o_res(ex_res_to_mem),
     .o_alu_zero_to_ID(alu_zero_ID),
     .o_rt_data(rt_data_to_mem),
-    .o_jump_address(jump_address_to_if),
     .o_write_address(write_address_to_mem),
     .o_address_plus_4(address_plus_4_to_mem),
     

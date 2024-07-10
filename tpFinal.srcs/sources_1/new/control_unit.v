@@ -84,7 +84,7 @@ module control_unit#(
     input [NB_OPS-1:0] i_opcode,
     input [NB_FUNCTION-1:0] i_function,     
     input i_pipeline_stalled, //viene de hazard_detection_unit para insertar nops 
-    input i_Branch,
+    input i_execute_branch,
     input i_zero_from_alu,
     
     output o_PcSrc,
@@ -93,26 +93,24 @@ module control_unit#(
     output [3:0] o_ALUOp, 
     output o_MemRead,
     output o_MemWrite,
-    output o_Branch,    
+    output [1:0] o_Branch,    
     output o_RegWrite,
     output [1:0] o_MemtoReg,
-    output o_execute_branch,
     output o_IF_ID_flush,
     output o_EX_MEM_flush    
 );
 
-reg PcSrc, ALUSrc, MemRead, MemWrite, Branch, RegWrite,execute_branch, IF_ID_flush, EX_MEM_flush;
+reg PcSrc, ALUSrc, MemRead, MemWrite, Branch, RegWrite, IF_ID_flush, EX_MEM_flush;
 reg [3:0] ALUOp;
 reg [1:0] MemtoReg; 
 reg [1:0] RegDst; 
 
 //si la señal branch y el zero de la alu estan en 1, se debe hacer un flush del pipeline
-wire flush_pipeline = i_Branch & i_zero_from_alu;
+wire flush_pipeline = 0;//TODO: DELETE
 
 always @(*)
     if(flush_pipeline)
     begin
-        execute_branch = 1'b1;
         IF_ID_flush = 1'b1;
         EX_MEM_flush = 1'b1;
         PcSrc = 1'b0;
@@ -121,13 +119,12 @@ always @(*)
         ALUOp = R_TYPE_ALUOP;
         MemRead = 1'b0;
         MemWrite = 1'b0;
-        Branch = 1'b0;
+        Branch = 2'b00;
         RegWrite = 1'b0;
         MemtoReg = 2'b00;        
     end
     else if (i_pipeline_stalled == 1'b1)
         begin
-            execute_branch = 1'b0;
             IF_ID_flush = 1'b0;
             EX_MEM_flush = 1'b0;
             PcSrc = 1'b0; 
@@ -136,7 +133,7 @@ always @(*)
             ALUOp = R_TYPE_ALUOP;
             MemRead = 1'b0;
             MemWrite = 1'b0;
-            Branch = 1'b0;
+            Branch = 2'b00;
             RegWrite = 1'b0;
             MemtoReg = 2'b00; 
             /* BHW = 2'b00;  //no se usa
@@ -144,7 +141,6 @@ always @(*)
         end
     else
         begin
-            execute_branch = 1'b0;
             IF_ID_flush = 1'b0;
             EX_MEM_flush = 1'b0;
             case(i_opcode)                
@@ -159,7 +155,7 @@ always @(*)
                                     ALUOp = R_TYPE_ALUOP;
                                     MemRead = 1'b0;
                                     MemWrite = 1'b0;
-                                    Branch = 1'b0;
+                                    Branch = 2'b00;
                                     RegWrite = 1'b1;
                                     MemtoReg = 2'b01; 
                                     /* BHW = 2'b00;  //no se usa
@@ -173,7 +169,7 @@ always @(*)
                                     ALUOp = R_TYPE_ALUOP;
                                     MemRead = 1'b0;
                                     MemWrite = 1'b0;
-                                    Branch = 1'b0;
+                                    Branch = 2'b00;
                                     RegWrite = 1'b1;
                                     MemtoReg = 2'b01; 
                                     /* BHW = 2'b00;  //no se usa
@@ -201,7 +197,7 @@ always @(*)
                                     ALUOp = R_TYPE_ALUOP;
                                     MemRead = 1'b0;
                                     MemWrite = 1'b0;
-                                    Branch = 1'b0;
+                                    Branch = 2'b00;
                                     RegWrite = 1'b1;
                                     MemtoReg = 2'b10;  
                                     /* BHW = 2'b00;  //no se usa
@@ -215,7 +211,7 @@ always @(*)
                                     ALUOp = R_TYPE_ALUOP;
                                     MemRead = 1'b0;
                                     MemWrite = 1'b0;
-                                    Branch = 1'b0;
+                                    Branch = 2'b00;
                                     RegWrite = 1'b0;
                                     MemtoReg = 2'b00; 
                                     /* BHW = 2'b00;  //no se usa
@@ -232,7 +228,7 @@ always @(*)
                     ALUOp = LOAD_STORE_ADDI_ALUOP;
                     MemRead = 1'b1;
                     MemWrite = 1'b0;
-                    Branch = 1'b0;
+                    Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b00;
                     /* BHW = 2'b00;
@@ -246,7 +242,7 @@ always @(*)
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b1;
                     MemWrite = 1'b0;
-                    Branch = 1'b0;
+                    Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b00;
                     /*BHW = 2'b01;
@@ -260,7 +256,7 @@ always @(*)
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b1;
                     MemWrite = 1'b0;
-                    Branch = 1'b0;
+                    Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b00;
                     /* BHW = 2'b10;
@@ -274,7 +270,7 @@ always @(*)
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b1;
                     MemWrite = 1'b0;
-                    Branch = 1'b0;
+                    Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b00;
                     /* BHW = 2'b10;
@@ -288,7 +284,7 @@ always @(*)
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b1;
                     MemWrite = 1'b0;
-                    Branch = 1'b0;
+                    Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b00;
                     /* BHW = 2'b00;
@@ -302,7 +298,7 @@ always @(*)
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b1;
                     MemWrite = 1'b0;
-                    Branch = 1'b0;
+                    Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b00;
                     /* BHW = 2'b01;
@@ -316,7 +312,7 @@ always @(*)
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b0;
                     MemWrite = 1'b1;
-                    Branch = 1'b0;
+                    Branch = 2'b00;
                     RegWrite = 1'b0;
                     MemtoReg = 2'b00;  //no se usa
                     /* BHW = 2'b00;
@@ -330,7 +326,7 @@ always @(*)
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b0;
                     MemWrite = 1'b1;
-                    Branch = 1'b0;
+                    Branch = 2'b00;
                     RegWrite = 1'b0;
                     MemtoReg = 2'b00;  //no se usa
                     /* BHW = 2'b01;
@@ -344,7 +340,7 @@ always @(*)
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b0;
                     MemWrite = 1'b1;
-                    Branch = 1'b0;
+                    Branch = 2'b00;
                     RegWrite = 1'b0;
                     MemtoReg = 2'b00;  //no se usa
                     /* BHW = 2'b10;
@@ -358,7 +354,7 @@ always @(*)
                     ALUOp = LOAD_STORE_ADDI_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
-                    Branch = 1'b0;
+                    Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b01;
                     /* BHW = 2'b00;      //no se usa
@@ -372,7 +368,7 @@ always @(*)
                     ALUOp = ANDI_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
-                    Branch = 1'b0;
+                    Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b01;
                     /* BHW = 2'b00;//no se usa
@@ -386,7 +382,7 @@ always @(*)
                     ALUOp = ORI_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
-                    Branch = 1'b0;
+                    Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b01;
                     /* BHW = 2'b00;//no se usa
@@ -400,7 +396,7 @@ always @(*)
                     ALUOp = XORI_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
-                    Branch = 1'b0;
+                    Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b01;
                     /* BHW = 2'b00;//no se usa
@@ -414,7 +410,7 @@ always @(*)
                     ALUOp = LUI_ALUOP;
                     MemRead = 1'b1;
                     MemWrite = 1'b0;
-                    Branch = 1'b0;
+                    Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b01;
                     /* BHW = 2'b00;//no se usa
@@ -428,7 +424,7 @@ always @(*)
                     ALUOp = SLTI_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
-                    Branch = 1'b0;
+                    Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b01;
                     /* BHW = 2'b00;//no se usa
@@ -442,7 +438,7 @@ always @(*)
                     ALUOp = BEQ_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
-                    Branch = 1'b1;
+                    Branch = 2'b01;
                     RegWrite = 1'b0;
                     MemtoReg = 2'b00; //no se usa
                     /* BHW = 2'b00;//no se usa
@@ -456,7 +452,7 @@ always @(*)
                     ALUOp = BNE_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
-                    Branch = 1'b1; //capaz hay que hacer un NeBranch 
+                    Branch = 2'b10; //capaz hay que hacer un NeBranch 
                     RegWrite = 1'b0;
                     MemtoReg = 2'b00; //no se usa
                     /* BHW = 2'b00;//no se usa
@@ -471,7 +467,7 @@ always @(*)
                     ALUOp = R_TYPE_ALUOP; //no se usa
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
-                    Branch = 1'b0;
+                    Branch = 2'b00;
                     RegWrite = 1'b0;
                     MemtoReg = 2'b00; //no se usa
                     /* BHW = 2'b00;//no se usa
@@ -485,7 +481,7 @@ always @(*)
                     ALUOp = R_TYPE_ALUOP; //no se usa
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
-                    Branch = 1'b0;
+                    Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b10;
                     /* BHW = 2'b00;//no se usa
@@ -499,7 +495,7 @@ always @(*)
                     ALUOp = R_TYPE_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
-                    Branch = 1'b0;
+                    Branch = 2'b00;
                     RegWrite = 1'b0;
                     MemtoReg =  2'b00;
                     /* BHW = 2'b00;//no se usa
@@ -513,7 +509,7 @@ always @(*)
                     ALUOp = R_TYPE_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
-                    Branch = 1'b0;
+                    Branch = 2'b00;
                     RegWrite = 1'b0;
                     MemtoReg = 2'b00;
                     /* BHW = 2'b00;//no se usa
@@ -531,7 +527,6 @@ assign o_MemWrite = MemWrite;
 assign o_Branch = Branch;
 assign o_RegWrite = RegWrite;
 assign o_MemtoReg = MemtoReg;
-assign o_execute_branch = execute_branch;
 assign o_IF_ID_flush = IF_ID_flush;
 assign o_EX_MEM_flush = EX_MEM_flush;
 

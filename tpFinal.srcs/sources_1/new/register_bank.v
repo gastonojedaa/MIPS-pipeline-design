@@ -35,9 +35,9 @@ module register_bank
     input   [NB_REG_ADDRESS-1:0] rw_address,
     input   i_RegWrite,   
     input   [NB_REG_ADDRESS-1:0] i_reg_address,
-    output reg  [NB_DATA-1:0] rs_data,
-    output reg  [NB_DATA-1:0] rt_data,
-    output  [NB_DATA-1:0] reg_data
+    output reg  [NB_DATA-1:0] o_rs_data,
+    output reg  [NB_DATA-1:0] o_rt_data,
+    output  [NB_DATA-1:0] o_reg_data
 );
 
 integer i;
@@ -61,15 +61,15 @@ always @(negedge i_clk)
 begin
     if (i_reset)
     begin
-        rs_data <= 0;
-        rt_data <= 0;
+        o_rs_data <= 0;
+        o_rt_data <= 0;
     end
     else if(i_debug_unit_enable)
     begin
-        rs_data <= reg_bank[rs_address];
-        rt_data <= reg_bank[rt_address];
+        o_rs_data <= reg_bank[rs_address];
+        o_rt_data <= reg_bank[rt_address];
     end
 end
 
-assign reg_data = reg_bank[i_reg_address];
+assign o_reg_data = reg_bank[i_reg_address];
 endmodule

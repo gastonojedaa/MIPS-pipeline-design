@@ -60,7 +60,7 @@ module EX_MEM
 );
 always@(posedge i_clk)
 begin 
-    if(i_reset || i_ex_mem_flush)
+    if(i_reset)
         begin
             o_res <= 0;
             o_alu_zero_to_ID <= 0;
