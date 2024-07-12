@@ -89,7 +89,7 @@ u_if_id
     .i_instruction(if_instruction_if_id), 
     .i_address_plus_4(if_address_plus_4_if_id),
     .i_IFIDwrite(IFIDwrite),
-    .i_IF_ID_flush(execute_branch_to_IF),
+    .i_IF_ID_flush(execute_branch_to_IF || PcSrc),
     .o_instruction(if_id_instruction_id), 
     .o_address_plus_4(if_id_address_plus_4_id)
 );

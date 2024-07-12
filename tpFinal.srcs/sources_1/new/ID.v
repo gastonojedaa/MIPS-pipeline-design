@@ -125,8 +125,9 @@ u_sign_ext
     .o_sigext(sigext)
 ); 
 
-//control unit
+wire PcSrc_to_IF;
 
+//control unit
 control_unit
 #(
     .NB_FUNCTION(NB_FUNCTION),
@@ -138,7 +139,7 @@ u_control_unit
     .i_function(i_instruction[5:0]),
     .i_pipeline_stalled(i_pipeline_stalled_to_control_unit),
     .i_zero_from_alu(i_alu_zero_from_ex_mem),
-    .o_PcSrc(o_PcSrc_to_IF),
+    .o_PcSrc(PcSrc_to_IF),
     .o_RegDst(o_RegDst_to_ID_EX),
     .O_ALUSrc(o_ALUSrc_to_ID_EX),
     .o_ALUOp(o_ALUOp_to_ID_EX),
@@ -150,6 +151,8 @@ u_control_unit
     .o_IF_ID_flush(o_IF_ID_flush),
     .o_EX_MEM_flush(o_ex_mem_flush)
 );
+
+assign o_PcSrc_to_IF = PcSrc_to_IF;
 
 always@(*)
 begin
@@ -168,10 +171,7 @@ assign o_rt_address = rt_address;
 assign o_rd_address = rd_address;
 assign o_address_plus_4 = i_address_plus_4;
 
-
-assign o_jump_address = i_address_plus_4 + sigext;
-
-
+assign o_jump_address = PcSrc_to_IF ? {6'b0, i_instruction[25:0]} : i_address_plus_4 + sigext;
 
 always@(posedge i_clk)
 begin
