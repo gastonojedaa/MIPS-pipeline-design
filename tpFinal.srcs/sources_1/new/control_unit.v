@@ -100,10 +100,11 @@ module control_unit#(
     output o_EX_MEM_flush    
 );
 
-reg PcSrc, ALUSrc, MemRead, MemWrite, Branch, RegWrite, IF_ID_flush, EX_MEM_flush;
+reg PcSrc, ALUSrc, MemRead, MemWrite, RegWrite, IF_ID_flush, EX_MEM_flush;
 reg [3:0] ALUOp;
 reg [1:0] MemtoReg; 
-reg [1:0] RegDst; 
+reg [1:0] RegDst;
+reg [1:0] Branch;
 
 //si la señal branch y el zero de la alu estan en 1, se debe hacer un flush del pipeline
 wire flush_pipeline = 0;//TODO: DELETE
