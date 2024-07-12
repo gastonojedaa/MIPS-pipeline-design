@@ -96,8 +96,9 @@ module control_unit#(
     output [1:0] o_Branch,    
     output o_RegWrite,
     output [1:0] o_MemtoReg,
+    output [1:0] o_BHW,
     output o_IF_ID_flush,
-    output o_EX_MEM_flush    
+    output o_EX_MEM_flush
 );
 
 reg PcSrc, ALUSrc, MemRead, MemWrite, RegWrite, IF_ID_flush, EX_MEM_flush;
@@ -105,6 +106,7 @@ reg [3:0] ALUOp;
 reg [1:0] MemtoReg; 
 reg [1:0] RegDst;
 reg [1:0] Branch;
+reg [1:0] BHW; //11 -> word, 10 -> halfword, 01 -> byte , 00 -> no se usa
 
 //si la señal branch y el zero de la alu estan en 1, se debe hacer un flush del pipeline
 wire flush_pipeline = 0;//TODO: DELETE
@@ -122,7 +124,8 @@ always @(*)
         MemWrite = 1'b0;
         Branch = 2'b00;
         RegWrite = 1'b0;
-        MemtoReg = 2'b00;        
+        MemtoReg = 2'b00;
+        BHW = 2'b11;    
     end
     else if (i_pipeline_stalled == 1'b1)
         begin
@@ -136,7 +139,8 @@ always @(*)
             MemWrite = 1'b0;
             Branch = 2'b00;
             RegWrite = 1'b0;
-            MemtoReg = 2'b00; 
+            MemtoReg = 2'b00;
+            BHW = 2'b11; 
             /* BHW = 2'b00;  //no se usa
             ExtSign = 1'b0;//no se usa */
         end
@@ -158,7 +162,8 @@ always @(*)
                                     MemWrite = 1'b0;
                                     Branch = 2'b00;
                                     RegWrite = 1'b1;
-                                    MemtoReg = 2'b01; 
+                                    MemtoReg = 2'b01;
+                                    BHW = 2'b11; 
                                     /* BHW = 2'b00;  //no se usa
                                     ExtSign = 1'b0;//no se usa */
                             end
@@ -172,7 +177,8 @@ always @(*)
                                     MemWrite = 1'b0;
                                     Branch = 2'b00;
                                     RegWrite = 1'b1;
-                                    MemtoReg = 2'b01; 
+                                    MemtoReg = 2'b01;
+                                    BHW = 2'b11; 
                                     /* BHW = 2'b00;  //no se usa
                                     ExtSign = 1'b0;//no se usa */
                             end
@@ -186,7 +192,8 @@ always @(*)
                                     MemWrite = 1'b0;
                                     Branch =  1'b0;
                                     RegWrite = 1'b0;
-                                    MemtoReg = 2'b00; //no se usa
+                                    MemtoReg = 2'b00;
+                                    BHW = 2'b11; //no se usa
                                     /* BHW = 2'b00;  //no se usa
                                     ExtSign = 1'b0;//no se usa */
                             end
@@ -200,7 +207,8 @@ always @(*)
                                     MemWrite = 1'b0;
                                     Branch = 2'b00;
                                     RegWrite = 1'b1;
-                                    MemtoReg = 2'b10;  
+                                    MemtoReg = 2'b10;
+                                    BHW = 2'b11;  
                                     /* BHW = 2'b00;  //no se usa
                                     ExtSign = 1'b0;//no se usa */
                             end
@@ -214,7 +222,8 @@ always @(*)
                                     MemWrite = 1'b0;
                                     Branch = 2'b00;
                                     RegWrite = 1'b0;
-                                    MemtoReg = 2'b00; 
+                                    MemtoReg = 2'b00;
+                                    BHW = 2'b11; 
                                     /* BHW = 2'b00;  //no se usa
                                     ExtSign = 1'b0;//no se usa */                          
                             end                                     
@@ -232,8 +241,8 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b00;
-                    /* BHW = 2'b00;
-                    ExtSign = 1'b1; */
+                    BHW = 2'b01;
+                    //ExtSign = 1'b1; */
                 end
                 LH_OP:
                 begin
@@ -246,6 +255,7 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b00;
+                    BHW = 2'b10;
                     /*BHW = 2'b01;
                     ExtSign = 1'b1; */
                 end
@@ -260,6 +270,7 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b00;
+                    BHW = 2'b11;
                     /* BHW = 2'b10;
                     ExtSign = 1'b1; */
                 end
@@ -274,6 +285,7 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b00;
+                    BHW = 2'b11;
                     /* BHW = 2'b10;
                     ExtSign = 1'b0; */
                 end
@@ -288,6 +300,7 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b00;
+                    BHW = 2'b01;
                     /* BHW = 2'b00;
                     ExtSign = 1'b0; */
                 end
@@ -302,6 +315,7 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b00;
+                    BHW = 2'b10;
                     /* BHW = 2'b01;
                     ExtSign = 1'b0; */
                 end
@@ -315,9 +329,9 @@ always @(*)
                     MemWrite = 1'b1;
                     Branch = 2'b00;
                     RegWrite = 1'b0;
-                    MemtoReg = 2'b00;  //no se usa
-                    /* BHW = 2'b00;
-                    ExtSign = 1'b0;//no se usa */
+                    MemtoReg = 2'b00;
+                    BHW = 2'b01;
+                    //ExtSign = 1'b0;//no se usa */
                 end
                 SH_OP:
                 begin
@@ -329,7 +343,8 @@ always @(*)
                     MemWrite = 1'b1;
                     Branch = 2'b00;
                     RegWrite = 1'b0;
-                    MemtoReg = 2'b00;  //no se usa
+                    MemtoReg = 2'b00;
+                    BHW = 2'b10;
                     /* BHW = 2'b01;
                     ExtSign = 1'b0;//no se usa */
                 end
@@ -343,7 +358,8 @@ always @(*)
                     MemWrite = 1'b1;
                     Branch = 2'b00;
                     RegWrite = 1'b0;
-                    MemtoReg = 2'b00;  //no se usa
+                    MemtoReg = 2'b00;
+                    BHW = 2'b11;  //no se usa
                     /* BHW = 2'b10;
                     ExtSign = 1'b0;//no se usa        */
                 end
@@ -358,6 +374,7 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b01;
+                    BHW = 2'b11;
                     /* BHW = 2'b00;      //no se usa
                     ExtSign = 1'b0;   //no se usa */
                 end
@@ -372,6 +389,7 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b01;
+                    BHW = 2'b11;
                     /* BHW = 2'b00;//no se usa
                     ExtSign = 1'b0;//no se usa */
                 end
@@ -386,6 +404,7 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b01;
+                    BHW = 2'b11;
                     /* BHW = 2'b00;//no se usa
                     ExtSign = 1'b0;//no se usa */
                 end
@@ -400,6 +419,7 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b01;
+                    BHW = 2'b11;
                     /* BHW = 2'b00;//no se usa
                     ExtSign = 1'b0;//no se usa */
                 end
@@ -414,6 +434,7 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b01;
+                    BHW = 2'b11;
                     /* BHW = 2'b00;//no se usa
                     ExtSign = 1'b0;//no se usa */
                 end
@@ -428,6 +449,7 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b01;
+                    BHW = 2'b11;
                     /* BHW = 2'b00;//no se usa
                     ExtSign = 1'b0;//no se usa */
                 end
@@ -441,7 +463,8 @@ always @(*)
                     MemWrite = 1'b0;
                     Branch = 2'b01;
                     RegWrite = 1'b0;
-                    MemtoReg = 2'b00; //no se usa
+                    MemtoReg = 2'b00;
+                    BHW = 2'b11; //no se usa
                     /* BHW = 2'b00;//no se usa
                     ExtSign = 1'b0;//no se usa */
                 end
@@ -455,7 +478,8 @@ always @(*)
                     MemWrite = 1'b0;
                     Branch = 2'b10; //capaz hay que hacer un NeBranch 
                     RegWrite = 1'b0;
-                    MemtoReg = 2'b00; //no se usa
+                    MemtoReg = 2'b00;
+                    BHW = 2'b11; //no se usa
                     /* BHW = 2'b00;//no se usa
                     ExtSign = 1'b0;//no se usa */
                 end        
@@ -470,7 +494,8 @@ always @(*)
                     MemWrite = 1'b0;
                     Branch = 2'b00;
                     RegWrite = 1'b0;
-                    MemtoReg = 2'b00; //no se usa
+                    MemtoReg = 2'b00;
+                    BHW = 2'b11; //no se usa
                     /* BHW = 2'b00;//no se usa
                     ExtSign = 1'b0;//no se usa */
                 end
@@ -485,6 +510,7 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b10;
+                    BHW = 2'b11;
                     /* BHW = 2'b00;//no se usa
                     ExtSign = 1'b0;//no se usa */
                 end   
@@ -499,6 +525,7 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b0;
                     MemtoReg =  2'b00;
+                    BHW = 2'b11;;
                     /* BHW = 2'b00;//no se usa
                     ExtSign = 1'b0;//no se usa */
                 end
@@ -513,6 +540,7 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b0;
                     MemtoReg = 2'b00;
+                    BHW = 2'b11;
                     /* BHW = 2'b00;//no se usa
                     ExtSign = 1'b0;//no se usa */
                 end
@@ -530,5 +558,6 @@ assign o_RegWrite = RegWrite;
 assign o_MemtoReg = MemtoReg;
 assign o_IF_ID_flush = IF_ID_flush;
 assign o_EX_MEM_flush = EX_MEM_flush;
+assign o_BHW = BHW;
 
 endmodule

@@ -38,6 +38,7 @@ module MEM
     input i_MemRead_from_EX_MEM,
     input i_MemWrite_from_EX_MEM,
     input [1:0] i_MemtoReg_from_EX_MEM,
+    input [1:0] i_BHW_from_EX_MEM,
     input i_RegWrite_from_EX_MEM,
     input [NB_REG_ADDRESS-1:0] i_rt_address,
     output [NB_DATA-1:0] o_res,
@@ -69,7 +70,8 @@ u_data_mem
     .i_data_mem_read_address(i_res), 
     .i_data_mem_write_address(i_res),
     .i_data_mem_data(i_rt_data), // 0 NO WRITE - 1 WRITE
-    .i_data_mem_write_enable(i_MemWrite_from_EX_MEM), 
+    .i_data_mem_write_enable(i_MemWrite_from_EX_MEM),
+    .i_data_mem_bhw(i_BHW_from_EX_MEM),
     .o_mem_data(o_mem_data)
 );
 endmodule

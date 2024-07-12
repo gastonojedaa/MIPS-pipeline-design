@@ -42,6 +42,7 @@ module EX_MEM
     input i_ex_mem_flush,
    
     input [1:0] i_MemtoReg_from_EX,
+    input [1:0] i_BHW_from_EX,
     input i_RegWrite_from_EX,
     input [NB_REG_ADDRESS-1:0] i_rt_address,
     output reg [NB_DATA-1 : 0] o_res,
@@ -55,6 +56,7 @@ module EX_MEM
     output reg o_MemWrite_to_MEM,
    
     output reg [1:0] o_MemtoReg_to_MEM,
+    output reg [1:0] o_BHW_to_MEM,
     output reg o_RegWrite_to_MEM,
     output reg [NB_REG_ADDRESS-1:0] o_rt_address
 );
@@ -73,6 +75,7 @@ begin
             o_MemWrite_to_MEM <= 0;
             o_address_plus_4 <= 0;
             o_MemtoReg_to_MEM <= 0;
+            o_BHW_to_MEM <= 0;
             o_RegWrite_to_MEM <= 0;
             o_rt_address <= 0;
         end
@@ -88,6 +91,7 @@ begin
             o_MemWrite_to_MEM <= i_MemWrite_from_EX;
             o_address_plus_4 <= i_address_plus_4;
             o_MemtoReg_to_MEM <= i_MemtoReg_from_EX;
+            o_BHW_to_MEM <= i_BHW_from_EX;
             o_RegWrite_to_MEM <= i_RegWrite_from_EX;
             o_rt_address <= i_rt_address;
         end

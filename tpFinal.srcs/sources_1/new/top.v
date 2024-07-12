@@ -118,6 +118,7 @@ wire MemWrite_to_id_ex;
 wire Branch_to_ID_EX;
 wire RegWrite_to_id_ex;
 wire [1:0] memtoReg_to_id_ex;
+wire [1:0] bhw_to_id_ex;
 wire [3:0] ALUOp_to_id_ex;
 wire [NB_FUNCTION-1:0] function_to_id_ex;
 wire [NB_PC-1:0] if_id_address_plus_4_id_ex;
@@ -151,6 +152,7 @@ u_id
     .i_address_plus_4(if_id_address_plus_4_id),
     .i_rs_data_from_shortcircuit(rs_data_from_shortcircuit),
     .i_rt_data_from_shortcircuit(id_ex_rt_data_ex_mem),
+    .i_BHW_from_MEM_WB(bhw_to_id),
 
     .o_rs_data(id_rs_data_id_ex),    
     .o_rt_data(id_rt_data_id_ex),    
@@ -173,6 +175,7 @@ u_id
     //.o_Branch_to_ID_EX(Branch_to_ID_EX),
     .o_RegWrite_to_ID_EX(RegWrite_to_id_ex),
     .o_MemtoReg_to_ID_EX(memtoReg_to_id_ex),
+    .o_BHW_to_ID_EX(bhw_to_id_ex),
     .o_execute_branch(execute_branch_to_IF),
     .o_IF_ID_flush(IF_ID_flush),
     .o_ex_mem_flush(flush_to_ex_mem)
@@ -195,6 +198,7 @@ wire MemWrite_to_ex;
 wire Branch_to_EX;
 wire RegWrite_to_ex;
 wire [1:0] memtoReg_to_ex;
+wire [1:0] bhw_to_ex_mem;
 wire [3:0] ALUOp_to_ex;
 
 ID_EX
@@ -229,6 +233,7 @@ u_id_ex
     .i_Branch_from_ID(Branch_to_ID_EX),
     .i_RegWrite_from_ID(RegWrite_to_id_ex),
     .i_MemtoReg_from_ID(memtoReg_to_id_ex),
+    .i_BHW_from_ID(bhw_to_id_ex),
     .i_ALUOp_from_ID(ALUOp_to_id_ex),
 
     .o_rs_data(id_ex_rs_data_ex),
@@ -248,6 +253,7 @@ u_id_ex
     .o_Branch_to_EX(Branch_to_EX),
     .o_RegWrite_to_EX(RegWrite_to_ex),
     .o_MemtoReg_to_EX(memtoReg_to_ex),
+    .o_BHW_to_EX(bhw_to_ex_mem),
     .o_ALUOp_to_EX(ALUOp_to_ex)
     
 );
@@ -339,6 +345,7 @@ wire [NB_PC-1:0] address_plus_4_to_mem;
 wire MemRead_to_mem;
 wire MemWrite_to_mem; 
 wire [1:0] memtoReg_to_mem;
+wire [1:0] bhw_to_mem;
 wire RegWrite_to_mem;
 wire [NB_REG_ADDRESS-1:0] rt_address_to_mem;
 
@@ -366,6 +373,7 @@ u_ex_mem
     .i_MemWrite_from_EX(MemWrite_to_ex_mem),
    
     .i_MemtoReg_from_EX(memtoReg_to_ex_mem),
+    .i_BHW_from_EX(bhw_to_ex_mem),
     .i_RegWrite_from_EX(RegWrite_to_ex_mem),
     .i_rt_address(rt_address_to_ex_mem), 
     .i_ex_mem_flush(flush_to_ex_mem),   
@@ -381,6 +389,7 @@ u_ex_mem
     .o_MemRead_to_MEM(MemRead_to_mem),
     .o_MemWrite_to_MEM(MemWrite_to_mem),
     .o_MemtoReg_to_MEM(memtoReg_to_mem),
+    .o_BHW_to_MEM(bhw_to_mem),
     .o_RegWrite_to_MEM(RegWrite_to_mem),
     .o_rt_address(rt_address_to_mem)
 );
@@ -415,6 +424,7 @@ u_mem
     .i_MemRead_from_EX_MEM(MemRead_to_mem),
     .i_MemWrite_from_EX_MEM(MemWrite_to_mem),
     .i_MemtoReg_from_EX_MEM(memtoReg_to_mem),
+    .i_BHW_from_EX_MEM(bhw_to_mem),
     .i_RegWrite_from_EX_MEM(RegWrite_to_mem),
 
     .i_rt_address(rt_address_to_mem),
@@ -435,6 +445,7 @@ wire [NB_DATA-1:0] res_to_wb;
 wire [NB_DATA-1:0] mem_data_to_wb;
 wire [NB_PC-1:0] address_plus_4_to_wb;
 wire [1:0] MemtoReg_to_wb;
+wire [1:0] bhw_to_id;
 wire RegWrite_to_wb;
 wire [NB_REG_ADDRESS-1:0] rt_address_to_shortcircuit;
 
@@ -455,6 +466,7 @@ u_mem_wb
 
     //señales de control
     .i_MemtoReg_from_MEM(memtoReg_to_mem_wb),
+    .i_BHW_from_EX_MEM(bhw_to_mem),
     .i_RegWrite_from_MEM(RegWrite_to_mem_wb),
 
     .i_rt_address(rt_address_to_mem_wb),
@@ -468,6 +480,7 @@ u_mem_wb
 
     //señales de control
     .o_MemtoReg_to_WB(MemtoReg_to_wb),
+    .o_BHW_to_ID(bhw_to_id),
     .o_RegWrite_to_WB(RegWrite_to_wb),
     .o_rt_address(rt_address_to_shortcircuit),
     .o_rt_data(rt_data_to_ex_from_mem_wb)
