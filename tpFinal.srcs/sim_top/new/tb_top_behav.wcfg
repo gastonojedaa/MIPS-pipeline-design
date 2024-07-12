@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="993.008 ns"></ZoomStartTime>
-      <ZoomEndTime time="1,001.399 ns"></ZoomEndTime>
-      <Cursor1Time time="1,000.000 ns"></Cursor1Time>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="126.501 ns"></ZoomEndTime>
+      <Cursor1Time time="80.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="317"></NameColumnWidth>
-      <ValueColumnWidth column_width="93"></ValueColumnWidth>
+      <ValueColumnWidth column_width="89"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="89" />
+   <WVObjectSize size="95" />
    <wvobject fp_name="/tb_top/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -108,6 +108,18 @@
       <obj_property name="ElementShortName">rd_address[4:0]</obj_property>
       <obj_property name="ObjectShortName">rd_address[4:0]</obj_property>
    </wvobject>
+   <wvobject fp_name="/tb_top/u_top/u_id/rs_data" type="array">
+      <obj_property name="ElementShortName">rs_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">rs_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/u_top/u_id/rt_data" type="array">
+      <obj_property name="ElementShortName">rt_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">rt_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/u_top/u_id/branch" type="array">
+      <obj_property name="ElementShortName">branch[1:0]</obj_property>
+      <obj_property name="ObjectShortName">branch[1:0]</obj_property>
+   </wvobject>
    <wvobject fp_name="/tb_top/u_top/u_id/i_write_address" type="array">
       <obj_property name="ElementShortName">i_write_address[4:0]</obj_property>
       <obj_property name="ObjectShortName">i_write_address[4:0]</obj_property>
@@ -115,6 +127,14 @@
    <wvobject fp_name="/tb_top/u_top/u_id/i_data_to_write_in_register_bank" type="array">
       <obj_property name="ElementShortName">i_data_to_write_in_register_bank[31:0]</obj_property>
       <obj_property name="ObjectShortName">i_data_to_write_in_register_bank[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/u_top/u_id/i_rs_data_from_shortcircuit" type="array">
+      <obj_property name="ElementShortName">i_rs_data_from_shortcircuit[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_rs_data_from_shortcircuit[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/u_top/u_id/i_rt_data_from_shortcircuit" type="array">
+      <obj_property name="ElementShortName">i_rt_data_from_shortcircuit[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_rt_data_from_shortcircuit[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top/u_top/u_id/o_function" type="array">
       <obj_property name="ElementShortName">o_function[5:0]</obj_property>
@@ -173,6 +193,7 @@
    <wvobject fp_name="/tb_top/u_top/u_id/u_register_bank/reg_bank" type="array">
       <obj_property name="ElementShortName">reg_bank[0:32][31:0]</obj_property>
       <obj_property name="ObjectShortName">reg_bank[0:32][31:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject type="divider" fp_name="divider120">
       <obj_property name="label">CONTROL_UNIT</obj_property>
@@ -192,6 +213,10 @@
    <wvobject fp_name="/tb_top/u_top/u_id/u_control_unit/MemRead" type="logic">
       <obj_property name="ElementShortName">MemRead</obj_property>
       <obj_property name="ObjectShortName">MemRead</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/u_top/u_id/u_control_unit/o_Branch" type="array">
+      <obj_property name="ElementShortName">o_Branch[1:0]</obj_property>
+      <obj_property name="ObjectShortName">o_Branch[1:0]</obj_property>
    </wvobject>
    <wvobject type="divider" fp_name="divider295">
       <obj_property name="label">HAZARD_DETECTION</obj_property>

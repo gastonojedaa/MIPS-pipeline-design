@@ -63,6 +63,7 @@ module EX
     output [NB_DATA : 0] o_res,
     output o_alu_zero_to_ex_mem,
     output [NB_DATA-1: 0] o_rt_data, //TODO: revisar conexion
+    output [NB_DATA-1: 0] o_rs_data, //TODO: revisar conexion
     output [NB_DATA - 1 : 0] o_jump_address,
     output reg [NB_REG_ADDRESS-1:0] o_write_address,
     output o_Branch_to_EX_MEM,
@@ -112,6 +113,7 @@ assign o_address_plus_4 = i_address_plus_4;
 assign o_MemtoReg_to_EX_MEM = i_MemtoReg_from_ID_EX;
 assign o_RegWrite_to_EX_MEM = i_RegWrite_from_ID_EX;
 assign o_rt_data = rt_data;
+assign o_rs_data = rs_data;
 assign o_rt_address = i_rt_address;
 
 always @(*)

@@ -123,6 +123,8 @@ wire [NB_FUNCTION-1:0] function_to_id_ex;
 wire [NB_PC-1:0] if_id_address_plus_4_id_ex;
 wire flush_to_ex_mem;
 
+wire [NB_DATA-1:0] rs_data_from_shortcircuit;
+
 ID
 #(
     .NB_DATA(NB_DATA),
@@ -147,6 +149,8 @@ u_id
     .i_write_address(write_address_to_id),
     .i_data_to_write_in_register_bank(write_address_to_register_bank),
     .i_address_plus_4(if_id_address_plus_4_id),
+    .i_rs_data_from_shortcircuit(rs_data_from_shortcircuit),
+    .i_rt_data_from_shortcircuit(id_ex_rt_data_ex_mem),
 
     .o_rs_data(id_rs_data_id_ex),    
     .o_rt_data(id_rt_data_id_ex),    
@@ -323,6 +327,7 @@ u_ex
     .o_write_address(write_address_to_ex_mem),
     .o_address_plus_4(address_plus_4_to_ex_mem),
     .o_rt_data(id_ex_rt_data_ex_mem),
+    .o_rs_data(rs_data_from_shortcircuit),
     .o_rt_address(rt_address_to_ex_mem)
 );
 

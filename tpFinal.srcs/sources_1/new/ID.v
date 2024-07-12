@@ -42,8 +42,9 @@ module ID
     input   [NB_INS-1:0] i_instruction,  
     input   [NB_REG_ADDRESS-1:0] i_write_address,
     input   [NB_DATA-1:0] i_data_to_write_in_register_bank,
-    input   [NB_PC-1:0] i_address_plus_4,   
-
+    input   [NB_PC-1:0] i_address_plus_4,
+    input   [NB_DATA-1:0] i_rs_data_from_shortcircuit,
+    input   [NB_DATA-1:0] i_rt_data_from_shortcircuit,
     output  [NB_DATA-1:0] o_rs_data,    
     output  [NB_DATA-1:0] o_rt_data,    
     output  [NB_REG_ADDRESS-1:0] o_rs_address, 
@@ -152,9 +153,9 @@ u_control_unit
 
 always@(*)
 begin
-if(branch==2'b01 && rs_data == rt_data)
+if(branch==2'b01 && i_rs_data_from_shortcircuit == i_rt_data_from_shortcircuit)
     o_execute_branch = 1;
-else if(branch==2'b10 && rs_data != rt_data)
+else if(branch==2'b10 && i_rs_data_from_shortcircuit != i_rt_data_from_shortcircuit)
     o_execute_branch = 1;
 else
     o_execute_branch = 0;
