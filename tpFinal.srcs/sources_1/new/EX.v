@@ -123,7 +123,7 @@ begin
     else if(i_RegDst_from_ID_EX == 2'b01)
         o_write_address = i_rd_address;
     else
-        o_write_address = 5'b11111; //TODO: registro 31
+        o_write_address = 5'b11111; //JAL and JALR
 end
 
 wire [NB_ALUCODE-1:0] alu_control;

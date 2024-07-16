@@ -55,10 +55,10 @@ begin
     if(i_data_mem_write_enable)
         begin
             case (i_data_mem_bhw)
-                2'b11: mem_data[i_data_mem_write_address] = i_data_mem_data;
-                2'b10: mem_data[i_data_mem_write_address] = {mem_data[i_data_mem_write_address][NB_INS-1:16], i_data_mem_data[15:0]};
-                2'b01: mem_data[i_data_mem_write_address] = {mem_data[i_data_mem_write_address][NB_INS-1:8], i_data_mem_data[7:0]};
-                2'b00: mem_data[i_data_mem_write_address] = i_data_mem_data; // Should not happen
+                3'b010: mem_data[i_data_mem_write_address] <= {mem_data[i_data_mem_write_address][NB_INS-1:16], i_data_mem_data[15:0]};
+                3'b001: mem_data[i_data_mem_write_address] <= {mem_data[i_data_mem_write_address][NB_INS-1:8], i_data_mem_data[7:0]};
+                3'b111: mem_data[i_data_mem_write_address] <= i_data_mem_data;
+                default: mem_data[i_data_mem_write_address] <= i_data_mem_data; // Should not happen
             endcase
         end
 end
