@@ -87,7 +87,7 @@ module control_unit#(
     input i_execute_branch,
     input i_zero_from_alu,
     
-    output o_PcSrc,
+    output [1:0] o_PcSrc,
     output [1:0] o_RegDst,
     output O_ALUSrc,
     output [3:0] o_ALUOp, 
@@ -101,7 +101,13 @@ module control_unit#(
     output o_EX_MEM_flush
 );
 
-reg PcSrc, ALUSrc, MemRead, MemWrite, RegWrite, IF_ID_flush, EX_MEM_flush;
+reg ALUSrc, MemRead, MemWrite, RegWrite, IF_ID_flush, EX_MEM_flush;
+reg [1:0] PcSrc;
+/*
+00 -> PC + 4
+01 -> Jump
+10 -> Jump Register
+*/
 reg [3:0] ALUOp;
 reg [1:0] MemtoReg; 
 reg [1:0] RegDst;
@@ -126,7 +132,7 @@ always @(*)
     begin
         IF_ID_flush = 1'b1;
         EX_MEM_flush = 1'b1;
-        PcSrc = 1'b0;
+        PcSrc = 2'b00;
         RegDst = 2'b00;
         ALUSrc = 1'b0;
         ALUOp = R_TYPE_ALUOP;
@@ -141,7 +147,7 @@ always @(*)
         begin
             IF_ID_flush = 1'b0;
             EX_MEM_flush = 1'b0;
-            PcSrc = 1'b0; 
+            PcSrc = 2'b00; 
             RegDst = 2'b00; 
             ALUSrc = 1'b0; 
             ALUOp = R_TYPE_ALUOP;
@@ -164,7 +170,7 @@ always @(*)
                     case (i_function)    
                         SLL_FUNCT, SRL_FUNCT, SRA_FUNCT:
                             begin
-                                    PcSrc = 1'b0; 
+                                    PcSrc = 2'b00; 
                                     RegDst = 2'b01;
                                     ALUSrc = 1'b1; 
                                     ALUOp = R_TYPE_ALUOP;
@@ -179,7 +185,7 @@ always @(*)
                             end
                         SLLV_FUNCT, SRLV_FUNCT, SRAV_FUNCT, ADDU_FUNCT, SUBU_FUNCT, AND_FUNCT, OR_FUNCT, XOR_FUNCT, NOR_FUNCT, SLT_FUNCT:
                             begin
-                                    PcSrc = 1'b0; 
+                                    PcSrc = 2'b00; 
                                     RegDst = 2'b01;
                                     ALUSrc = 1'b0; 
                                     ALUOp = R_TYPE_ALUOP;
@@ -194,7 +200,7 @@ always @(*)
                             end
                         JR_FUNCT:
                             begin
-                                    PcSrc = 1'b1;  
+                                    PcSrc = 2'b11;
                                     RegDst = 2'b00; //no se usa
                                     ALUSrc = 1'b0; //no se usa
                                     ALUOp = R_TYPE_ALUOP;
@@ -209,7 +215,7 @@ always @(*)
                             end
                         JALR_FUNCT:
                             begin
-                                    PcSrc = 1'b1; 
+                                    PcSrc = 2'b11;
                                     RegDst = 2'b01;
                                     ALUSrc = 1'b0; //no se usa
                                     ALUOp = R_TYPE_ALUOP;
@@ -224,7 +230,7 @@ always @(*)
                             end
                         default: 
                             begin
-                                    PcSrc = 1'b0; 
+                                    PcSrc = 2'b00; 
                                     RegDst = 2'b00;
                                     ALUSrc = 1'b0;
                                     ALUOp = R_TYPE_ALUOP;
@@ -242,7 +248,7 @@ always @(*)
                 //I_type -> LB, LH, LW, LWU, LBU, LHU, SB, SH, SW, ADDI, ANDI, ORI, XORI, LUI, SLTI, BEQ, BNE
                 LB_OP:
                 begin
-                    PcSrc = 1'b0; 
+                    PcSrc = 2'b00; 
                     RegDst = 2'b00;
                     ALUSrc = 1'b1; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP;
@@ -256,7 +262,7 @@ always @(*)
                 end
                 LH_OP:
                 begin
-                    PcSrc = 1'b0; 
+                    PcSrc = 2'b00; 
                     RegDst = 2'b00;
                     ALUSrc = 1'b1; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
@@ -271,7 +277,7 @@ always @(*)
                 end
                 LW_OP:
                 begin
-                    PcSrc = 1'b0;    
+                    PcSrc = 2'b00;    
                     RegDst = 2'b00;
                     ALUSrc = 1'b1; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
@@ -286,7 +292,7 @@ always @(*)
                 end
                 LWU_OP:
                 begin
-                    PcSrc = 1'b0;  
+                    PcSrc = 2'b00;  
                     RegDst = 2'b00;
                     ALUSrc = 1'b1; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
@@ -301,7 +307,7 @@ always @(*)
                 end
                 LBU_OP:
                 begin
-                    PcSrc = 1'b0; 
+                    PcSrc = 2'b00; 
                     RegDst = 2'b00;
                     ALUSrc = 1'b1; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
@@ -316,7 +322,7 @@ always @(*)
                 end
                 LHU_OP:
                 begin
-                    PcSrc = 1'b0;  
+                    PcSrc = 2'b00;  
                     RegDst = 2'b00;
                     ALUSrc = 1'b1; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
@@ -331,7 +337,7 @@ always @(*)
                 end
                 SB_OP:
                 begin
-                    PcSrc = 1'b0; 
+                    PcSrc = 2'b00; 
                     RegDst = 2'b00; //no se usa
                     ALUSrc = 1'b1; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
@@ -345,7 +351,7 @@ always @(*)
                 end
                 SH_OP:
                 begin
-                    PcSrc = 1'b0; 
+                    PcSrc = 2'b00; 
                     RegDst = 2'b00; //no se usa
                     ALUSrc = 1'b1; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
@@ -360,7 +366,7 @@ always @(*)
                 end
                 SW_OP:
                 begin
-                    PcSrc = 1'b0;           
+                    PcSrc = 2'b00;           
                     RegDst = 2'b00; //no se usa
                     ALUSrc = 1'b1; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
@@ -375,7 +381,7 @@ always @(*)
                 end
                 ADDI_OP:
                 begin
-                    PcSrc = 1'b0; 
+                    PcSrc = 2'b00; 
                     RegDst = 2'b00; 
                     ALUSrc = 1'b1;   
                     ALUOp = LOAD_STORE_ADDI_ALUOP;
@@ -390,7 +396,7 @@ always @(*)
                 end
                 ANDI_OP:
                 begin
-                    PcSrc = 1'b0;
+                    PcSrc = 2'b00;
                     RegDst = 2'b00; 
                     ALUSrc = 1'b1;   
                     ALUOp = ANDI_ALUOP;
@@ -405,7 +411,7 @@ always @(*)
                 end
                 ORI_OP:
                 begin
-                    PcSrc = 1'b0;  
+                    PcSrc = 2'b00;  
                     RegDst = 2'b00; 
                     ALUSrc = 1'b1;   
                     ALUOp = ORI_ALUOP;
@@ -420,7 +426,7 @@ always @(*)
                 end
                 XORI_OP:
                 begin
-                    PcSrc = 1'b0; 
+                    PcSrc = 2'b00; 
                     RegDst = 2'b00; 
                     ALUSrc = 1'b1;   
                     ALUOp = XORI_ALUOP;
@@ -435,7 +441,7 @@ always @(*)
                 end
                 LUI_OP:
                 begin
-                    PcSrc = 1'b0; 
+                    PcSrc = 2'b00; 
                     RegDst = 2'b00; 
                     ALUSrc = 1'b1;   
                     ALUOp = LUI_ALUOP;
@@ -450,7 +456,7 @@ always @(*)
                 end
                 SLTI_OP:
                 begin
-                    PcSrc = 1'b0; 
+                    PcSrc = 2'b00; 
                     RegDst = 2'b00; 
                     ALUSrc = 1'b1;   
                     ALUOp = SLTI_ALUOP;
@@ -465,7 +471,7 @@ always @(*)
                 end
                 BEQ_OP:
                 begin
-                    PcSrc = 1'b0;  
+                    PcSrc = 2'b00;  
                     RegDst = 2'b00; //no se usa
                     ALUSrc = 1'b0;   
                     ALUOp = BEQ_ALUOP;
@@ -480,7 +486,7 @@ always @(*)
                 end
                 BNE_OP:
                 begin
-                    PcSrc = 1'b0; 
+                    PcSrc = 2'b00; 
                     RegDst = 2'b00;  //no se usa
                     ALUSrc = 1'b0;   
                     ALUOp = BNE_ALUOP;
@@ -496,7 +502,7 @@ always @(*)
                 //J_type -> J, JAL
                 J_OP:
                 begin
-                    PcSrc = 1'b1;  
+                    PcSrc = 2'b10;  
                     RegDst = 2'b00;  //no se usa
                     ALUSrc = 1'b0;   //no se usa
                     ALUOp = R_TYPE_ALUOP; //no se usa
@@ -511,7 +517,7 @@ always @(*)
                 end
                 JAL_OP:
                 begin
-                    PcSrc = 1'b1;  
+                    PcSrc = 2'b10;   
                     RegDst = 2'b10;    
                     ALUSrc = 1'b0;   //no se usa
                     ALUOp = R_TYPE_ALUOP; //no se usa
@@ -526,7 +532,7 @@ always @(*)
                 end   
                 HALT_OP: //revisar
                 begin
-                    PcSrc = 1'b0; 
+                    PcSrc = 2'b00; 
                     RegDst = 2'b00;   
                     ALUSrc = 1'b0;   
                     ALUOp = R_TYPE_ALUOP;
@@ -541,7 +547,7 @@ always @(*)
                 end
                 default:
                 begin
-                    PcSrc = 1'b0; 
+                    PcSrc = 2'b00; 
                     RegDst = 2'b00;  
                     ALUSrc = 1'b0;   
                     ALUOp = R_TYPE_ALUOP;

@@ -55,7 +55,7 @@ module ID
     output [NB_FUNCTION-1:0] o_function,
     output [NB_PC-1:0] o_address_plus_4,
     //señales de control
-    output o_PcSrc_to_IF,
+    output [1:0] o_PcSrc_to_IF,
     output [1:0] o_RegDst_to_ID_EX,
     output o_ALUSrc_to_ID_EX,
     output [3:0] o_ALUOp_to_ID_EX,
@@ -68,7 +68,7 @@ module ID
     output reg o_execute_branch,
     output o_IF_ID_flush,
     output o_ex_mem_flush,
-    output [NB_PC-1:0] o_jump_address
+    output reg [NB_PC-1:0] o_jump_address
 );
 
 localparam NB_REG_ADDRESS = $clog2(N_REG);
@@ -126,7 +126,7 @@ u_sign_ext
     .o_sigext(sigext)
 ); 
 
-wire PcSrc_to_IF;
+wire [1:0] PcSrc_to_IF;
 
 //control unit
 control_unit
@@ -173,7 +173,15 @@ assign o_rt_address = rt_address;
 assign o_rd_address = rd_address;
 assign o_address_plus_4 = i_address_plus_4;
 
-assign o_jump_address = PcSrc_to_IF ? {6'b0, i_instruction[25:0]} : i_address_plus_4 + sigext;
+always@(*)
+begin
+    case(PcSrc_to_IF)
+        2'b00: o_jump_address = i_address_plus_4 + sigext;
+        2'b10: o_jump_address = {6'b0, i_instruction[25:0]};
+        2'b11: o_jump_address = rs_data;
+        default: o_jump_address = i_address_plus_4 + sigext;// Should not happen
+    endcase
+end
 
 always@(posedge i_clk)
 begin

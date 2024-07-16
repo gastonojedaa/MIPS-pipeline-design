@@ -26,7 +26,7 @@ module IF #(
     input i_clk,
     input i_reset,
     input i_debug_unit_enable,
-    input i_PcSrc, // señal de control
+    input [1:0] i_PcSrc, // señal de control
     input i_write_enable,  // 0 READ - 1 WRITE
     input [NB_PC-1:0] i_jump_address,
     input [NB_PC-1:0] i_write_address,
@@ -56,7 +56,7 @@ module IF #(
     //if (i_PCwrite || is_halted || !i_debug_unit_enable) new_address = pc;
     if (i_PCwrite || !i_debug_unit_enable) new_address = pc;
     else begin
-      if (i_PcSrc || i_execute_branch) new_address = i_jump_address;
+      if ((i_PcSrc != 2'b00) || i_execute_branch) new_address = i_jump_address;
       else new_address = address_plus_4;
     end
   end

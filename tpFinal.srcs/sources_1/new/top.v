@@ -42,7 +42,7 @@ module top
 localparam NB_REG_ADDRESS = $clog2(N_REG);
 
 wire [NB_PC-1:0] jump_address_to_if;
-wire PcSrc;
+wire [1:0] PcSrc;
 wire PCwrite_to_IF;
 wire execute_branch_to_IF;
 wire [NB_INS-1:0] if_instruction_if_id;
@@ -89,7 +89,7 @@ u_if_id
     .i_instruction(if_instruction_if_id), 
     .i_address_plus_4(if_address_plus_4_if_id),
     .i_IFIDwrite(IFIDwrite),
-    .i_IF_ID_flush(execute_branch_to_IF || PcSrc),
+    .i_IF_ID_flush(execute_branch_to_IF || (PcSrc!=2'b00)),
     .o_instruction(if_id_instruction_id), 
     .o_address_plus_4(if_id_address_plus_4_id)
 );
