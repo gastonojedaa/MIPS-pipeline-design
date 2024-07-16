@@ -96,7 +96,7 @@ module control_unit#(
     output [1:0] o_Branch,    
     output o_RegWrite,
     output [1:0] o_MemtoReg,
-    output [1:0] o_BHW,
+    output [2:0] o_BHW,
     output o_IF_ID_flush,
     output o_EX_MEM_flush
 );
@@ -106,10 +106,20 @@ reg [3:0] ALUOp;
 reg [1:0] MemtoReg; 
 reg [1:0] RegDst;
 reg [1:0] Branch;
-reg [1:0] BHW; //11 -> word, 10 -> halfword, 01 -> byte , 00 -> no se usa
+reg [2:0] BHW; 
+/*
+BHW
+111 LW
+000 LB
+001 LBU
+010 LH
+011 LHU
+*/
 
 //si la señal branch y el zero de la alu estan en 1, se debe hacer un flush del pipeline
 wire flush_pipeline = 0;//TODO: DELETE
+
+
 
 always @(*)
     if(flush_pipeline)
@@ -125,7 +135,7 @@ always @(*)
         Branch = 2'b00;
         RegWrite = 1'b0;
         MemtoReg = 2'b00;
-        BHW = 2'b11;    
+        BHW = 3'b111;    
     end
     else if (i_pipeline_stalled == 1'b1)
         begin
@@ -140,8 +150,8 @@ always @(*)
             Branch = 2'b00;
             RegWrite = 1'b0;
             MemtoReg = 2'b00;
-            BHW = 2'b11; 
-            /* BHW = 2'b00;  //no se usa
+            BHW = 3'b111; 
+            /* b00;  //no se usa
             ExtSign = 1'b0;//no se usa */
         end
     else
@@ -163,8 +173,8 @@ always @(*)
                                     Branch = 2'b00;
                                     RegWrite = 1'b1;
                                     MemtoReg = 2'b01;
-                                    BHW = 2'b11; 
-                                    /* BHW = 2'b00;  //no se usa
+                                    BHW = 3'b111; 
+                                    /* b00;  //no se usa
                                     ExtSign = 1'b0;//no se usa */
                             end
                         SLLV_FUNCT, SRLV_FUNCT, SRAV_FUNCT, ADDU_FUNCT, SUBU_FUNCT, AND_FUNCT, OR_FUNCT, XOR_FUNCT, NOR_FUNCT, SLT_FUNCT:
@@ -178,8 +188,8 @@ always @(*)
                                     Branch = 2'b00;
                                     RegWrite = 1'b1;
                                     MemtoReg = 2'b01;
-                                    BHW = 2'b11; 
-                                    /* BHW = 2'b00;  //no se usa
+                                    BHW = 3'b111; 
+                                    /* b00;  //no se usa
                                     ExtSign = 1'b0;//no se usa */
                             end
                         JR_FUNCT:
@@ -193,8 +203,8 @@ always @(*)
                                     Branch =  1'b0;
                                     RegWrite = 1'b0;
                                     MemtoReg = 2'b00;
-                                    BHW = 2'b11; //no se usa
-                                    /* BHW = 2'b00;  //no se usa
+                                    BHW = 3'b111; //no se usa
+                                    /* b00;  //no se usa
                                     ExtSign = 1'b0;//no se usa */
                             end
                         JALR_FUNCT:
@@ -208,8 +218,8 @@ always @(*)
                                     Branch = 2'b00;
                                     RegWrite = 1'b1;
                                     MemtoReg = 2'b10;
-                                    BHW = 2'b11;  
-                                    /* BHW = 2'b00;  //no se usa
+                                    BHW = 3'b111;  
+                                    /* b00;  //no se usa
                                     ExtSign = 1'b0;//no se usa */
                             end
                         default: 
@@ -223,8 +233,8 @@ always @(*)
                                     Branch = 2'b00;
                                     RegWrite = 1'b0;
                                     MemtoReg = 2'b00;
-                                    BHW = 2'b11; 
-                                    /* BHW = 2'b00;  //no se usa
+                                    BHW = 3'b111; 
+                                    /* b00;  //no se usa
                                     ExtSign = 1'b0;//no se usa */                          
                             end                                     
                     endcase               
@@ -241,7 +251,7 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b00;
-                    BHW = 2'b01;
+                    BHW = 3'b000;
                     //ExtSign = 1'b1; */
                 end
                 LH_OP:
@@ -255,8 +265,8 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b00;
-                    BHW = 2'b10;
-                    /*BHW = 2'b01;
+                    BHW = 3'b010;
+                    /*b01;
                     ExtSign = 1'b1; */
                 end
                 LW_OP:
@@ -270,8 +280,8 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b00;
-                    BHW = 2'b11;
-                    /* BHW = 2'b10;
+                    BHW = 3'b111;
+                    /* b10;
                     ExtSign = 1'b1; */
                 end
                 LWU_OP:
@@ -285,8 +295,8 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b00;
-                    BHW = 2'b11;
-                    /* BHW = 2'b10;
+                    BHW = 3'b111;
+                    /* b10;
                     ExtSign = 1'b0; */
                 end
                 LBU_OP:
@@ -300,8 +310,8 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b00;
-                    BHW = 2'b01;
-                    /* BHW = 2'b00;
+                    BHW = 3'b001;
+                    /* b00;
                     ExtSign = 1'b0; */
                 end
                 LHU_OP:
@@ -315,8 +325,8 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b00;
-                    BHW = 2'b10;
-                    /* BHW = 2'b01;
+                    BHW = 3'b011;
+                    /* b01;
                     ExtSign = 1'b0; */
                 end
                 SB_OP:
@@ -330,7 +340,7 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b0;
                     MemtoReg = 2'b00;
-                    BHW = 2'b01;
+                    BHW = 3'b000;
                     //ExtSign = 1'b0;//no se usa */
                 end
                 SH_OP:
@@ -344,8 +354,8 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b0;
                     MemtoReg = 2'b00;
-                    BHW = 2'b10;
-                    /* BHW = 2'b01;
+                    BHW = 3'b010;
+                    /* b01;
                     ExtSign = 1'b0;//no se usa */
                 end
                 SW_OP:
@@ -359,8 +369,8 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b0;
                     MemtoReg = 2'b00;
-                    BHW = 2'b11;  //no se usa
-                    /* BHW = 2'b10;
+                    BHW = 3'b111;
+                    /* b10;
                     ExtSign = 1'b0;//no se usa        */
                 end
                 ADDI_OP:
@@ -374,8 +384,8 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b01;
-                    BHW = 2'b11;
-                    /* BHW = 2'b00;      //no se usa
+                    BHW = 3'b111;
+                    /* b00;      //no se usa
                     ExtSign = 1'b0;   //no se usa */
                 end
                 ANDI_OP:
@@ -389,8 +399,8 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b01;
-                    BHW = 2'b11;
-                    /* BHW = 2'b00;//no se usa
+                    BHW = 3'b111;
+                    /* b00;//no se usa
                     ExtSign = 1'b0;//no se usa */
                 end
                 ORI_OP:
@@ -404,8 +414,8 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b01;
-                    BHW = 2'b11;
-                    /* BHW = 2'b00;//no se usa
+                    BHW = 3'b111;
+                    /* b00;//no se usa
                     ExtSign = 1'b0;//no se usa */
                 end
                 XORI_OP:
@@ -419,8 +429,8 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b01;
-                    BHW = 2'b11;
-                    /* BHW = 2'b00;//no se usa
+                    BHW = 3'b111;
+                    /* b00;//no se usa
                     ExtSign = 1'b0;//no se usa */
                 end
                 LUI_OP:
@@ -434,8 +444,8 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b01;
-                    BHW = 2'b11;
-                    /* BHW = 2'b00;//no se usa
+                    BHW = 3'b111;
+                    /* b00;//no se usa
                     ExtSign = 1'b0;//no se usa */
                 end
                 SLTI_OP:
@@ -449,8 +459,8 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b01;
-                    BHW = 2'b11;
-                    /* BHW = 2'b00;//no se usa
+                    BHW = 3'b111;
+                    /* b00;//no se usa
                     ExtSign = 1'b0;//no se usa */
                 end
                 BEQ_OP:
@@ -464,8 +474,8 @@ always @(*)
                     Branch = 2'b01;
                     RegWrite = 1'b0;
                     MemtoReg = 2'b00;
-                    BHW = 2'b11; //no se usa
-                    /* BHW = 2'b00;//no se usa
+                    BHW = 3'b111; //no se usa
+                    /* b00;//no se usa
                     ExtSign = 1'b0;//no se usa */
                 end
                 BNE_OP:
@@ -479,8 +489,8 @@ always @(*)
                     Branch = 2'b10; //capaz hay que hacer un NeBranch 
                     RegWrite = 1'b0;
                     MemtoReg = 2'b00;
-                    BHW = 2'b11; //no se usa
-                    /* BHW = 2'b00;//no se usa
+                    BHW = 3'b111; //no se usa
+                    /* b00;//no se usa
                     ExtSign = 1'b0;//no se usa */
                 end        
                 //J_type -> J, JAL
@@ -495,8 +505,8 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b0;
                     MemtoReg = 2'b00;
-                    BHW = 2'b11; //no se usa
-                    /* BHW = 2'b00;//no se usa
+                    BHW = 3'b111; //no se usa
+                    /* b00;//no se usa
                     ExtSign = 1'b0;//no se usa */
                 end
                 JAL_OP:
@@ -510,8 +520,8 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b10;
-                    BHW = 2'b11;
-                    /* BHW = 2'b00;//no se usa
+                    BHW = 3'b111;
+                    /* b00;//no se usa
                     ExtSign = 1'b0;//no se usa */
                 end   
                 HALT_OP: //revisar
@@ -525,8 +535,8 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b0;
                     MemtoReg =  2'b00;
-                    BHW = 2'b11;;
-                    /* BHW = 2'b00;//no se usa
+                    BHW = 3'b111;;
+                    /* b00;//no se usa
                     ExtSign = 1'b0;//no se usa */
                 end
                 default:
@@ -540,8 +550,8 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b0;
                     MemtoReg = 2'b00;
-                    BHW = 2'b11;
-                    /* BHW = 2'b00;//no se usa
+                    BHW = 3'b111;
+                    /* b00;//no se usa
                     ExtSign = 1'b0;//no se usa */
                 end
             endcase

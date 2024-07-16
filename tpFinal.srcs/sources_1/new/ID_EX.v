@@ -49,7 +49,7 @@ module ID_EX
     input i_Branch_from_ID,
     input i_RegWrite_from_ID,
     input [1:0] i_MemtoReg_from_ID,
-    input [1:0] i_BHW_from_ID,
+    input [2:0] i_BHW_from_ID,
     input [3:0] i_ALUOp_from_ID,
 
     output reg [NB_DATA-1:0] o_rs_data,
@@ -67,7 +67,7 @@ module ID_EX
     output reg o_Branch_to_EX,
     output reg o_RegWrite_to_EX,
     output reg [1:0] o_MemtoReg_to_EX,
-    output reg [1:0] o_BHW_to_EX,
+    output reg [2:0] o_BHW_to_EX,
     output reg [3:0] o_ALUOp_to_EX
 );
     
@@ -80,7 +80,7 @@ begin
             o_rt_data <= 0;
             o_sigext <= 0;
             o_rs_address <= 0;
-            o_rt_address <= 0;
+            o_rt_address <= 31;
             o_rd_address <= 0;
             o_address_plus_4 <= 0;      
             o_Branch_to_EX <= 0;

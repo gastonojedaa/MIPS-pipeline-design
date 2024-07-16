@@ -38,7 +38,7 @@ module MEM
     input i_MemRead_from_EX_MEM,
     input i_MemWrite_from_EX_MEM,
     input [1:0] i_MemtoReg_from_EX_MEM,
-    input [1:0] i_BHW_from_EX_MEM,
+    input [2:0] i_BHW_from_EX_MEM,
     input i_RegWrite_from_EX_MEM,
     input [NB_REG_ADDRESS-1:0] i_rt_address,
     output [NB_DATA-1:0] o_res,

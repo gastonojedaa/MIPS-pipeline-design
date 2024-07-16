@@ -34,7 +34,6 @@ input [NB_DATA-1:0] i_res,
 input [NB_DATA-1:0] i_mem_data, 
 input [NB_DATA-1:0] i_address_plus_4,
 input [1:0] i_MemtoReg_from_MEM,
-input [1:0] i_BHW_from_EX_MEM,
 input i_RegWrite_from_MEM,
 input [NB_REG_ADDRESS-1:0] i_rt_address,
 input [NB_DATA-1:0] i_rt_data,
@@ -43,7 +42,6 @@ output reg [NB_DATA-1:0] o_res,
 output reg [NB_DATA-1:0] o_mem_data,
 output reg [NB_DATA-1:0] o_address_plus_4,
 output reg [1:0] o_MemtoReg_to_WB,
-output reg [1:0] o_BHW_to_ID,
 output reg o_RegWrite_to_WB,
 output reg [NB_REG_ADDRESS-1:0] o_rt_address,
 output reg [NB_DATA-1:0] o_rt_data
@@ -58,9 +56,8 @@ begin
             o_mem_data <= 0;
             o_address_plus_4 <= 0;
             o_MemtoReg_to_WB <= 0;
-            o_BHW_to_ID <= 0;
             o_RegWrite_to_WB <= 0;
-            o_rt_address <= 0;
+            o_rt_address <= 31;
             o_rt_data <= 0;
         end
     else if(i_debug_unit_enable)
@@ -70,7 +67,6 @@ begin
             o_mem_data <= i_mem_data;
             o_address_plus_4 <= i_address_plus_4;
             o_MemtoReg_to_WB <= i_MemtoReg_from_MEM;
-            o_BHW_to_ID <= i_BHW_from_EX_MEM;
             o_RegWrite_to_WB <= i_RegWrite_from_MEM;
             o_rt_address <= i_rt_address;
             o_rt_data <= i_rt_data;

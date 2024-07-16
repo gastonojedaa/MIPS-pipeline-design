@@ -30,7 +30,6 @@ module register_bank
     input   i_reset,
     input   [NB_DATA-1:0] i_data_to_write,
     input i_debug_unit_enable,
-    input [1:0] i_bhw,
     input   [NB_REG_ADDRESS-1:0] rs_address,
     input   [NB_REG_ADDRESS-1:0] rt_address,
     input   [NB_REG_ADDRESS-1:0] rw_address,
@@ -55,12 +54,7 @@ begin
         end
     end
     else if(i_debug_unit_enable && i_RegWrite)
-        case(i_bhw)
-            2'b11: reg_bank[rw_address] <= i_data_to_write;
-            2'b10: reg_bank[rw_address] <= {reg_bank[rw_address][NB_DATA-1:16], i_data_to_write[15:0]};
-            2'b01: reg_bank[rw_address] <= {reg_bank[rw_address][NB_DATA-1:8], i_data_to_write[7:0]};
-            2'b00: reg_bank[rw_address] <= i_data_to_write; // Should not happen
-        endcase
+        reg_bank[rw_address] <= i_data_to_write;
 end
 
 always @(negedge i_clk)
