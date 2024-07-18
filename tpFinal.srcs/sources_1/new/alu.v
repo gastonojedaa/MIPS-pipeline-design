@@ -26,52 +26,51 @@ module alu
         input [NB_DATA-1 : 0] i_data_a,
         input [NB_DATA-1 : 0] i_data_b,
         input [NB_ALUCODE-1 : 0] i_alucode,
-        output [NB_DATA : 0] o_res,
+        output [NB_DATA-1 : 0] o_res,
         output o_zero
     ); 
     
-    reg [NB_DATA-1 : 0] res;
-    reg carry;
+    reg signed [NB_DATA-1 : 0] res;
     
     always @(*)
     begin
         case(i_alucode)
-            SLL_ALUCODE:
-                {carry,res} = i_data_a << i_data_b;
-            SRL_ALUCODE:
-                {carry,res} = i_data_a >> i_data_b;
-            SRA_ALUCODE:
-                {carry,res} = $signed(i_data_a) >>> i_data_b;
-            SLLV_ALUCODE:
-                {carry,res} = i_data_a << i_data_b;
-            SRLV_ALUCODE:
-                {carry,res} = i_data_a >> i_data_b;
-            SRAV_ALUCODE:
-                {carry,res} = $signed(i_data_a) >>> i_data_b;
-            ADD_ALUCODE:
-                {carry,res} = i_data_a + i_data_b;
             SUB_ALUCODE:
-                {carry,res} = $signed(i_data_a) - $signed(i_data_b);
+                res = i_data_a - i_data_b;
+            SLL_ALUCODE:
+                res = i_data_a << i_data_b;
+            SRL_ALUCODE:
+                res = i_data_a >> i_data_b;
+            SRA_ALUCODE:
+                res = $signed(i_data_a) >>> i_data_b;
+            SLLV_ALUCODE:
+                res = i_data_a << i_data_b;
+            SRLV_ALUCODE:
+                res = i_data_a >> i_data_b;
+            SRAV_ALUCODE:
+                res = $signed(i_data_a) >>> i_data_b;
+            ADD_ALUCODE:
+                res = i_data_a + i_data_b;
             AND_ALUCODE:
-                {carry,res} = {1'b0, i_data_a & i_data_b};
+                res = i_data_a & i_data_b;
             OR_ALUCODE:
-                {carry,res} = {1'b0, i_data_a | i_data_b};
+                res = i_data_a | i_data_b;
             XOR_ALUCODE:
-                {carry,res} = {1'b0, i_data_a ^ i_data_b};
+                res = i_data_a ^ i_data_b;
             NOR_ALUCODE:        
-                {carry,res} = {1'b0, ~(i_data_a | i_data_b)};
+                res = ~(i_data_a | i_data_b);
             SLT_ALUCODE:
-                {carry,res} = (i_data_a < i_data_b); 
+                res = (i_data_a < i_data_b); 
             LUI_ALUCODE:
-                {carry,res} = i_data_b << 16;
+                res = i_data_b << 16;
             BNE_ALUCODE:
-                {carry,res} = (i_data_a != i_data_b);                      
+                res = (i_data_a != i_data_b);                      
             default:
-                {carry,res} = 'hFF;
+                res = 'hAAAAAAAA;
         endcase
     end
     
-    assign o_res = {carry,res};
-    assign o_zero = ({carry,res} == 0);
+    assign o_res = res;
+    assign o_zero = (res == 32'b000000000000000000000000000000000);
 endmodule
 

@@ -131,6 +131,10 @@ def assemble_i_type_memory(instruction_name, operands):
 
 
 def assemble_i_type_immediate(instruction_name, operands, labels, line_index):
+    print(instruction_name)
+    print(operands)
+    print(labels)
+    print(line_index)
     op_code = INSTRUCTIONS['I-TYPE']['IMMEDIATE'][instruction_name]['opcode']
     if instruction_name in ['BEQ', 'BNE']:
         rs = format_binary(int(operands[0]), 5)
@@ -182,13 +186,16 @@ def assemble_j_type(instruction_name, operands):
         return op_code + rs + zeros_5 + rd + zeros_5 + function
 
 
-def write_output_files(hex_file_path, bin_file_path, bin_txt_file_path, bin_bytes):
+def write_output_files(hex_file_path, bin_file_path, bin_txt_file_path, formatted_file_path, bin_bytes):
     with open(hex_file_path, 'w') as hex_file:
         hex_file.write("\n".join(bin_bytes['hexa']) + "\n")
     with open(bin_txt_file_path, 'w') as bin_txt_file:
         bin_txt_file.write("\n".join(bin_bytes['bin']) + "\n")
     with open(bin_file_path, 'wb') as bin_file:
         bin_file.write(bytearray(bin_bytes['bytes']))
+    with open(formatted_file_path, 'w') as formatted_file:
+        for i, instruction in enumerate(bin_bytes['bin']):
+            formatted_file.write(f"ins_mem[{i}] = 32'b{instruction};\n")
 
 
 def main():
@@ -196,6 +203,7 @@ def main():
     output_file_path_hexa_txt = output_file_base + '_hex.txt'
     output_file_path_bin = output_file_base + '.bin'
     output_file_path_bin_txt = output_file_base + '_bin.txt'
+    formatted_file_path = output_file_base + '_formatted.txt'
 
     input_lines = read_file(input_file_path)
     input_lines_list = process_lines(input_lines)
@@ -215,7 +223,7 @@ def main():
         bin_bytes['hexa'].append(instruction_hexa)
         bin_bytes['bytes'].extend([int(instruction_bin[i:i+8], 2) for i in range(0, 32, 8)])
 
-    write_output_files(output_file_path_hexa_txt, output_file_path_bin, output_file_path_bin_txt, bin_bytes)
+    write_output_files(output_file_path_hexa_txt, output_file_path_bin, output_file_path_bin_txt, formatted_file_path, bin_bytes)
 
 
 if __name__ == "__main__":

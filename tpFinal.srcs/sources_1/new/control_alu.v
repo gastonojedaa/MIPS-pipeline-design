@@ -72,7 +72,7 @@ module control_alu
 )
 (
     input [NB_OP-1:0] i_ALUOp, // -> from control_unit
-    input [NB_FUNCTION-1:0]i_funct,
+    input [NB_FUNCTION-1:0] i_funct,
 
     output reg [NB_ALUCODE-1:0] o_alu_control
 );

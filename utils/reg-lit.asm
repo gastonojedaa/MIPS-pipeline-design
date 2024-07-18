@@ -1,0 +1,2 @@
+LUI r3 10
+HALT

@@ -31,18 +31,18 @@ module IF_ID
     input i_debug_unit_enable,
     input   [NB_INS-1:0] i_instruction,
     input   [NB_PC-1:0] i_address_plus_4,
-    output reg  [NB_INS-1:0] o_instruction,
-    output reg  [NB_PC-1:0] o_address_plus_4,
-
+    input  i_IF_ID_flush,
     //signal from hazard detection unit
-    input i_IFIDwrite        
+    input i_IFIDwrite,
+    output reg  [NB_INS-1:0] o_instruction,
+    output reg  [NB_PC-1:0] o_address_plus_4
 );
 
 always@(posedge i_clk)
 begin
-    if(i_reset)
+    if(i_reset || i_IF_ID_flush)
         begin
-            o_instruction <= 'hFFFFFFFF;
+            o_instruction <= 'hBBBBBBBB;// Intruction not used
             o_address_plus_4 <= 0; 
         end 
     else if(i_debug_unit_enable)
