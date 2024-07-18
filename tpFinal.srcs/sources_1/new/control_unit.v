@@ -84,7 +84,6 @@ module control_unit#(
     input [NB_OPS-1:0] i_opcode,
     input [NB_FUNCTION-1:0] i_function,     
     input i_pipeline_stalled, //viene de hazard_detection_unit para insertar nops 
-    input i_execute_branch,
     input i_zero_from_alu,
     
     output [1:0] o_PcSrc,
@@ -541,9 +540,7 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b0;
                     MemtoReg =  2'b00;
-                    BHW = 3'b111;;
-                    /* b00;//no se usa
-                    ExtSign = 1'b0;//no se usa */
+                    BHW = 3'b111;
                 end
                 default:
                 begin

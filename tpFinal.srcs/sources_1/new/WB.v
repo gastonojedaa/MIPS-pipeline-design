@@ -27,7 +27,6 @@ module WB
     parameter NB_ADDR = 32 
 )
 (
-    input i_clk,    
     input i_debug_unit_enable,
     input [NB_DATA-1:0] i_res,
     input [NB_DATA-1:0] i_mem_data,

@@ -28,7 +28,8 @@ module ID_EX
     parameter NB_DATA_OUT = 32,
     parameter NB_DATA_IN = 16,    
     parameter NB_PC = 32,
-    parameter NB_FUNCTION = 6 
+    parameter NB_FUNCTION = 6,
+    parameter NB_REG_ADDRESS = $clog2(N_REG)
 )
 (
     input i_clk,
@@ -46,7 +47,6 @@ module ID_EX
     input i_ALUSrc_from_ID,
     input i_MemRead_from_ID,
     input i_MemWrite_from_ID,
-    input i_Branch_from_ID,
     input i_RegWrite_from_ID,
     input [1:0] i_MemtoReg_from_ID,
     input [2:0] i_BHW_from_ID,
@@ -64,14 +64,12 @@ module ID_EX
     output reg o_ALUSrc_to_EX,
     output reg o_MemRead_to_EX,
     output reg o_MemWrite_to_EX,
-    output reg o_Branch_to_EX,
     output reg o_RegWrite_to_EX,
     output reg [1:0] o_MemtoReg_to_EX,
     output reg [2:0] o_BHW_to_EX,
     output reg [3:0] o_ALUOp_to_EX
 );
     
-localparam NB_REG_ADDRESS = $clog2(N_REG);
 always@(posedge i_clk)
 begin 
     if(i_reset)
@@ -83,7 +81,6 @@ begin
             o_rt_address <= 31;
             o_rd_address <= 0;
             o_address_plus_4 <= 0;      
-            o_Branch_to_EX <= 0;
             o_ALUOp_to_EX <= 0;
             o_function_to_EX <= 0;
             o_MemRead_to_EX <= 0;
@@ -102,8 +99,7 @@ begin
             o_rs_address <= i_rs_address;
             o_rt_address <= i_rt_address;
             o_rd_address <= i_rd_address;      
-            o_address_plus_4 <= i_address_plus_4;  
-            o_Branch_to_EX <= i_Branch_from_ID;   
+            o_address_plus_4 <= i_address_plus_4;    
             o_ALUOp_to_EX <= i_ALUOp_from_ID;
             o_function_to_EX <= i_function_from_id;
             o_MemRead_to_EX <= i_MemRead_from_ID;

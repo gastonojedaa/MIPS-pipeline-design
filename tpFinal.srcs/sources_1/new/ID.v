@@ -29,14 +29,14 @@ module ID
     parameter NB_OPS = 6,
     parameter NB_FUNCTION = 6,
     parameter NB_PC = 32,
-    parameter NB_DATA_OUT = 32
+    parameter NB_DATA_OUT = 32,
+    parameter NB_REG_ADDRESS = $clog2(N_REG)
 )
 (
     input   i_clk,
     input   i_reset,
     input   i_debug_unit_enable,
     input   i_pipeline_stalled_to_control_unit,
-    input   i_Branch_from_EX_MEM,
     input   i_alu_zero_from_ex_mem,
     input   i_RegWrite_from_WB,
     input   [NB_INS-1:0] i_instruction,  
@@ -70,8 +70,6 @@ module ID
     output o_ex_mem_flush,
     output reg [NB_PC-1:0] o_jump_address
 );
-
-localparam NB_REG_ADDRESS = $clog2(N_REG);
 
 wire [NB_REG_ADDRESS-1:0] rs_address;
 wire [NB_REG_ADDRESS-1:0] rt_address;

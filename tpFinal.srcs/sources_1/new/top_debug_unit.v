@@ -46,7 +46,7 @@ assign reg_data = reg_bank[reg_address];
 integer i;
 always @(posedge i_clk) begin
     if (i_reset) begin
-        for (i = 0; i <= MEM_DEPTH; i = i + 1) begin
+        for (i = 0; i <= MEM_DEPTH-1; i = i + 1) begin
             mem_data[i] <= i * 2;
         end
     end
@@ -54,7 +54,7 @@ end
 
 always @(posedge i_clk) begin
     if (i_reset) begin
-        for (i = 0; i <= N_REGS; i = i + 1) begin
+        for (i = 0; i <= N_REGS-1; i = i + 1) begin
             reg_bank[i] <= i * 3;
         end
     end

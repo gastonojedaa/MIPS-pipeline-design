@@ -143,7 +143,6 @@ u_id
     .i_reset(i_reset),
     .i_debug_unit_enable(1'b1),
     .i_pipeline_stalled_to_control_unit(pipeline_stalled_to_ID),    
-    .i_Branch_from_EX_MEM(Branch_to_ID),
     .i_alu_zero_from_ex_mem(alu_zero_ID),
     .i_RegWrite_from_WB(RegWrite_to_id),
     .i_instruction(if_id_instruction_id),      
@@ -194,7 +193,6 @@ wire [1:0] RegDst_to_ex;
 wire ALUSrc_to_ex;
 wire MemRead_to_ex;
 wire MemWrite_to_ex;
-wire Branch_to_EX;
 wire RegWrite_to_ex;
 wire [1:0] memtoReg_to_ex;
 wire [2:0] bhw_to_ex_mem;
@@ -229,7 +227,6 @@ u_id_ex
     .i_ALUSrc_from_ID(ALUSrc_to_ID_EX),
     .i_MemRead_from_ID(MemRead_to_id_ex),
     .i_MemWrite_from_ID(MemWrite_to_id_ex),
-    .i_Branch_from_ID(Branch_to_ID_EX),
     .i_RegWrite_from_ID(RegWrite_to_id_ex),
     .i_MemtoReg_from_ID(memtoReg_to_id_ex),
     .i_BHW_from_ID(bhw_to_id_ex),
@@ -249,7 +246,6 @@ u_id_ex
     .o_ALUSrc_to_EX(ALUSrc_to_ex),
     .o_MemRead_to_EX(MemRead_to_ex),
     .o_MemWrite_to_EX(MemWrite_to_ex),
-    .o_Branch_to_EX(Branch_to_EX),
     .o_RegWrite_to_EX(RegWrite_to_ex),
     .o_MemtoReg_to_EX(memtoReg_to_ex),
     .o_BHW_to_EX(bhw_to_ex_mem),
@@ -262,11 +258,9 @@ wire [1:0] data_b_mux;
 //to EX_MEM
 wire [NB_DATA-1:0] ex_res_ex_mem;
 wire alu_zero_ex_mem;
-wire [NB_DATA-1:0] ex_jump_address_ex_mem;
 
 wire MemRead_to_ex_mem;
 wire MemWrite_to_ex_mem;
-wire Branch_to_EX_MEM;
 wire [1:0] memtoReg_to_ex_mem;
 wire RegWrite_to_ex_mem;
 
@@ -309,7 +303,6 @@ u_ex
     .i_ALUSrc_from_ID_EX(ALUSrc_to_ex),
     .i_MemRead_from_ID_EX(MemRead_to_ex),
     .i_MemWrite_from_ID_EX(MemWrite_to_ex),
-    .i_Branch_from_ID_EX(Branch_to_EX),
     .i_RegWrite_from_ID_EX(RegWrite_to_ex),
     .i_MemtoReg_from_ID_EX(memtoReg_to_ex),
     .i_ALUOp_from_ID_EX(ALUOp_to_ex),
@@ -325,7 +318,6 @@ u_ex
     //señales de control
     .o_MemRead_to_EX_MEM(MemRead_to_ex_mem),
     .o_MemWrite_to_EX_MEM(MemWrite_to_ex_mem), 
-    .o_Branch_to_EX_MEM(Branch_to_EX_MEM),
     .o_MemtoReg_to_EX_MEM(memtoReg_to_ex_mem),
     .o_RegWrite_to_EX_MEM(RegWrite_to_ex_mem),
     
@@ -362,12 +354,10 @@ u_ex_mem
     .i_res(ex_res_ex_mem),
     .i_alu_zero_from_ex(alu_zero_ex_mem),
     .i_rt_data(id_ex_rt_data_ex_mem),
-    .i_jump_address(ex_jump_address_ex_mem),
     .i_write_address(write_address_to_ex_mem),
     .i_address_plus_4(address_plus_4_to_ex_mem),
 
     //señales de control
-    .i_Branch_from_EX(Branch_to_EX_MEM),
     .i_MemRead_from_EX(MemRead_to_ex_mem),
     .i_MemWrite_from_EX(MemWrite_to_ex_mem),
    
@@ -384,7 +374,6 @@ u_ex_mem
     .o_address_plus_4(address_plus_4_to_mem),
     
     //señales de control
-    .o_Branch_to_ID(Branch_to_ID),
     .o_MemRead_to_MEM(MemRead_to_mem),
     .o_MemWrite_to_MEM(MemWrite_to_mem),
     .o_MemtoReg_to_MEM(memtoReg_to_mem),
@@ -489,8 +478,7 @@ WB
     .NB_ADDR(NB_ADDR)
 )
 u_wb
-(
-    .i_clk(i_clk),    
+( 
     .i_debug_unit_enable(1'b1),//TODO: Connect to Debug unit
     .i_res(res_to_wb),
     .i_mem_data(mem_data_to_wb), 

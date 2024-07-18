@@ -47,7 +47,7 @@ always@(posedge i_clk)
 begin
     if(i_reset)
     begin
-        for (i = 0; i <= N_REG; i = i + 1) begin
+        for (i = 0; i <= N_REG-1; i = i + 1) begin
             //reg_bank[i] = (i*2) << 16;
             //reg_bank[i] = (i*2);
             reg_bank[i] = 0;
