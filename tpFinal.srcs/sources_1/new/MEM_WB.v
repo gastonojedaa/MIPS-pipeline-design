@@ -37,6 +37,7 @@ input [1:0] i_MemtoReg_from_MEM,
 input i_RegWrite_from_MEM,
 input [NB_REG_ADDRESS-1:0] i_rt_address,
 input [NB_DATA-1:0] i_rt_data,
+input i_is_halted,
 output reg [NB_REG_ADDRESS-1:0] o_write_address,
 output reg [NB_DATA-1:0] o_res,
 output reg [NB_DATA-1:0] o_mem_data,
@@ -44,7 +45,8 @@ output reg [NB_DATA-1:0] o_address_plus_4,
 output reg [1:0] o_MemtoReg_to_WB,
 output reg o_RegWrite_to_WB,
 output reg [NB_REG_ADDRESS-1:0] o_rt_address,
-output reg [NB_DATA-1:0] o_rt_data
+output reg [NB_DATA-1:0] o_rt_data,
+output reg o_is_halted
 );
 
 always@(posedge i_clk)
@@ -59,6 +61,7 @@ begin
             o_RegWrite_to_WB <= 0;
             o_rt_address <= 31;
             o_rt_data <= 0;
+            o_is_halted <= 0;
         end
     else if(i_debug_unit_enable)
         begin
@@ -70,6 +73,7 @@ begin
             o_RegWrite_to_WB <= i_RegWrite_from_MEM;
             o_rt_address <= i_rt_address;
             o_rt_data <= i_rt_data;
+            o_is_halted <= i_is_halted;
         end
 end
 endmodule

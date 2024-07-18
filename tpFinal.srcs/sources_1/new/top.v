@@ -32,7 +32,8 @@ module top
     parameter NB_ADDR = 32,
     parameter NB_FUNCTION = 6,
     parameter NB_OPS = 6,
-    parameter NB_ALUCODE = 4
+    parameter NB_ALUCODE = 4,
+    parameter NB_STATE = 10
 )
 ( 
     input i_clk,
@@ -55,7 +56,9 @@ wire execute_branch_to_IF;
 wire [NB_INS-1:0] if_instruction_if_id;
 wire [NB_PC-1:0] if_address_plus_4_if_id;
 wire [NB_PC-1:0] pc_to_debug_unit;
-wire halted_to_debug_unit;
+wire halted_to_if_id;
+wire [NB_INS-1:0] instruction_to_if;
+wire [NB_PC-1:0] instruction_mem_write_address_to_if;
 
 IF
 #(
@@ -76,7 +79,7 @@ u_IF
     .i_execute_branch(execute_branch_to_IF),
     .o_instruction(if_instruction_if_id),  
     .o_address_plus_4(if_address_plus_4_if_id),
-    .o_is_halted(halted_to_debug_unit),
+    .o_is_halted(halted_to_if_id),
     .o_pc(pc_to_debug_unit)
 );
 
@@ -84,6 +87,7 @@ wire IFIDwrite;
 wire [NB_INS-1:0] if_id_instruction_id;
 wire [NB_PC-1:0] if_id_address_plus_4_id;
 wire IF_ID_flush;
+wire halted_to_id_ex;
 
 IF_ID
 #(
@@ -99,8 +103,10 @@ u_if_id
     .i_address_plus_4(if_address_plus_4_if_id),
     .i_IFIDwrite(IFIDwrite),
     .i_IF_ID_flush(execute_branch_to_IF || (PcSrc!=2'b00)),
+    .i_is_halted(halted_to_if_id),
     .o_instruction(if_id_instruction_id), 
-    .o_address_plus_4(if_id_address_plus_4_id)
+    .o_address_plus_4(if_id_address_plus_4_id),
+    .o_is_halted(halted_to_id_ex)
 );
 
 
@@ -189,7 +195,7 @@ u_id
     .o_execute_branch(execute_branch_to_IF),
     .o_IF_ID_flush(IF_ID_flush),
     .o_ex_mem_flush(flush_to_ex_mem),
-    .o_reg_data_to_DU(reg_data_to_debug_unit),
+    .o_reg_data_to_DU(reg_data_to_debug_unit)
 );
 
 //to EX
@@ -210,6 +216,7 @@ wire RegWrite_to_ex;
 wire [1:0] memtoReg_to_ex;
 wire [2:0] bhw_to_ex_mem;
 wire [3:0] ALUOp_to_ex;
+wire halted_to_ex_mem;
 
 ID_EX
 #(
@@ -244,6 +251,7 @@ u_id_ex
     .i_MemtoReg_from_ID(memtoReg_to_id_ex),
     .i_BHW_from_ID(bhw_to_id_ex),
     .i_ALUOp_from_ID(ALUOp_to_id_ex),
+    .i_is_halted(halted_to_id_ex),
 
     .o_rs_data(id_ex_rs_data_ex),
     .o_rt_data(id_ex_rt_data_ex),
@@ -262,7 +270,8 @@ u_id_ex
     .o_RegWrite_to_EX(RegWrite_to_ex),
     .o_MemtoReg_to_EX(memtoReg_to_ex),
     .o_BHW_to_EX(bhw_to_ex_mem),
-    .o_ALUOp_to_EX(ALUOp_to_ex)
+    .o_ALUOp_to_EX(ALUOp_to_ex),
+    .o_is_halted(halted_to_ex_mem)
     
 );
 
@@ -349,6 +358,7 @@ wire [1:0] memtoReg_to_mem;
 wire [2:0] bhw_to_mem;
 wire RegWrite_to_mem;
 wire [NB_REG_ADDRESS-1:0] rt_address_to_mem;
+wire halted_to_mem_wb;
 
 EX_MEM
 #(
@@ -376,6 +386,7 @@ u_ex_mem
     .i_RegWrite_from_EX(RegWrite_to_ex_mem),
     .i_rt_address(rt_address_to_ex_mem), 
     .i_ex_mem_flush(flush_to_ex_mem),   
+    .i_is_halted(halted_to_ex_mem),
     
     .o_res(ex_res_to_mem),
     .o_alu_zero_to_ID(alu_zero_ID),
@@ -389,7 +400,8 @@ u_ex_mem
     .o_MemtoReg_to_MEM(memtoReg_to_mem),
     .o_BHW_to_MEM(bhw_to_mem),
     .o_RegWrite_to_MEM(RegWrite_to_mem),
-    .o_rt_address(rt_address_to_mem)
+    .o_rt_address(rt_address_to_mem),
+    .o_is_halted(halted_to_mem_wb)
 );
 
 wire [NB_DATA-1:0] ex_res_to_mem_wb;
@@ -446,6 +458,7 @@ wire [NB_PC-1:0] address_plus_4_to_wb;
 wire [1:0] MemtoReg_to_wb;
 wire RegWrite_to_wb;
 wire [NB_REG_ADDRESS-1:0] rt_address_to_shortcircuit;
+wire halted_to_debug_unit;
 
 MEM_WB
 #(
@@ -468,6 +481,7 @@ u_mem_wb
 
     .i_rt_address(rt_address_to_mem_wb),
     .i_rt_data(rt_data_to_mem_wb),
+    .i_is_halted(halted_to_mem_wb),
 
     .o_write_address(write_address_to_id),
     .o_res(res_to_wb),
@@ -479,7 +493,8 @@ u_mem_wb
     .o_MemtoReg_to_WB(MemtoReg_to_wb),
     .o_RegWrite_to_WB(RegWrite_to_wb),
     .o_rt_address(rt_address_to_shortcircuit),
-    .o_rt_data(rt_data_to_ex_from_mem_wb)
+    .o_rt_data(rt_data_to_ex_from_mem_wb),
+    .o_is_halted(halted_to_debug_unit)
 );
 
 WB
