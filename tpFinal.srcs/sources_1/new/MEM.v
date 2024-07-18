@@ -31,7 +31,8 @@ module MEM
     input i_clk,
     input i_reset,
     input i_debug_unit_enable,
-    input [NB_DATA-1:0] i_res,   
+    input [NB_DATA-1:0] i_res,
+    input [NB_DATA-1:0] i_read_address_from_du,  
     input [NB_DATA-1:0] i_rt_data,
     input [NB_REG_ADDRESS-1:0] i_write_address,
     input [NB_DATA-1:0] i_address_plus_4,
@@ -51,6 +52,15 @@ module MEM
     output [NB_DATA-1:0] o_rt_data
 
 );
+reg [NB_DATA-1:0] read_address;
+reg [2:0] bhw;
+
+always@(*)
+begin
+    read_address = i_debug_unit_enable ? i_res : i_read_address_from_du;
+    bhw = i_debug_unit_enable ? i_BHW_from_EX_MEM : 3'b111;
+end
+
 assign o_address_plus_4 = i_address_plus_4;
 assign o_write_address = i_write_address;
 assign o_res = i_res;
@@ -67,11 +77,11 @@ data_mem
 u_data_mem
 (
     .i_clk(i_clk),
-    .i_data_mem_read_address(i_res), 
+    .i_data_mem_read_address(read_address), 
     .i_data_mem_write_address(i_res),
     .i_data_mem_data(i_rt_data), // 0 NO WRITE - 1 WRITE
     .i_data_mem_write_enable(i_MemWrite_from_EX_MEM),
-    .i_data_mem_bhw(i_BHW_from_EX_MEM),
+    .i_data_mem_bhw(bhw),
     .o_mem_data(o_mem_data)
 );
 endmodule

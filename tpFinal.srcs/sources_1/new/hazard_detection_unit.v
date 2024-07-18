@@ -22,7 +22,8 @@
 
 module hazard_detection_unit
 #(
-    parameter N_REG = 32
+    parameter N_REG = 32,
+    parameter NB_REG_ADDRESS = $clog2(N_REG)
 )
 ( 
     //source registers from ID
@@ -36,8 +37,6 @@ module hazard_detection_unit
     output reg o_IFIDwrite,
     output reg o_pipeline_stalled_to_ID
 );
-
-localparam NB_REG_ADDRESS = $clog2(N_REG);
 
 always@(*)
 begin

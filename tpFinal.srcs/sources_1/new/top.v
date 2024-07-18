@@ -35,19 +35,27 @@ module top
     parameter NB_ALUCODE = 4
 )
 ( 
-    input   i_clk,
-    input   i_reset    
+    input i_clk,
+    input i_reset,
+    input i_toggle_led,
+    input i_rx_data,
+    output o_tx_data,
+    output o_led_1,
+    output reg o_led_2,
+    output [NB_STATE-1:0] o_state
 );
 
 localparam NB_REG_ADDRESS = $clog2(N_REG);
 
+wire debug_unit_enable;
 wire [NB_PC-1:0] jump_address_to_if;
 wire [1:0] PcSrc;
 wire PCwrite_to_IF;
 wire execute_branch_to_IF;
 wire [NB_INS-1:0] if_instruction_if_id;
 wire [NB_PC-1:0] if_address_plus_4_if_id;
-
+wire [NB_PC-1:0] pc_to_debug_unit;
+wire halted_to_debug_unit;
 
 IF
 #(
@@ -58,17 +66,18 @@ u_IF
 (
     .i_clk(i_clk),
     .i_reset(i_reset),
-    .i_debug_unit_enable(1'b1),
+    .i_debug_unit_enable(debug_unit_enable),
     .i_PcSrc(PcSrc), 
-    .i_write_enable(),// TODO: ??
+    .i_write_enable(write_enable_to_if),
     .i_jump_address(jump_address_to_if),
-    .i_write_address(),// TODO: ??
-    .i_instruction(), // TODO: ??
+    .i_write_address(instruction_mem_write_address_to_if),
+    .i_instruction(instruction_to_if),
     .i_PCwrite(PCwrite_to_IF),
     .i_execute_branch(execute_branch_to_IF),
     .o_instruction(if_instruction_if_id),  
     .o_address_plus_4(if_address_plus_4_if_id),
-    .o_is_halted()
+    .o_is_halted(halted_to_debug_unit),
+    .o_pc(pc_to_debug_unit)
 );
 
 wire IFIDwrite;
@@ -85,7 +94,7 @@ u_if_id
 ( 
     .i_clk(i_clk),
     .i_reset(i_reset),
-    .i_debug_unit_enable(1'b1),
+    .i_debug_unit_enable(debug_unit_enable),
     .i_instruction(if_instruction_if_id), 
     .i_address_plus_4(if_address_plus_4_if_id),
     .i_IFIDwrite(IFIDwrite),
@@ -125,6 +134,8 @@ wire [NB_PC-1:0] if_id_address_plus_4_id_ex;
 wire flush_to_ex_mem;
 
 wire [NB_DATA-1:0] rs_data_from_shortcircuit;
+wire [NB_DATA-1:0] reg_data_to_debug_unit;
+wire [NB_REG_ADDRESS-1:0] reg_address_to_id;
 
 ID
 #(
@@ -141,10 +152,11 @@ u_id
 ( 
     .i_clk(i_clk),
     .i_reset(i_reset),
-    .i_debug_unit_enable(1'b1),
+    .i_debug_unit_enable(debug_unit_enable),
     .i_pipeline_stalled_to_control_unit(pipeline_stalled_to_ID),    
     .i_alu_zero_from_ex_mem(alu_zero_ID),
     .i_RegWrite_from_WB(RegWrite_to_id),
+    .i_reg_address_from_DU(reg_address_to_id),
     .i_instruction(if_id_instruction_id),      
     .i_write_address(write_address_to_id),
     .i_data_to_write_in_register_bank(write_address_to_register_bank),
@@ -176,7 +188,8 @@ u_id
     .o_BHW_to_ID_EX(bhw_to_id_ex),
     .o_execute_branch(execute_branch_to_IF),
     .o_IF_ID_flush(IF_ID_flush),
-    .o_ex_mem_flush(flush_to_ex_mem)
+    .o_ex_mem_flush(flush_to_ex_mem),
+    .o_reg_data_to_DU(reg_data_to_debug_unit),
 );
 
 //to EX
@@ -212,7 +225,7 @@ u_id_ex
 (
     .i_clk(i_clk),
     .i_reset(i_reset),
-    .i_debug_unit_enable(1'b1),
+    .i_debug_unit_enable(debug_unit_enable),
     .i_rs_data(id_rs_data_id_ex),
     .i_rt_data(id_rt_data_id_ex),
     .i_sigext(id_sigext_id_ex),   
@@ -286,7 +299,7 @@ EX
 )
 u_ex
 (
-    .i_debug_unit_enable(1'b1),
+    .i_debug_unit_enable(debug_unit_enable),
     .i_rs_data(id_ex_rs_data_ex),
     .i_rt_data(id_ex_rt_data_ex),
     .i_sigext(id_ex_sigext_ex),
@@ -347,7 +360,7 @@ u_ex_mem
 (    
     .i_clk(i_clk),
     .i_reset(i_reset),
-    .i_debug_unit_enable(1'b1),
+    .i_debug_unit_enable(debug_unit_enable),
     .i_res(ex_res_ex_mem),
     .i_alu_zero_from_ex(alu_zero_ex_mem),
     .i_rt_data(id_ex_rt_data_ex_mem),
@@ -399,8 +412,9 @@ u_mem
 (
     .i_clk(i_clk),
     .i_reset(i_reset),
-    .i_debug_unit_enable(1'b1),
-    .i_res(ex_res_to_mem),   
+    .i_debug_unit_enable(debug_unit_enable),
+    .i_res(ex_res_to_mem),
+    .i_read_address_from_du(data_mem_read_address_to_mem),
     .i_rt_data(rt_data_to_mem),
     .i_write_address(write_address_to_mem),
     .i_address_plus_4(address_plus_4_to_mem),
@@ -442,7 +456,7 @@ u_mem_wb
 (
     .i_clk(i_clk),
     .i_reset(i_reset),
-    .i_debug_unit_enable(1'b1),
+    .i_debug_unit_enable(debug_unit_enable),
     .i_write_address(write_address_to_mem_wb),
     .i_res(ex_res_to_mem_wb),   
     .i_mem_data(mem_data_to_mem_wb),
@@ -476,7 +490,7 @@ WB
 )
 u_wb
 ( 
-    .i_debug_unit_enable(1'b1),//TODO: Connect to Debug unit
+    .i_debug_unit_enable(debug_unit_enable),
     .i_res(res_to_wb),
     .i_mem_data(mem_data_to_wb), 
     .i_address_plus_4(address_plus_4_to_wb),
@@ -519,5 +533,36 @@ u_shortcircuit_unit
     .o_forward_a(data_a_mux),
     .o_forward_b(data_b_mux)
 );
+
+debug_unit
+#()
+u_debug_unit
+(
+    .i_clk(i_clk),
+    .i_reset(i_reset),
+    .i_rx_data(i_rx_data),
+    .i_halted(halted_to_debug_unit),
+    .i_pc(pc_to_debug_unit),
+    .i_reg_data(reg_data_to_debug_unit),
+    .i_mem_data(mem_data_to_mem_wb),
+    .o_reg_address(reg_address_to_id),
+    .o_data_mem_read_address(data_mem_read_address_to_mem),
+    .o_instruction_mem_write_address(instruction_mem_write_address_to_if),//COnnect
+    .o_instruction(instruction_to_if),
+    .o_write_enable(write_enable_to_if),
+    .o_tx_data(o_tx_data),
+    .o_tx_valid(),//TODO: Not used?
+    .o_state(o_state),
+    .o_debug_unit_enable(debug_unit_enable)
+);
+
+assign o_led_1 = 1'b1;
+
+always @(posedge i_clk) begin
+    if(i_reset)
+        o_led_2 <= 1'b0;
+    else if(i_toggle_led)
+        o_led_2 <= ~o_led_2;
+end
 
 endmodule

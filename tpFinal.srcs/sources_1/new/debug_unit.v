@@ -22,7 +22,8 @@ module debug_unit
     output o_write_enable,
     output o_tx_data,
     output o_tx_valid,
-    output [NB_STATE-1:0] o_state
+    output [NB_STATE-1:0] o_state,
+    output o_debug_unit_enable
 );
 
 // Signals
@@ -67,11 +68,11 @@ u_interface_pipeline
     .i_reg_data(i_reg_data),
     .i_mem_data(i_mem_data),
     .i_tx_done(tx_done),
-    .o_enable(),
+    .o_enable(o_debug_unit_enable),
     .o_reg_address(o_reg_address),
     .o_instruction_mem_write_address(o_instruction_mem_write_address),
-    .o_instruction(),
-    .o_write_enable(),
+    .o_instruction(o_instruction),
+    .o_write_enable(o_write_enable),
     .o_data_mem_read_address(o_data_mem_read_address),
     .o_tx_data(data_tx),
     .o_tx_valid(valid_tx),

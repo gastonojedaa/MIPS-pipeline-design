@@ -36,7 +36,8 @@ module IF #(
     input i_execute_branch,
     output [NB_INS-1:0] o_instruction,
     output [NB_PC-1:0] o_address_plus_4,
-    output o_is_halted
+    output o_is_halted,
+    output [NB_PC-1:0] o_pc
 
 );
 
@@ -80,5 +81,6 @@ module IF #(
   assign o_address_plus_4 = address_plus_4;
   assign o_instruction = instruction_from_mem;
   assign o_is_halted = is_halted;
+  assign o_pc = pc;
 
 endmodule
