@@ -286,13 +286,10 @@ EX
 )
 u_ex
 (
-    .i_clk(i_clk),
-    .i_reset(i_reset),
     .i_debug_unit_enable(1'b1),
     .i_rs_data(id_ex_rs_data_ex),
     .i_rt_data(id_ex_rt_data_ex),
-    .i_sigext(id_ex_sigext_ex),    
-    .i_rs_address(id_ex_rs_address_ex),
+    .i_sigext(id_ex_sigext_ex),
     .i_rt_address(id_ex_rt_address_ex),  
     .i_rd_address(id_ex_rd_address_to_ex),
     .i_address_plus_4(id_ex_address_plus_4_ex),

@@ -34,13 +34,10 @@ module EX
     parameter NB_FUNCTION = 6
 )
 (
-    input i_clk,
-    input i_reset,
     input i_debug_unit_enable,
     input [NB_DATA-1:0] i_rs_data,
     input [NB_DATA-1:0] i_rt_data,
-    input [NB_DATA-1:0] i_sigext,    
-    input [NB_REG_ADDRESS-1:0] i_rs_address,
+    input [NB_DATA-1:0] i_sigext,
     input [NB_REG_ADDRESS-1:0] i_rt_address,    
     input [NB_REG_ADDRESS-1:0] i_rd_address, //para multiplexar con rt la señal de control
     input [NB_DATA-1:0] i_address_plus_4, //address from ID/EX
@@ -136,9 +133,9 @@ u_alu(
 
 control_alu
 #(
-    NB_OP,
-    NB_FUNCTION,
-    NB_ALUCODE
+    .NB_OP(NB_OP),
+    .NB_FUNCTION(NB_FUNCTION),
+    .NB_ALUCODE(NB_ALUCODE)
 )
 u_control_alu(
     .i_ALUOp(i_ALUOp_from_ID_EX),
