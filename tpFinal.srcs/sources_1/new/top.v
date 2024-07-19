@@ -412,6 +412,7 @@ wire [1:0] memtoReg_to_mem_wb;
 wire RegWrite_to_mem_wb;
 wire [NB_REG_ADDRESS-1:0] rt_address_to_mem_wb;
 wire [NB_DATA-1:0] rt_data_to_mem_wb;
+wire [NB_PC-1:0] data_mem_read_address_to_mem;
 
 MEM
 #(
