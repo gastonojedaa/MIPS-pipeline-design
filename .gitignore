@@ -3,6 +3,7 @@ tpFinal.hw
 tpFinal.ip_user_files
 tpFinal.sim
 tpFinal.runs
+tpFinal.gen
 *.xpr
 vivado.jou
 vivado.log

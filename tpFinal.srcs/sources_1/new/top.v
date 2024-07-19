@@ -60,6 +60,19 @@ wire halted_to_if_id;
 wire [NB_INS-1:0] instruction_to_if;
 wire [NB_PC-1:0] instruction_mem_write_address_to_if;
 
+wire system_clk;
+
+clk_wiz_0
+#() 
+u_clk_wiz_0
+(
+    .clk_in1(i_clk),
+    .reset(i_reset), 
+    .clk_out1(system_clk),     
+    .locked()
+);
+
+
 IF
 #(
     .NB_PC(NB_PC),
@@ -67,7 +80,7 @@ IF
 )
 u_IF
 (
-    .i_clk(i_clk),
+    .i_clk(system_clk),
     .i_reset(i_reset),
     .i_debug_unit_enable(debug_unit_enable),
     .i_PcSrc(PcSrc), 
@@ -96,7 +109,7 @@ IF_ID
 )
 u_if_id
 ( 
-    .i_clk(i_clk),
+    .i_clk(system_clk),
     .i_reset(i_reset),
     .i_debug_unit_enable(debug_unit_enable),
     .i_instruction(if_instruction_if_id), 
@@ -156,7 +169,7 @@ ID
 )
 u_id
 ( 
-    .i_clk(i_clk),
+    .i_clk(system_clk),
     .i_reset(i_reset),
     .i_debug_unit_enable(debug_unit_enable),
     .i_pipeline_stalled_to_control_unit(pipeline_stalled_to_ID),    
@@ -230,7 +243,7 @@ ID_EX
 )
 u_id_ex
 (
-    .i_clk(i_clk),
+    .i_clk(system_clk),
     .i_reset(i_reset),
     .i_debug_unit_enable(debug_unit_enable),
     .i_rs_data(id_rs_data_id_ex),
@@ -368,7 +381,7 @@ EX_MEM
 )
 u_ex_mem
 (    
-    .i_clk(i_clk),
+    .i_clk(system_clk),
     .i_reset(i_reset),
     .i_debug_unit_enable(debug_unit_enable),
     .i_res(ex_res_ex_mem),
@@ -423,7 +436,7 @@ MEM
 )
 u_mem
 (
-    .i_clk(i_clk),
+    .i_clk(system_clk),
     .i_reset(i_reset),
     .i_debug_unit_enable(debug_unit_enable),
     .i_res(ex_res_to_mem),
@@ -468,7 +481,7 @@ MEM_WB
 )
 u_mem_wb
 (
-    .i_clk(i_clk),
+    .i_clk(system_clk),
     .i_reset(i_reset),
     .i_debug_unit_enable(debug_unit_enable),
     .i_write_address(write_address_to_mem_wb),
@@ -554,7 +567,7 @@ debug_unit
 #()
 u_debug_unit
 (
-    .i_clk(i_clk),
+    .i_clk(system_clk),
     .i_reset(i_reset),
     .i_rx_data(i_rx_data),
     .i_halted(halted_to_debug_unit),
@@ -574,7 +587,7 @@ u_debug_unit
 
 assign o_led_1 = 1'b1;
 
-always @(posedge i_clk) begin
+always @(posedge system_clk) begin
     if(i_reset)
         o_led_2 <= 1'b0;
     else if(i_toggle_led)
