@@ -212,13 +212,13 @@ module interface_pipeline
                    begin
                         case(i_rx_data)
                             CMD_SET_CONTINUOUS:
-                                    next_state <= CONTINUOUS;
+                                    next_state = CONTINUOUS;
                             CMD_SET_STEP_BY_STEP:
-                                    next_state <= IDLE_STEP_BY_STEP;
+                                    next_state = IDLE_STEP_BY_STEP;
                             CMD_RESET:
-                                    next_state <= UNINITIALIZED;
+                                    next_state = UNINITIALIZED;
                             default:
-                                    next_state <= SET_MODE;
+                                    next_state = SET_MODE;
                         endcase
                    end
                 else
@@ -278,22 +278,22 @@ module interface_pipeline
         case(state)
             READING_PC:
             begin
-                tx_data <= i_pc[bytes_to_load*8 +: 8];
-                tx_valid <= i_tx_done;
+                tx_data = i_pc[bytes_to_load*8 +: 8];
+                tx_valid = i_tx_done;
             end
             READING_REGS:
             begin
-                tx_data <= i_reg_data[bytes_to_load*8 +: 8];
-                tx_valid <= i_tx_done;
+                tx_data = i_reg_data[bytes_to_load*8 +: 8];
+                tx_valid = i_tx_done;
             end
             READING_MEM:
             begin
-                tx_data <= i_mem_data[bytes_to_load*8 +: 8];
-                tx_valid <= i_tx_done;
+                tx_data = i_mem_data[bytes_to_load*8 +: 8];
+                tx_valid = i_tx_done;
             end
                
             default:
-                tx_data <= 0;
+                tx_data = 0;
         endcase
     end
 

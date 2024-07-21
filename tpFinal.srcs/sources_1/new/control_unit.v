@@ -122,7 +122,7 @@ BHW
 */
 
 //si la señal branch y el zero de la alu estan en 1, se debe hacer un flush del pipeline
-wire flush_pipeline = 0;//TODO: DELETE
+wire flush_pipeline = 0;
 
 
 

@@ -11,18 +11,26 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="6.337075834 ms"></ZoomStartTime>
-      <ZoomEndTime time="70.187075835 ms"></ZoomEndTime>
-      <Cursor1Time time="16.978742500 ms"></Cursor1Time>
+      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
+      <ZoomEndTime time="2,578.000001 us"></ZoomEndTime>
+      <Cursor1Time time="300.000000 us"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="317"></NameColumnWidth>
-      <ValueColumnWidth column_width="77"></ValueColumnWidth>
+      <ValueColumnWidth column_width="65"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="52" />
+   <WVObjectSize size="71" />
    <wvobject fp_name="/tb_sim_top_du/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_clk_wiz_0/clk_out1" type="logic">
+      <obj_property name="ElementShortName">clk_out1</obj_property>
+      <obj_property name="ObjectShortName">clk_out1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_clk_wiz_0/locked" type="logic">
+      <obj_property name="ElementShortName">locked</obj_property>
+      <obj_property name="ObjectShortName">locked</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_sim_top_du/reset" type="logic">
       <obj_property name="ElementShortName">reset</obj_property>
@@ -89,6 +97,78 @@
       <obj_property name="ElementShortName">o_debug_unit_enable</obj_property>
       <obj_property name="ObjectShortName">o_debug_unit_enable</obj_property>
    </wvobject>
+   <wvobject type="divider" fp_name="divider109">
+      <obj_property name="label">INTERFACE_PIPELINE</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#FAAFBE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_debug_unit/u_interface_pipeline/i_rx_data" type="array">
+      <obj_property name="ElementShortName">i_rx_data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">i_rx_data[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_debug_unit/u_interface_pipeline/i_rx_valid" type="logic">
+      <obj_property name="ElementShortName">i_rx_valid</obj_property>
+      <obj_property name="ObjectShortName">i_rx_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_debug_unit/u_interface_pipeline/state" type="array">
+      <obj_property name="ElementShortName">state[9:0]</obj_property>
+      <obj_property name="ObjectShortName">state[9:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_debug_unit/u_interface_pipeline/next_state" type="array">
+      <obj_property name="ElementShortName">next_state[9:0]</obj_property>
+      <obj_property name="ObjectShortName">next_state[9:0]</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider960">
+      <obj_property name="label">UART</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#FAAFBE</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider108">
+      <obj_property name="label">BAUD_RATE_GEN</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#FFD700</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider961">
+      <obj_property name="label">RX</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#FFD700</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_debug_unit/u_uart/u_rx/tick_counter_15" type="array">
+      <obj_property name="ElementShortName">tick_counter_15[3:0]</obj_property>
+      <obj_property name="ObjectShortName">tick_counter_15[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_debug_unit/u_uart/u_rx/tick_counter_7" type="array">
+      <obj_property name="ElementShortName">tick_counter_7[2:0]</obj_property>
+      <obj_property name="ObjectShortName">tick_counter_7[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_debug_unit/u_uart/u_rx/rx_bit_counter" type="array">
+      <obj_property name="ElementShortName">rx_bit_counter[3:0]</obj_property>
+      <obj_property name="ObjectShortName">rx_bit_counter[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_debug_unit/u_uart/u_rx/data" type="array">
+      <obj_property name="ElementShortName">data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">data[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_debug_unit/u_uart/u_rx/i_tick" type="logic">
+      <obj_property name="ElementShortName">i_tick</obj_property>
+      <obj_property name="ObjectShortName">i_tick</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_debug_unit/u_uart/u_rx/i_rx_data" type="logic">
+      <obj_property name="ElementShortName">i_rx_data</obj_property>
+      <obj_property name="ObjectShortName">i_rx_data</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_debug_unit/u_uart/u_rx/o_data" type="array">
+      <obj_property name="ElementShortName">o_data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">o_data[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_debug_unit/u_uart/u_rx/o_valid" type="logic">
+      <obj_property name="ElementShortName">o_valid</obj_property>
+      <obj_property name="ObjectShortName">o_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_debug_unit/u_uart/u_rx/state" type="array">
+      <obj_property name="ElementShortName">state[3:0]</obj_property>
+      <obj_property name="ObjectShortName">state[3:0]</obj_property>
+   </wvobject>
    <wvobject type="divider" fp_name="divider822">
       <obj_property name="label">IF</obj_property>
       <obj_property name="DisplayName">label</obj_property>
@@ -144,8 +224,8 @@
       <obj_property name="BkColor">#FAAFBE</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank" type="array">
-      <obj_property name="ElementShortName">reg_bank[0:32][31:0]</obj_property>
-      <obj_property name="ObjectShortName">reg_bank[0:32][31:0]</obj_property>
+      <obj_property name="ElementShortName">reg_bank[0:31][31:0]</obj_property>
+      <obj_property name="ObjectShortName">reg_bank[0:31][31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/i_data_to_write" type="array">
       <obj_property name="ElementShortName">i_data_to_write[31:0]</obj_property>

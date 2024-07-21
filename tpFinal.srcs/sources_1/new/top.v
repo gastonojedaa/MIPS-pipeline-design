@@ -33,7 +33,8 @@ module top
     parameter NB_FUNCTION = 6,
     parameter NB_OPS = 6,
     parameter NB_ALUCODE = 4,
-    parameter NB_STATE = 10
+    parameter NB_STATE = 10,
+    parameter CLK_FREQ = 50000000
 )
 ( 
     input i_clk,
@@ -67,11 +68,10 @@ clk_wiz_0
 u_clk_wiz_0
 (
     .clk_in1(i_clk),
-    .reset(i_reset), 
+    .reset(1'b0), 
     .clk_out1(system_clk),     
     .locked()
 );
-
 
 IF
 #(
@@ -341,8 +341,8 @@ u_ex
 
     .i_forward_a(data_a_mux),
     .i_forward_b(data_b_mux),
-    .i_rt_data_ex_mem(ex_res_to_mem),//TODO: CHeck name
-    .i_rt_data_mem_wb(res_to_wb),//TODO: CHeck name
+    .i_rt_data_ex_mem(ex_res_to_mem),
+    .i_rt_data_mem_wb(res_to_wb),
 
     .o_res(ex_res_ex_mem),
     .o_alu_zero_to_ex_mem(alu_zero_ex_mem),
@@ -564,7 +564,9 @@ u_shortcircuit_unit
 );
 
 debug_unit
-#()
+#(
+    .CLK_FREQ(CLK_FREQ)
+)
 u_debug_unit
 (
     .i_clk(system_clk),
@@ -576,11 +578,11 @@ u_debug_unit
     .i_mem_data(mem_data_to_mem_wb),
     .o_reg_address(reg_address_to_id),
     .o_data_mem_read_address(data_mem_read_address_to_mem),
-    .o_instruction_mem_write_address(instruction_mem_write_address_to_if),//COnnect
+    .o_instruction_mem_write_address(instruction_mem_write_address_to_if),
     .o_instruction(instruction_to_if),
     .o_write_enable(write_enable_to_if),
     .o_tx_data(o_tx_data),
-    .o_tx_valid(),//TODO: Not used?
+    .o_tx_valid(),
     .o_state(o_state),
     .o_debug_unit_enable(debug_unit_enable)
 );

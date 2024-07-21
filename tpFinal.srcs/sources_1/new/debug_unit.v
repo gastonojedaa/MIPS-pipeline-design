@@ -3,7 +3,7 @@ module debug_unit
     parameter NB_UART_DATA = 8,
     parameter NB_DATA = 32,
     parameter NB_STATE = 10,
-    parameter CLK_FREQ = 50000000,
+    parameter CLK_FREQ = 100000000,
     parameter BAUD_RATE = 9600,
     parameter NB_REGS = 5
 )

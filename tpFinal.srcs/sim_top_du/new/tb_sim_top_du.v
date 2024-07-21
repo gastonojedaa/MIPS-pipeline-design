@@ -30,6 +30,9 @@ parameter NB_STATE = 10;
 localparam N_REGS = 2**NB_REGS;
 localparam BIT_DURATION = 9780;
 localparam START_BIT_DURATION = 4564;
+// localparam BIT_DURATION = 4882;//9780 antes
+// localparam START_BIT_DURATION = 2600;//4564 antes
+
 
 reg clk;
 reg reset;
@@ -75,36 +78,36 @@ initial begin
     reset = 1;
     rx_data = 1; // Idle state for UART
 
-    #10
+    #300;
     reset = 0;
     
     // Send CMD_SET_INST
-    #5;
+    #200;
     send_byte(8'b00000001);
     
     // Send number of instructions = 2
     #5;
-    send_byte(8'b00000110);
+    send_byte(8'b00000010);
     
     // Send instruction
     #5;
     send_word(32'h3c010001);
     
-    // Send instruction
-    #5;
-    send_word(32'h3c020002);
+    // // Send instruction
+    // #5;
+    // send_word(32'h3c020002);
 
-    // Send instruction
-    #5;
-    send_word(32'h3c030003);
+    // // Send instruction
+    // #5;
+    // send_word(32'h3c030003);
 
-    // Send instruction
-    #5;
-    send_word(32'h3c040004);
+    // // Send instruction
+    // #5;
+    // send_word(32'h3c040004);
 
-    // Send instruction
-    #5;
-    send_word(32'h3c050005);
+    // // Send instruction
+    // #5;
+    // send_word(32'h3c050005);
 
     // Send instruction
     #5;
@@ -121,7 +124,9 @@ end
 always #0.5 clk = ~clk;
 
 top
-#()
+#(
+    // .CLK_FREQ(100000000)
+)
 u_top
 (
     .i_clk(clk),
