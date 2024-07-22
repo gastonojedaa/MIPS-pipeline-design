@@ -50,7 +50,7 @@ begin
         for (i = 0; i <= N_REG-1; i = i + 1) begin
             //reg_bank[i] = (i*2) << 16;
             //reg_bank[i] = (i*2);
-            reg_bank[i] = 2;
+            reg_bank[i] = 0;
         end
     end
     else if(i_debug_unit_enable && i_RegWrite)

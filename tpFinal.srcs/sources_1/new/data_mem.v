@@ -43,10 +43,7 @@ reg [NB_INS-1:0] mem_data[0:MEM_SIZE];
 initial
 begin      
     for (i = 0; i <= MEM_SIZE-1; i = i + 1) begin
-        if(i%2 == 0)
-            mem_data[i] = i;
-        else
-            mem_data[i] = 'hffffffff - i;
+        mem_data[i] = 0;
     end
 end
 
