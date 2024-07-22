@@ -42,24 +42,16 @@ module IF_ID
 
 always@(posedge i_clk)
 begin
+    o_is_halted <= i_is_halted;
     if(i_reset || i_IF_ID_flush || i_is_halted)
         begin
             o_instruction <= 'hBBBBBBBB;// Intruction not used
             o_address_plus_4 <= 0; 
-            o_is_halted <= i_is_halted;
         end 
-    else
+    else if(i_debug_unit_enable && !i_IFIDwrite)
     begin
-        if(i_debug_unit_enable)
-        begin
-            //handle the stall signal
-            if(!i_IFIDwrite)
-                begin
-                    o_instruction <= i_instruction;
-                    o_address_plus_4 <= i_address_plus_4;
-                    o_is_halted <= i_is_halted;
-                end            
-        end   
+        o_instruction <= i_instruction;
+        o_address_plus_4 <= i_address_plus_4;
     end
 end
 
