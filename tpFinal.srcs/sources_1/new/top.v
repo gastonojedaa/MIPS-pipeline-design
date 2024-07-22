@@ -34,7 +34,7 @@ module top
     parameter NB_OPS = 6,
     parameter NB_ALUCODE = 4,
     parameter NB_STATE = 10,
-    parameter CLK_FREQ = 50000000
+    parameter CLK_FREQ = 45000000
 )
 ( 
     input i_clk,
