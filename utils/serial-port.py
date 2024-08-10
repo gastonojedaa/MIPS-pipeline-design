@@ -25,7 +25,7 @@ def send_program(ser, file_path):
             print(f"Sent line count: {line_count}")
             # Send each line as a 32-bit value
             for line in lines:
-                data = int(line.strip(), 2).to_bytes(4, byteorder='big')
+                data = int(line.strip(), 2).to_bytes(4, byteorder='little')
                 ser.write(data)
                 print(f"Sent: {data}")
     except FileNotFoundError:
@@ -66,24 +66,36 @@ def write_mock_data_to_port(ser):
     print("Mock PC, registers, and memory data written to port.")
 
 def read_from_port(ser):
-    # Read Program Counter (PC)
-    pc_data = ser.read(4)  # Read 4 bytes (32 bits)
-    pc = int.from_bytes(pc_data, byteorder='little')
-    print(f"Program Counter (Hex): {pc:08X}")
+    while(1):#TODO break when ser is closed
+        # Read Program Counter (PC)
+        pc_data = ser.read(4)  # Read 4 bytes (32 bits)
+        pc = int.from_bytes(pc_data, byteorder='little')
+        print(f"Program Counter (Hex): {pc:08X}")
 
-    # Read Registers
-    print("Registers:")
-    for i in range(32):  # 32 registers
-        reg_data = ser.read(4)  # Read 4 bytes (32 bits) for each register
-        reg_value = int.from_bytes(reg_data, byteorder='little')
-        print(f"R{i}: {reg_value}")
+        # Read Registers
+        print("Registers:")
+        for i in range(32):  # 32 registers
+            reg_data = ser.read(4)  # Read 4 bytes (32 bits) for each register
+            reg_data = reg_data[::-1]
+            reg_value = int.from_bytes(reg_data, byteorder='little')
+            print(f"R{i}: {reg_data.hex()}")
 
-    # Read Memory
-    print("Memory:")
-    for i in range(256):  # 256 memory slots
-        mem_data = ser.read(4)  # Read 4 bytes (32 bits) for each memory slot
-        mem_value = int.from_bytes(mem_data, byteorder='little')
-        print(f"Mem[{i}]: {mem_value}") 
+        #Read Memory
+        print("Memory:")
+        for i in range(256):  # 256 memory slots
+            mem_data = ser.read(4)  # Read 4 bytes (32 bits) for each memory slot
+            #print in hex format
+            #print(f"Mem[{i}]: {mem_data.hex()}")
+            mem_value = int.from_bytes(mem_data, byteorder='little')
+            #print(f"Mem[{i}]: {mem_value}")
+            #Reverse order of bytes
+            mem_data = mem_data[::-1]
+            print(f"Mem[{i}]: {mem_data.hex()}")
+        # for i in range(256):
+        #     for j in range(4):
+        #         mem_data = ser.read(1)
+        #         print(f"Mem[{i}][{j}]: {mem_data.hex()}")
+        #print("All data read from port")
 
 
 def write_to_port(ser):

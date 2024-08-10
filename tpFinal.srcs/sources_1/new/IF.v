@@ -36,15 +36,23 @@ module IF #(
     input i_execute_branch,
     output [NB_INS-1:0] o_instruction,
     output [NB_PC-1:0] o_address_plus_4,
-    output o_is_halted
+    output o_is_halted,
+    output [NB_PC-1:0] o_pc
 
 );
-
+  reg pipeline_halted;
   wire [NB_INS-1:0] instruction_from_mem;
   reg [NB_PC-1:0] new_address;
   wire [NB_PC-1:0] address_plus_4;
   reg [NB_PC-1:0] pc;
   wire is_halted;
+
+  always @(posedge i_clk) begin
+    if (i_reset) pipeline_halted <= 0;
+    else if (pipeline_halted) pipeline_halted <= 1;
+    else if (is_halted) pipeline_halted <= 1;
+    else pipeline_halted <= 0;
+  end
 
 
   assign is_halted = (instruction_from_mem[31:26] == 6'b111111);// 111111 is the opcode for HALT
@@ -54,7 +62,7 @@ module IF #(
   // Mux PC - PC + 4 o jump address
   always @(*) begin
     //if (i_PCwrite || is_halted || !i_debug_unit_enable) new_address = pc;
-    if (i_PCwrite || !i_debug_unit_enable) new_address = pc;
+    if (i_PCwrite || !i_debug_unit_enable || pipeline_halted || is_halted) new_address = pc;
     else begin
       if ((i_PcSrc != 2'b00) || i_execute_branch) new_address = i_jump_address;
       else new_address = address_plus_4;
@@ -79,6 +87,7 @@ module IF #(
 
   assign o_address_plus_4 = address_plus_4;
   assign o_instruction = instruction_from_mem;
-  assign o_is_halted = is_halted;
+  assign o_is_halted = pipeline_halted || is_halted;
+  assign o_pc = pc;
 
 endmodule

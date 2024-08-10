@@ -34,31 +34,25 @@ module IF_ID
     input  i_IF_ID_flush,
     //signal from hazard detection unit
     input i_IFIDwrite,
+    input i_is_halted,
     output reg  [NB_INS-1:0] o_instruction,
-    output reg  [NB_PC-1:0] o_address_plus_4
+    output reg  [NB_PC-1:0] o_address_plus_4,
+    output reg  o_is_halted
 );
 
 always@(posedge i_clk)
 begin
-    if(i_reset || i_IF_ID_flush)
+    o_is_halted <= i_is_halted;
+    if(i_reset || i_IF_ID_flush || i_is_halted)
         begin
             o_instruction <= 'hBBBBBBBB;// Intruction not used
             o_address_plus_4 <= 0; 
         end 
-    else if(i_debug_unit_enable)
-        begin
-            //handle the stall signal
-            if(i_IFIDwrite)
-                begin
-                    o_instruction <= o_instruction;
-                    o_address_plus_4 <= o_address_plus_4;
-                end
-            else
-                begin
-                    o_instruction <= i_instruction;
-                    o_address_plus_4 <= i_address_plus_4;
-                end            
-        end   
+    else if(i_debug_unit_enable && !i_IFIDwrite)
+    begin
+        o_instruction <= i_instruction;
+        o_address_plus_4 <= i_address_plus_4;
+    end
 end
 
 endmodule

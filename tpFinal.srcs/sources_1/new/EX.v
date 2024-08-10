@@ -58,8 +58,8 @@ module EX
 
     output [NB_DATA-1 : 0] o_res,
     output o_alu_zero_to_ex_mem,
-    output [NB_DATA-1: 0] o_rt_data, //TODO: revisar conexion
-    output [NB_DATA-1: 0] o_rs_data, //TODO: revisar conexion
+    output [NB_DATA-1: 0] o_rt_data,
+    output [NB_DATA-1: 0] o_rs_data,
     output reg [NB_REG_ADDRESS-1:0] o_write_address,
     output o_MemRead_to_EX_MEM,
     output o_MemWrite_to_EX_MEM,

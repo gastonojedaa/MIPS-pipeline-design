@@ -39,6 +39,7 @@ module ID
     input   i_pipeline_stalled_to_control_unit,
     input   i_alu_zero_from_ex_mem,
     input   i_RegWrite_from_WB,
+    input [NB_REG_ADDRESS-1:0] i_reg_address_from_DU,
     input   [NB_INS-1:0] i_instruction,  
     input   [NB_REG_ADDRESS-1:0] i_write_address,
     input   [NB_DATA-1:0] i_data_to_write_in_register_bank,
@@ -68,7 +69,8 @@ module ID
     output reg o_execute_branch,
     output o_IF_ID_flush,
     output o_ex_mem_flush,
-    output reg [NB_PC-1:0] o_jump_address
+    output reg [NB_PC-1:0] o_jump_address,
+    output [NB_DATA-1:0] o_reg_data_to_DU
 );
 
 wire [NB_REG_ADDRESS-1:0] rs_address;
@@ -107,10 +109,10 @@ u_register_bank
     .rt_address(i_instruction[20:16]),    
     .rw_address(i_write_address),          //  vienen de la 
     .i_RegWrite(i_RegWrite_from_WB), //señal de control
-    .i_reg_address(), //TODO: viene de la contorl unit
+    .i_reg_address(i_reg_address_from_DU),
     .o_rs_data(rs_data),
     .o_rt_data(rt_data),
-    .o_reg_data() //TODO: esto creo que nisiquiera va   
+    .o_reg_data(o_reg_data_to_DU) 
 );
 
 sign_ext

@@ -41,7 +41,7 @@ module register_bank
 );
 
 integer i;
-reg [NB_DATA-1:0] reg_bank[0:N_REG];
+reg [NB_DATA-1:0] reg_bank[0:N_REG-1];
 
 always@(posedge i_clk)
 begin

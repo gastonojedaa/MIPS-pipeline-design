@@ -51,6 +51,7 @@ module ID_EX
     input [1:0] i_MemtoReg_from_ID,
     input [2:0] i_BHW_from_ID,
     input [3:0] i_ALUOp_from_ID,
+    input i_is_halted,
 
     output reg [NB_DATA-1:0] o_rs_data,
     output reg [NB_DATA-1:0] o_rt_data,
@@ -67,7 +68,8 @@ module ID_EX
     output reg o_RegWrite_to_EX,
     output reg [1:0] o_MemtoReg_to_EX,
     output reg [2:0] o_BHW_to_EX,
-    output reg [3:0] o_ALUOp_to_EX
+    output reg [3:0] o_ALUOp_to_EX,
+    output reg o_is_halted
 );
     
 always@(posedge i_clk)
@@ -90,6 +92,7 @@ begin
             o_RegDst_to_EX <= 0;
             o_ALUSrc_to_EX <= 0;
             o_RegWrite_to_EX <= 0;
+            o_is_halted <= 0;
         end
     else if(i_debug_unit_enable)
         begin                              
@@ -109,6 +112,7 @@ begin
             o_RegDst_to_EX <= i_RegDst_from_ID;
             o_ALUSrc_to_EX <= i_ALUSrc_from_ID;
             o_RegWrite_to_EX <= i_RegWrite_from_ID;
+            o_is_halted <= i_is_halted;
         end
 end
 
