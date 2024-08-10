@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
-      <ZoomEndTime time="2,578.000001 us"></ZoomEndTime>
-      <Cursor1Time time="300.000000 us"></Cursor1Time>
+      <ZoomStartTime time="96.977944 us"></ZoomStartTime>
+      <ZoomEndTime time="6,561.977945 us"></ZoomEndTime>
+      <Cursor1Time time="1,174.477944 us"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="317"></NameColumnWidth>
-      <ValueColumnWidth column_width="65"></ValueColumnWidth>
+      <ValueColumnWidth column_width="61"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="71" />
+   <WVObjectSize size="91" />
    <wvobject fp_name="/tb_sim_top_du/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -39,6 +39,86 @@
    <wvobject fp_name="/tb_sim_top_du/rx_data" type="logic">
       <obj_property name="ElementShortName">rx_data</obj_property>
       <obj_property name="ObjectShortName">rx_data</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider83">
+      <obj_property name="label">IF</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_IF/o_is_halted" type="logic">
+      <obj_property name="ElementShortName">o_is_halted</obj_property>
+      <obj_property name="ObjectShortName">o_is_halted</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_IF/pipeline_halted" type="logic">
+      <obj_property name="ElementShortName">pipeline_halted</obj_property>
+      <obj_property name="ObjectShortName">pipeline_halted</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_IF/is_halted" type="logic">
+      <obj_property name="ElementShortName">is_halted</obj_property>
+      <obj_property name="ObjectShortName">is_halted</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider87">
+      <obj_property name="label">IF_ID</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_if_id/i_reset" type="logic">
+      <obj_property name="ElementShortName">i_reset</obj_property>
+      <obj_property name="ObjectShortName">i_reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_if_id/i_IF_ID_flush" type="logic">
+      <obj_property name="ElementShortName">i_IF_ID_flush</obj_property>
+      <obj_property name="ObjectShortName">i_IF_ID_flush</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_if_id/i_debug_unit_enable" type="logic">
+      <obj_property name="ElementShortName">i_debug_unit_enable</obj_property>
+      <obj_property name="ObjectShortName">i_debug_unit_enable</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_if_id/i_is_halted" type="logic">
+      <obj_property name="ElementShortName">i_is_halted</obj_property>
+      <obj_property name="ObjectShortName">i_is_halted</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_if_id/o_is_halted" type="logic">
+      <obj_property name="ElementShortName">o_is_halted</obj_property>
+      <obj_property name="ObjectShortName">o_is_halted</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_if_id/o_instruction" type="array">
+      <obj_property name="ElementShortName">o_instruction[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_instruction[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider90">
+      <obj_property name="label">ID_EX</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id_ex/i_is_halted" type="logic">
+      <obj_property name="ElementShortName">i_is_halted</obj_property>
+      <obj_property name="ObjectShortName">i_is_halted</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id_ex/o_is_halted" type="logic">
+      <obj_property name="ElementShortName">o_is_halted</obj_property>
+      <obj_property name="ObjectShortName">o_is_halted</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider93">
+      <obj_property name="label">EX_MEM</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_ex_mem/i_is_halted" type="logic">
+      <obj_property name="ElementShortName">i_is_halted</obj_property>
+      <obj_property name="ObjectShortName">i_is_halted</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_ex_mem/o_is_halted" type="logic">
+      <obj_property name="ElementShortName">o_is_halted</obj_property>
+      <obj_property name="ObjectShortName">o_is_halted</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider96">
+      <obj_property name="label">MEM_WB</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_mem_wb/i_is_halted" type="logic">
+      <obj_property name="ElementShortName">i_is_halted</obj_property>
+      <obj_property name="ObjectShortName">i_is_halted</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_mem_wb/o_is_halted" type="logic">
+      <obj_property name="ElementShortName">o_is_halted</obj_property>
+      <obj_property name="ObjectShortName">o_is_halted</obj_property>
    </wvobject>
    <wvobject type="divider" fp_name="divider819">
       <obj_property name="label">DEBUG_UNIT</obj_property>

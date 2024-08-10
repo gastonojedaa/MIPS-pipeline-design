@@ -125,7 +125,7 @@ always #0.5 clk = ~clk;
 
 top
 #(
-    // .CLK_FREQ(100000000)
+    .CLK_FREQ(45000000)
 )
 u_top
 (
