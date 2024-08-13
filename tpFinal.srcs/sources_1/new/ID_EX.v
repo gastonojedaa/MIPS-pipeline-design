@@ -52,6 +52,7 @@ module ID_EX
     input [2:0] i_BHW_from_ID,
     input [3:0] i_ALUOp_from_ID,
     input i_is_halted,
+    input i_pipeline_stalled,
 
     output reg [NB_DATA-1:0] o_rs_data,
     output reg [NB_DATA-1:0] o_rt_data,
@@ -74,7 +75,7 @@ module ID_EX
     
 always@(posedge i_clk)
 begin 
-    if(i_reset)
+    if(i_reset || i_pipeline_stalled)
         begin
             o_rs_data <= 0;
             o_rt_data <= 0;

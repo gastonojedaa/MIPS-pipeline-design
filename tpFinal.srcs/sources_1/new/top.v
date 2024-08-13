@@ -265,6 +265,7 @@ u_id_ex
     .i_BHW_from_ID(bhw_to_id_ex),
     .i_ALUOp_from_ID(ALUOp_to_id_ex),
     .i_is_halted(halted_to_id_ex),
+    .i_pipeline_stalled(pipeline_stalled_to_ID),
 
     .o_rs_data(id_ex_rs_data_ex),
     .o_rt_data(id_ex_rt_data_ex),
