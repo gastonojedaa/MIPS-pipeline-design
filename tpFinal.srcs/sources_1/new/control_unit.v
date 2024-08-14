@@ -326,7 +326,7 @@ always @(*)
                     Branch = 2'b00;
                     RegWrite = 1'b0;
                     MemtoReg = 2'b00;
-                    BHW = 3'b000;
+                    BHW = 3'b001;
                     //ExtSign = 1'b0;//no se usa */
                 end
                 SH_OP:

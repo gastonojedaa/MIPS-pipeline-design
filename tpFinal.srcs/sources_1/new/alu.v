@@ -38,7 +38,7 @@ module alu
             SUB_ALUCODE:
                 res = i_data_a - i_data_b;
             SLL_ALUCODE:
-                res = i_data_b << i_data_a[10:6];
+                res = i_data_a << i_data_b[10:6];
             SRL_ALUCODE:
                 res = i_data_a >> i_data_b[10:6];
             SRA_ALUCODE:

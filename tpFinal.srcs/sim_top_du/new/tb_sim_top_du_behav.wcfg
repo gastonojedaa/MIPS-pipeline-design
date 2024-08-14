@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="525.001 ns"></ZoomEndTime>
-      <Cursor1Time time="0.000 ns"></Cursor1Time>
+      <ZoomStartTime time="1,225.264 ns"></ZoomStartTime>
+      <ZoomEndTime time="1,243.345 ns"></ZoomEndTime>
+      <Cursor1Time time="1,229.664 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="279"></NameColumnWidth>
-      <ValueColumnWidth column_width="66"></ValueColumnWidth>
+      <NameColumnWidth column_width="268"></NameColumnWidth>
+      <ValueColumnWidth column_width="72"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="124" />
+   <WVObjectSize size="131" />
    <wvobject fp_name="/tb_sim_top_du/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -132,6 +132,7 @@
    <wvobject fp_name="/tb_sim_top_du/u_top/u_id/i_instruction" type="array">
       <obj_property name="ElementShortName">i_instruction[31:0]</obj_property>
       <obj_property name="ObjectShortName">i_instruction[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_sim_top_du/u_top/u_id/o_rs_data" type="array">
       <obj_property name="ElementShortName">o_rs_data[31:0]</obj_property>
@@ -366,10 +367,12 @@
    <wvobject fp_name="/tb_sim_top_du/u_top/u_ex/u_alu/i_data_a" type="array">
       <obj_property name="ElementShortName">i_data_a[31:0]</obj_property>
       <obj_property name="ObjectShortName">i_data_a[31:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_sim_top_du/u_top/u_ex/u_alu/i_data_b" type="array">
       <obj_property name="ElementShortName">i_data_b[31:0]</obj_property>
       <obj_property name="ObjectShortName">i_data_b[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_sim_top_du/u_top/u_ex/u_alu/i_alucode" type="array">
       <obj_property name="ElementShortName">i_alucode[3:0]</obj_property>
@@ -379,6 +382,7 @@
    <wvobject fp_name="/tb_sim_top_du/u_top/u_ex/u_alu/o_res" type="array">
       <obj_property name="ElementShortName">o_res[31:0]</obj_property>
       <obj_property name="ObjectShortName">o_res[31:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
    </wvobject>
    <wvobject type="divider" fp_name="divider93">
       <obj_property name="label">EX_MEM</obj_property>
@@ -391,6 +395,37 @@
    <wvobject fp_name="/tb_sim_top_du/u_top/u_ex_mem/o_is_halted" type="logic">
       <obj_property name="ElementShortName">o_is_halted</obj_property>
       <obj_property name="ObjectShortName">o_is_halted</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider232">
+      <obj_property name="label">MEM</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_mem/i_debug_unit_enable" type="logic">
+      <obj_property name="ElementShortName">i_debug_unit_enable</obj_property>
+      <obj_property name="ObjectShortName">i_debug_unit_enable</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_mem/i_BHW_from_EX_MEM" type="array">
+      <obj_property name="ElementShortName">i_BHW_from_EX_MEM[2:0]</obj_property>
+      <obj_property name="ObjectShortName">i_BHW_from_EX_MEM[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider233">
+      <obj_property name="label">DATA_MEM</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#FAAFBE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_mem/u_data_mem/i_data_mem_bhw" type="array">
+      <obj_property name="ElementShortName">i_data_mem_bhw[2:0]</obj_property>
+      <obj_property name="ObjectShortName">i_data_mem_bhw[2:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_mem/u_data_mem/i_data_mem_write_enable" type="logic">
+      <obj_property name="ElementShortName">i_data_mem_write_enable</obj_property>
+      <obj_property name="ObjectShortName">i_data_mem_write_enable</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_mem/u_data_mem/mem_data" type="array">
+      <obj_property name="ElementShortName">mem_data[0:255][31:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_data[0:255][31:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject type="divider" fp_name="divider96">
       <obj_property name="label">MEM_WB</obj_property>
