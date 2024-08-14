@@ -88,7 +88,7 @@ module control_unit#(
     
     output [1:0] o_PcSrc,
     output [1:0] o_RegDst,
-    output O_ALUSrc,
+    output [1:0] O_ALUSrc,
     output [3:0] o_ALUOp, 
     output o_MemRead,
     output o_MemWrite,
@@ -100,7 +100,8 @@ module control_unit#(
     output o_EX_MEM_flush
 );
 
-reg ALUSrc, MemRead, MemWrite, RegWrite, IF_ID_flush, EX_MEM_flush;
+reg MemRead, MemWrite, RegWrite, IF_ID_flush, EX_MEM_flush;
+reg [1:0] ALUSrc;
 reg [1:0] PcSrc;
 /*
 00 -> PC + 4
@@ -128,7 +129,7 @@ always @(*)
             EX_MEM_flush = 1'b0;
             PcSrc = 2'b00; 
             RegDst = 2'b00; 
-            ALUSrc = 1'b0; 
+            ALUSrc = 2'b00; 
             ALUOp = R_TYPE_ALUOP;
             MemRead = 1'b0;
             MemWrite = 1'b0;
@@ -151,7 +152,7 @@ always @(*)
                             begin
                                     PcSrc = 2'b00; 
                                     RegDst = 2'b01;
-                                    ALUSrc = 1'b1; 
+                                    ALUSrc = 2'b11; 
                                     ALUOp = R_TYPE_ALUOP;
                                     MemRead = 1'b0;
                                     MemWrite = 1'b0;
@@ -166,7 +167,7 @@ always @(*)
                             begin
                                     PcSrc = 2'b00; 
                                     RegDst = 2'b01;
-                                    ALUSrc = 1'b0; 
+                                    ALUSrc = 2'b00; 
                                     ALUOp = R_TYPE_ALUOP;
                                     MemRead = 1'b0;
                                     MemWrite = 1'b0;
@@ -181,7 +182,7 @@ always @(*)
                             begin
                                     PcSrc = 2'b11;
                                     RegDst = 2'b00; //no se usa
-                                    ALUSrc = 1'b0; //no se usa
+                                    ALUSrc = 2'b00; //no se usa
                                     ALUOp = R_TYPE_ALUOP;
                                     MemRead = 1'b0;
                                     MemWrite = 1'b0;
@@ -196,7 +197,7 @@ always @(*)
                             begin
                                     PcSrc = 2'b11;
                                     RegDst = 2'b01;
-                                    ALUSrc = 1'b0; //no se usa
+                                    ALUSrc = 2'b00; //no se usa
                                     ALUOp = R_TYPE_ALUOP;
                                     MemRead = 1'b0;
                                     MemWrite = 1'b0;
@@ -211,7 +212,7 @@ always @(*)
                             begin
                                     PcSrc = 2'b00; 
                                     RegDst = 2'b00;
-                                    ALUSrc = 1'b0;
+                                    ALUSrc = 2'b00;
                                     ALUOp = R_TYPE_ALUOP;
                                     MemRead = 1'b0;
                                     MemWrite = 1'b0;
@@ -229,7 +230,7 @@ always @(*)
                 begin
                     PcSrc = 2'b00; 
                     RegDst = 2'b00;
-                    ALUSrc = 1'b1; 
+                    ALUSrc = 2'b01; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP;
                     MemRead = 1'b1;
                     MemWrite = 1'b0;
@@ -243,7 +244,7 @@ always @(*)
                 begin
                     PcSrc = 2'b00; 
                     RegDst = 2'b00;
-                    ALUSrc = 1'b1; 
+                    ALUSrc = 2'b01; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b1;
                     MemWrite = 1'b0;
@@ -258,7 +259,7 @@ always @(*)
                 begin
                     PcSrc = 2'b00;    
                     RegDst = 2'b00;
-                    ALUSrc = 1'b1; 
+                    ALUSrc = 2'b01; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b1;
                     MemWrite = 1'b0;
@@ -273,7 +274,7 @@ always @(*)
                 begin
                     PcSrc = 2'b00;  
                     RegDst = 2'b00;
-                    ALUSrc = 1'b1; 
+                    ALUSrc = 2'b01; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b1;
                     MemWrite = 1'b0;
@@ -288,7 +289,7 @@ always @(*)
                 begin
                     PcSrc = 2'b00; 
                     RegDst = 2'b00;
-                    ALUSrc = 1'b1; 
+                    ALUSrc = 2'b01; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b1;
                     MemWrite = 1'b0;
@@ -303,7 +304,7 @@ always @(*)
                 begin
                     PcSrc = 2'b00;  
                     RegDst = 2'b00;
-                    ALUSrc = 1'b1; 
+                    ALUSrc = 2'b01; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b1;
                     MemWrite = 1'b0;
@@ -318,7 +319,7 @@ always @(*)
                 begin
                     PcSrc = 2'b00; 
                     RegDst = 2'b00; //no se usa
-                    ALUSrc = 1'b1; 
+                    ALUSrc = 2'b01; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b0;
                     MemWrite = 1'b1;
@@ -332,7 +333,7 @@ always @(*)
                 begin
                     PcSrc = 2'b00; 
                     RegDst = 2'b00; //no se usa
-                    ALUSrc = 1'b1; 
+                    ALUSrc = 2'b01; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b0;
                     MemWrite = 1'b1;
@@ -347,7 +348,7 @@ always @(*)
                 begin
                     PcSrc = 2'b00;           
                     RegDst = 2'b00; //no se usa
-                    ALUSrc = 1'b1; 
+                    ALUSrc = 2'b01; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b0;
                     MemWrite = 1'b1;
@@ -362,7 +363,7 @@ always @(*)
                 begin
                     PcSrc = 2'b00; 
                     RegDst = 2'b00; 
-                    ALUSrc = 1'b1;   
+                    ALUSrc = 2'b01;   
                     ALUOp = LOAD_STORE_ADDI_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
@@ -377,7 +378,7 @@ always @(*)
                 begin
                     PcSrc = 2'b00;
                     RegDst = 2'b00; 
-                    ALUSrc = 1'b1;   
+                    ALUSrc = 2'b01;   
                     ALUOp = ANDI_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
@@ -392,7 +393,7 @@ always @(*)
                 begin
                     PcSrc = 2'b00;  
                     RegDst = 2'b00; 
-                    ALUSrc = 1'b1;   
+                    ALUSrc = 2'b01;   
                     ALUOp = ORI_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
@@ -407,7 +408,7 @@ always @(*)
                 begin
                     PcSrc = 2'b00; 
                     RegDst = 2'b00; 
-                    ALUSrc = 1'b1;   
+                    ALUSrc = 2'b01;   
                     ALUOp = XORI_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
@@ -422,7 +423,7 @@ always @(*)
                 begin
                     PcSrc = 2'b00; 
                     RegDst = 2'b00; 
-                    ALUSrc = 1'b1;   
+                    ALUSrc = 2'b01;   
                     ALUOp = LUI_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
@@ -437,7 +438,7 @@ always @(*)
                 begin
                     PcSrc = 2'b00; 
                     RegDst = 2'b00; 
-                    ALUSrc = 1'b1;   
+                    ALUSrc = 2'b01;   
                     ALUOp = SLTI_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
@@ -452,7 +453,7 @@ always @(*)
                 begin
                     PcSrc = 2'b00;  
                     RegDst = 2'b00; //no se usa
-                    ALUSrc = 1'b0;   
+                    ALUSrc = 2'b00;   
                     ALUOp = BEQ_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
@@ -467,7 +468,7 @@ always @(*)
                 begin
                     PcSrc = 2'b00; 
                     RegDst = 2'b00;  //no se usa
-                    ALUSrc = 1'b0;   
+                    ALUSrc = 2'b00;   
                     ALUOp = BNE_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
@@ -483,7 +484,7 @@ always @(*)
                 begin
                     PcSrc = 2'b10;  
                     RegDst = 2'b00;  //no se usa
-                    ALUSrc = 1'b0;   //no se usa
+                    ALUSrc = 2'b00;   //no se usa
                     ALUOp = R_TYPE_ALUOP; //no se usa
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
@@ -498,7 +499,7 @@ always @(*)
                 begin
                     PcSrc = 2'b10;   
                     RegDst = 2'b10;    
-                    ALUSrc = 1'b0;   //no se usa
+                    ALUSrc = 2'b00;   //no se usa
                     ALUOp = R_TYPE_ALUOP; //no se usa
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
@@ -513,7 +514,7 @@ always @(*)
                 begin
                     PcSrc = 2'b00; 
                     RegDst = 2'b00;   
-                    ALUSrc = 1'b0;   
+                    ALUSrc = 2'b00;   
                     ALUOp = R_TYPE_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
@@ -526,7 +527,7 @@ always @(*)
                 begin
                     PcSrc = 2'b00; 
                     RegDst = 2'b00;  
-                    ALUSrc = 1'b0;   
+                    ALUSrc = 2'b00;   
                     ALUOp = R_TYPE_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;

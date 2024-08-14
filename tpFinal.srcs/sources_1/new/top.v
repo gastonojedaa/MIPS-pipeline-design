@@ -140,7 +140,7 @@ wire [NB_REG_ADDRESS-1:0] id_rd_address_id_ex;
 wire [NB_DATA_IN-1:0] id_inm_value_id_ex;
 wire [NB_DATA-1:0] id_sigext_id_ex;
 wire [1:0] RegDst_to_ID_EX;
-wire ALUSrc_to_ID_EX;
+wire [1:0] ALUSrc_to_ID_EX;
 wire MemRead_to_id_ex;
 wire MemWrite_to_id_ex;
 wire Branch_to_ID_EX;
@@ -222,7 +222,7 @@ wire [NB_PC-1:0] id_ex_address_plus_4_ex;
 wire [NB_FUNCTION-1:0] function_to_ex;
 
 wire [1:0] RegDst_to_ex;
-wire ALUSrc_to_ex;
+wire [1:0] ALUSrc_to_ex;
 wire MemRead_to_ex;
 wire MemWrite_to_ex;
 wire RegWrite_to_ex;

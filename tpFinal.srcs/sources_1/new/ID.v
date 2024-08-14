@@ -58,7 +58,7 @@ module ID
     //señales de control
     output [1:0] o_PcSrc_to_IF,
     output [1:0] o_RegDst_to_ID_EX,
-    output o_ALUSrc_to_ID_EX,
+    output [1:0] o_ALUSrc_to_ID_EX,
     output [3:0] o_ALUOp_to_ID_EX,
     output reg o_MemRead_to_ID_EX,
     output o_MemWrite_to_ID_EX,

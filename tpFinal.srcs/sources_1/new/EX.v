@@ -49,7 +49,7 @@ module EX
     input [NB_DATA-1:0] i_rt_data_mem_wb,
 
     input [1:0] i_RegDst_from_ID_EX, //señal de control
-    input i_ALUSrc_from_ID_EX, //señal de control
+    input [1:0] i_ALUSrc_from_ID_EX, //señal de control
     input [3:0] i_ALUOp_from_ID_EX, //señal de control
     input i_MemRead_from_ID_EX, //señal de control
     input i_MemWrite_from_ID_EX, //señal de control
@@ -73,6 +73,7 @@ module EX
 
 reg [NB_DATA-1:0] rs_data;
 reg [NB_DATA-1:0] rt_data;
+wire [NB_DATA-1:0] data_a;
 wire [NB_DATA-1:0] data_b;
 
 
@@ -96,7 +97,8 @@ begin
     endcase
 end
 
-assign data_b = i_ALUSrc_from_ID_EX ? i_sigext : rt_data;  //mux entre rt e sig_ext
+assign data_a = i_ALUSrc_from_ID_EX[1] ? rt_data : rs_data;  //mux entre rt y rs
+assign data_b = i_ALUSrc_from_ID_EX[0] ? i_sigext : rt_data;  //mux entre rt e sig_ext
 assign o_MemRead_to_EX_MEM = i_MemRead_from_ID_EX; //MemRead que pasa directo
 assign o_MemWrite_to_EX_MEM = i_MemWrite_from_ID_EX; //MemWrite que pasa directo
 
@@ -124,7 +126,7 @@ alu#(
     .NB_ALUCODE(NB_ALUCODE)
 )
 u_alu(
-    .i_data_a(rs_data),
+    .i_data_a(data_a),
     .i_data_b(data_b),
     .i_alucode(alu_control), 
     .o_res(o_res),
