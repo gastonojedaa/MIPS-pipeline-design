@@ -26,7 +26,8 @@ module data_mem
     parameter NB_INS = 32     
 )
 (
-    input   i_clk,    
+    input   i_clk, 
+    input   i_reset,   
     input   [NB_ADDR-1:0] i_data_mem_read_address,
     input   [NB_ADDR-1:0] i_data_mem_write_address,
     input   [NB_INS-1:0]  i_data_mem_data,
@@ -40,10 +41,14 @@ localparam MEM_SIZE = 255;
 integer i;
 reg [NB_INS-1:0] mem_data[0:MEM_SIZE];
 
-initial
+
+always@(posedge i_clk)
 begin      
-    for (i = 0; i <= MEM_SIZE-1; i = i + 1) begin
-        mem_data[i] = 0;
+    if(i_reset)
+    begin
+        for (i = 0; i <= MEM_SIZE-1; i = i + 1) begin
+            mem_data[i] = 0;
+        end
     end
 end
 
