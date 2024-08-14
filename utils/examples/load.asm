@@ -1,0 +1,6 @@
+LUI r3 0
+LUI r5 3
+ADDI r5 r5 5
+BEQ r0 r3 1
+LUI r31 255
+HALT

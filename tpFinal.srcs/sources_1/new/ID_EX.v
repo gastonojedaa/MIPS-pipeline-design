@@ -75,7 +75,7 @@ module ID_EX
     
 always@(posedge i_clk)
 begin 
-    if(i_reset || i_pipeline_stalled)
+    if(i_reset)
         begin
             o_rs_data <= 0;
             o_rt_data <= 0;

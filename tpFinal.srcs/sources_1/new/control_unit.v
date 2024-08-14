@@ -121,28 +121,8 @@ BHW
 011 LHU
 */
 
-//si la señal branch y el zero de la alu estan en 1, se debe hacer un flush del pipeline
-wire flush_pipeline = 0;
-
-
-
 always @(*)
-    if(flush_pipeline)
-    begin
-        IF_ID_flush = 1'b1;
-        EX_MEM_flush = 1'b1;
-        PcSrc = 2'b00;
-        RegDst = 2'b00;
-        ALUSrc = 1'b0;
-        ALUOp = R_TYPE_ALUOP;
-        MemRead = 1'b0;
-        MemWrite = 1'b0;
-        Branch = 2'b00;
-        RegWrite = 1'b0;
-        MemtoReg = 2'b00;
-        BHW = 3'b111;    
-    end
-    else if (i_pipeline_stalled == 1'b1)
+    if (i_pipeline_stalled == 1'b1)
         begin
             IF_ID_flush = 1'b0;
             EX_MEM_flush = 1'b0;
@@ -444,7 +424,7 @@ always @(*)
                     RegDst = 2'b00; 
                     ALUSrc = 1'b1;   
                     ALUOp = LUI_ALUOP;
-                    MemRead = 1'b1;
+                    MemRead = 1'b0;
                     MemWrite = 1'b0;
                     Branch = 2'b00;
                     RegWrite = 1'b1;

@@ -556,6 +556,8 @@ shortcircuit_unit
 )
 u_shortcircuit_unit
 (
+    .i_RegWrite_from_EX_MEM(RegWrite_to_mem),
+    .i_RegWrite_from_MEM_WB(RegWrite_to_wb),
     .i_rs_address_id_ex(id_ex_rs_address_ex),
     .i_rt_address_id_ex(id_ex_rt_address_ex),
     .i_rt_address_ex_mem(rt_address_to_mem),

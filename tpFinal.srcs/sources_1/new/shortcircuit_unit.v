@@ -25,6 +25,8 @@ module shortcircuit_unit
     parameter NB_REG_ADDRESS = $clog2(N_REG)
 )
 (
+    input i_RegWrite_from_EX_MEM,
+    input i_RegWrite_from_MEM_WB,
     //source registers from ID/EX
     input [NB_REG_ADDRESS-1:0] i_rs_address_id_ex,
     input [NB_REG_ADDRESS-1:0] i_rt_address_id_ex,  
@@ -41,16 +43,16 @@ module shortcircuit_unit
 
 always@(*)
 begin
-    if(i_rs_address_id_ex == i_rt_address_ex_mem)
+    if(i_RegWrite_from_EX_MEM && i_rs_address_id_ex == i_rt_address_ex_mem)
         o_forward_a = 2'b10;
-    else if(i_rs_address_id_ex == i_rt_address_mem_wb)
+    else if(i_RegWrite_from_MEM_WB && i_rs_address_id_ex == i_rt_address_mem_wb)
         o_forward_a = 2'b01;
     else
         o_forward_a = 2'b00;
 
-    if(i_rt_address_id_ex == i_rt_address_ex_mem)
+    if(i_RegWrite_from_EX_MEM && i_rt_address_id_ex == i_rt_address_ex_mem)
         o_forward_b = 2'b10;
-    else if(i_rt_address_id_ex == i_rt_address_mem_wb)
+    else if(i_RegWrite_from_MEM_WB && i_rt_address_id_ex == i_rt_address_mem_wb)
         o_forward_b = 2'b01;
     else
         o_forward_b = 2'b00;

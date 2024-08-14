@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="96.977944 us"></ZoomStartTime>
-      <ZoomEndTime time="6,561.977945 us"></ZoomEndTime>
-      <Cursor1Time time="1,174.477944 us"></Cursor1Time>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="525.001 ns"></ZoomEndTime>
+      <Cursor1Time time="0.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="317"></NameColumnWidth>
-      <ValueColumnWidth column_width="61"></ValueColumnWidth>
+      <NameColumnWidth column_width="279"></NameColumnWidth>
+      <ValueColumnWidth column_width="66"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="91" />
+   <WVObjectSize size="124" />
    <wvobject fp_name="/tb_sim_top_du/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -56,6 +56,27 @@
       <obj_property name="ElementShortName">is_halted</obj_property>
       <obj_property name="ObjectShortName">is_halted</obj_property>
    </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_IF/i_PCwrite" type="logic">
+      <obj_property name="ElementShortName">i_PCwrite</obj_property>
+      <obj_property name="ObjectShortName">i_PCwrite</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_IF/pc" type="array">
+      <obj_property name="ElementShortName">pc[31:0]</obj_property>
+      <obj_property name="ObjectShortName">pc[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_IF/o_instruction" type="array">
+      <obj_property name="ElementShortName">o_instruction[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_instruction[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider103">
+      <obj_property name="label">INS_MEM</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#FAAFBE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_IF/u_instruction_mem/ins_mem" type="array">
+      <obj_property name="ElementShortName">ins_mem[0:255][31:0]</obj_property>
+      <obj_property name="ObjectShortName">ins_mem[0:255][31:0]</obj_property>
+   </wvobject>
    <wvobject type="divider" fp_name="divider87">
       <obj_property name="label">IF_ID</obj_property>
       <obj_property name="DisplayName">label</obj_property>
@@ -68,6 +89,10 @@
       <obj_property name="ElementShortName">i_IF_ID_flush</obj_property>
       <obj_property name="ObjectShortName">i_IF_ID_flush</obj_property>
    </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_if_id/i_IFIDwrite" type="logic">
+      <obj_property name="ElementShortName">i_IFIDwrite</obj_property>
+      <obj_property name="ObjectShortName">i_IFIDwrite</obj_property>
+   </wvobject>
    <wvobject fp_name="/tb_sim_top_du/u_top/u_if_id/i_debug_unit_enable" type="logic">
       <obj_property name="ElementShortName">i_debug_unit_enable</obj_property>
       <obj_property name="ObjectShortName">i_debug_unit_enable</obj_property>
@@ -75,6 +100,14 @@
    <wvobject fp_name="/tb_sim_top_du/u_top/u_if_id/i_is_halted" type="logic">
       <obj_property name="ElementShortName">i_is_halted</obj_property>
       <obj_property name="ObjectShortName">i_is_halted</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_if_id/i_instruction" type="array">
+      <obj_property name="ElementShortName">i_instruction[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_instruction[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_if_id/i_address_plus_4" type="array">
+      <obj_property name="ElementShortName">i_address_plus_4[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_address_plus_4[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_sim_top_du/u_top/u_if_id/o_is_halted" type="logic">
       <obj_property name="ElementShortName">o_is_halted</obj_property>
@@ -84,9 +117,110 @@
       <obj_property name="ElementShortName">o_instruction[31:0]</obj_property>
       <obj_property name="ObjectShortName">o_instruction[31:0]</obj_property>
    </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_if_id/o_address_plus_4" type="array">
+      <obj_property name="ElementShortName">o_address_plus_4[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_address_plus_4[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_if_id/o_is_halted" type="logic">
+      <obj_property name="ElementShortName">o_is_halted</obj_property>
+      <obj_property name="ObjectShortName">o_is_halted</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider1081">
+      <obj_property name="label">ID</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id/i_instruction" type="array">
+      <obj_property name="ElementShortName">i_instruction[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_instruction[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id/o_rs_data" type="array">
+      <obj_property name="ElementShortName">o_rs_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_rs_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id/o_rt_data" type="array">
+      <obj_property name="ElementShortName">o_rt_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_rt_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id/o_rs_address" type="array">
+      <obj_property name="ElementShortName">o_rs_address[4:0]</obj_property>
+      <obj_property name="ObjectShortName">o_rs_address[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id/o_rt_address" type="array">
+      <obj_property name="ElementShortName">o_rt_address[4:0]</obj_property>
+      <obj_property name="ObjectShortName">o_rt_address[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id/o_rd_address" type="array">
+      <obj_property name="ElementShortName">o_rd_address[4:0]</obj_property>
+      <obj_property name="ObjectShortName">o_rd_address[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id/o_inm_value" type="array">
+      <obj_property name="ElementShortName">o_inm_value[15:0]</obj_property>
+      <obj_property name="ObjectShortName">o_inm_value[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider1082">
+      <obj_property name="label">REG_BANK</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#FAAFBE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/i_RegWrite" type="logic">
+      <obj_property name="ElementShortName">i_RegWrite</obj_property>
+      <obj_property name="ObjectShortName">i_RegWrite</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/rs_address" type="array">
+      <obj_property name="ElementShortName">rs_address[4:0]</obj_property>
+      <obj_property name="ObjectShortName">rs_address[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/rt_address" type="array">
+      <obj_property name="ElementShortName">rt_address[4:0]</obj_property>
+      <obj_property name="ObjectShortName">rt_address[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/rw_address" type="array">
+      <obj_property name="ElementShortName">rw_address[4:0]</obj_property>
+      <obj_property name="ObjectShortName">rw_address[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/o_rs_data" type="array">
+      <obj_property name="ElementShortName">o_rs_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_rs_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/o_rt_data" type="array">
+      <obj_property name="ElementShortName">o_rt_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_rt_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/o_reg_data" type="array">
+      <obj_property name="ElementShortName">o_reg_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_reg_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank" type="array">
+      <obj_property name="ElementShortName">reg_bank[0:31][31:0]</obj_property>
+      <obj_property name="ObjectShortName">reg_bank[0:31][31:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider1083">
+      <obj_property name="label">CONTROL_UNIT</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#FAAFBE</obj_property>
+   </wvobject>
    <wvobject type="divider" fp_name="divider90">
       <obj_property name="label">ID_EX</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id_ex/i_reset" type="logic">
+      <obj_property name="ElementShortName">i_reset</obj_property>
+      <obj_property name="ObjectShortName">i_reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id_ex/i_pipeline_stalled" type="logic">
+      <obj_property name="ElementShortName">i_pipeline_stalled</obj_property>
+      <obj_property name="ObjectShortName">i_pipeline_stalled</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id_ex/i_debug_unit_enable" type="logic">
+      <obj_property name="ElementShortName">i_debug_unit_enable</obj_property>
+      <obj_property name="ObjectShortName">i_debug_unit_enable</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_sim_top_du/u_top/u_id_ex/i_is_halted" type="logic">
       <obj_property name="ElementShortName">i_is_halted</obj_property>
@@ -95,6 +229,156 @@
    <wvobject fp_name="/tb_sim_top_du/u_top/u_id_ex/o_is_halted" type="logic">
       <obj_property name="ElementShortName">o_is_halted</obj_property>
       <obj_property name="ObjectShortName">o_is_halted</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id_ex/i_rs_address" type="array">
+      <obj_property name="ElementShortName">i_rs_address[4:0]</obj_property>
+      <obj_property name="ObjectShortName">i_rs_address[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id_ex/i_rt_address" type="array">
+      <obj_property name="ElementShortName">i_rt_address[4:0]</obj_property>
+      <obj_property name="ObjectShortName">i_rt_address[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id_ex/i_rd_address" type="array">
+      <obj_property name="ElementShortName">i_rd_address[4:0]</obj_property>
+      <obj_property name="ObjectShortName">i_rd_address[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id_ex/i_rs_data" type="array">
+      <obj_property name="ElementShortName">i_rs_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_rs_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id_ex/i_rt_data" type="array">
+      <obj_property name="ElementShortName">i_rt_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_rt_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id_ex/o_rs_data" type="array">
+      <obj_property name="ElementShortName">o_rs_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_rs_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id_ex/o_rt_data" type="array">
+      <obj_property name="ElementShortName">o_rt_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_rt_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id_ex/o_rs_address" type="array">
+      <obj_property name="ElementShortName">o_rs_address[4:0]</obj_property>
+      <obj_property name="ObjectShortName">o_rs_address[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id_ex/o_rt_address" type="array">
+      <obj_property name="ElementShortName">o_rt_address[4:0]</obj_property>
+      <obj_property name="ObjectShortName">o_rt_address[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id_ex/o_rd_address" type="array">
+      <obj_property name="ElementShortName">o_rd_address[4:0]</obj_property>
+      <obj_property name="ObjectShortName">o_rd_address[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_id_ex/o_sigext" type="array">
+      <obj_property name="ElementShortName">o_sigext[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_sigext[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider1125">
+      <obj_property name="label">SHORTCIRCUIT</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_shortcircuit_unit/i_rs_address_id_ex" type="array">
+      <obj_property name="ElementShortName">i_rs_address_id_ex[4:0]</obj_property>
+      <obj_property name="ObjectShortName">i_rs_address_id_ex[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_shortcircuit_unit/i_rt_address_id_ex" type="array">
+      <obj_property name="ElementShortName">i_rt_address_id_ex[4:0]</obj_property>
+      <obj_property name="ObjectShortName">i_rt_address_id_ex[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_shortcircuit_unit/i_rt_address_ex_mem" type="array">
+      <obj_property name="ElementShortName">i_rt_address_ex_mem[4:0]</obj_property>
+      <obj_property name="ObjectShortName">i_rt_address_ex_mem[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_shortcircuit_unit/i_rt_address_mem_wb" type="array">
+      <obj_property name="ElementShortName">i_rt_address_mem_wb[4:0]</obj_property>
+      <obj_property name="ObjectShortName">i_rt_address_mem_wb[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_shortcircuit_unit/o_forward_a" type="array">
+      <obj_property name="ElementShortName">o_forward_a[1:0]</obj_property>
+      <obj_property name="ObjectShortName">o_forward_a[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_shortcircuit_unit/o_forward_b" type="array">
+      <obj_property name="ElementShortName">o_forward_b[1:0]</obj_property>
+      <obj_property name="ObjectShortName">o_forward_b[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider1099">
+      <obj_property name="label">EX</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_ex/i_rs_data" type="array">
+      <obj_property name="ElementShortName">i_rs_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_rs_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_ex/i_rt_data" type="array">
+      <obj_property name="ElementShortName">i_rt_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_rt_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_ex/i_sigext" type="array">
+      <obj_property name="ElementShortName">i_sigext[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_sigext[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_ex/i_rt_address" type="array">
+      <obj_property name="ElementShortName">i_rt_address[4:0]</obj_property>
+      <obj_property name="ObjectShortName">i_rt_address[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_ex/i_rd_address" type="array">
+      <obj_property name="ElementShortName">i_rd_address[4:0]</obj_property>
+      <obj_property name="ObjectShortName">i_rd_address[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_ex/i_forward_a" type="array">
+      <obj_property name="ElementShortName">i_forward_a[1:0]</obj_property>
+      <obj_property name="ObjectShortName">i_forward_a[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_ex/i_forward_b" type="array">
+      <obj_property name="ElementShortName">i_forward_b[1:0]</obj_property>
+      <obj_property name="ObjectShortName">i_forward_b[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_ex/i_rt_data_ex_mem" type="array">
+      <obj_property name="ElementShortName">i_rt_data_ex_mem[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_rt_data_ex_mem[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_ex/i_rt_data_mem_wb" type="array">
+      <obj_property name="ElementShortName">i_rt_data_mem_wb[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_rt_data_mem_wb[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_ex/o_res" type="array">
+      <obj_property name="ElementShortName">o_res[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_res[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider1100">
+      <obj_property name="label">ALU</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#FAAFBE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_ex/u_alu/i_data_a" type="array">
+      <obj_property name="ElementShortName">i_data_a[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_data_a[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_ex/u_alu/i_data_b" type="array">
+      <obj_property name="ElementShortName">i_data_b[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_data_b[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_ex/u_alu/i_alucode" type="array">
+      <obj_property name="ElementShortName">i_alucode[3:0]</obj_property>
+      <obj_property name="ObjectShortName">i_alucode[3:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_ex/u_alu/o_res" type="array">
+      <obj_property name="ElementShortName">o_res[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_res[31:0]</obj_property>
    </wvobject>
    <wvobject type="divider" fp_name="divider93">
       <obj_property name="label">EX_MEM</obj_property>
@@ -120,6 +404,19 @@
       <obj_property name="ElementShortName">o_is_halted</obj_property>
       <obj_property name="ObjectShortName">o_is_halted</obj_property>
    </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_mem_wb/o_write_address" type="array">
+      <obj_property name="ElementShortName">o_write_address[4:0]</obj_property>
+      <obj_property name="ObjectShortName">o_write_address[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_mem_wb/o_res" type="array">
+      <obj_property name="ElementShortName">o_res[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_res[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_sim_top_du/u_top/u_mem_wb/o_RegWrite_to_WB" type="logic">
+      <obj_property name="ElementShortName">o_RegWrite_to_WB</obj_property>
+      <obj_property name="ObjectShortName">o_RegWrite_to_WB</obj_property>
+   </wvobject>
    <wvobject type="divider" fp_name="divider819">
       <obj_property name="label">DEBUG_UNIT</obj_property>
       <obj_property name="DisplayName">label</obj_property>
@@ -127,6 +424,7 @@
    <wvobject fp_name="/tb_sim_top_du/u_top/u_debug_unit/i_pc" type="array">
       <obj_property name="ElementShortName">i_pc[31:0]</obj_property>
       <obj_property name="ObjectShortName">i_pc[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_sim_top_du/u_top/u_debug_unit/i_reg_data" type="array">
       <obj_property name="ElementShortName">i_reg_data[31:0]</obj_property>
@@ -248,148 +546,5 @@
    <wvobject fp_name="/tb_sim_top_du/u_top/u_debug_unit/u_uart/u_rx/state" type="array">
       <obj_property name="ElementShortName">state[3:0]</obj_property>
       <obj_property name="ObjectShortName">state[3:0]</obj_property>
-   </wvobject>
-   <wvobject type="divider" fp_name="divider822">
-      <obj_property name="label">IF</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_IF/pc" type="array">
-      <obj_property name="ElementShortName">pc[31:0]</obj_property>
-      <obj_property name="ObjectShortName">pc[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_IF/i_write_address" type="array">
-      <obj_property name="ElementShortName">i_write_address[31:0]</obj_property>
-      <obj_property name="ObjectShortName">i_write_address[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_IF/i_instruction" type="array">
-      <obj_property name="ElementShortName">i_instruction[31:0]</obj_property>
-      <obj_property name="ObjectShortName">i_instruction[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="divider" fp_name="divider823">
-      <obj_property name="label">INS_MEM</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="BkColor">#FAAFBE</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_IF/u_instruction_mem/i_read_address" type="array">
-      <obj_property name="ElementShortName">i_read_address[31:0]</obj_property>
-      <obj_property name="ObjectShortName">i_read_address[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_IF/u_instruction_mem/i_write_address" type="array">
-      <obj_property name="ElementShortName">i_write_address[31:0]</obj_property>
-      <obj_property name="ObjectShortName">i_write_address[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_IF/u_instruction_mem/i_instruction" type="array">
-      <obj_property name="ElementShortName">i_instruction[31:0]</obj_property>
-      <obj_property name="ObjectShortName">i_instruction[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_IF/u_instruction_mem/i_write_enable" type="logic">
-      <obj_property name="ElementShortName">i_write_enable</obj_property>
-      <obj_property name="ObjectShortName">i_write_enable</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_IF/u_instruction_mem/ins_mem" type="array">
-      <obj_property name="ElementShortName">ins_mem[0:255][31:0]</obj_property>
-      <obj_property name="ObjectShortName">ins_mem[0:255][31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_IF/u_instruction_mem/o_instruction" type="array">
-      <obj_property name="ElementShortName">o_instruction[31:0]</obj_property>
-      <obj_property name="ObjectShortName">o_instruction[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="divider" fp_name="divider820">
-      <obj_property name="label">ID</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-   </wvobject>
-   <wvobject type="divider" fp_name="divider1102">
-      <obj_property name="label">REGISTER_BANK</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="BkColor">#FAAFBE</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank" type="array">
-      <obj_property name="ElementShortName">reg_bank[0:31][31:0]</obj_property>
-      <obj_property name="ObjectShortName">reg_bank[0:31][31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/i_data_to_write" type="array">
-      <obj_property name="ElementShortName">i_data_to_write[31:0]</obj_property>
-      <obj_property name="ObjectShortName">i_data_to_write[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/rs_address" type="array">
-      <obj_property name="ElementShortName">rs_address[4:0]</obj_property>
-      <obj_property name="ObjectShortName">rs_address[4:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/rt_address" type="array">
-      <obj_property name="ElementShortName">rt_address[4:0]</obj_property>
-      <obj_property name="ObjectShortName">rt_address[4:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/rw_address" type="array">
-      <obj_property name="ElementShortName">rw_address[4:0]</obj_property>
-      <obj_property name="ObjectShortName">rw_address[4:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/i_RegWrite" type="logic">
-      <obj_property name="ElementShortName">i_RegWrite</obj_property>
-      <obj_property name="ObjectShortName">i_RegWrite</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/i_reg_address" type="array">
-      <obj_property name="ElementShortName">i_reg_address[4:0]</obj_property>
-      <obj_property name="ObjectShortName">i_reg_address[4:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/o_rs_data" type="array">
-      <obj_property name="ElementShortName">o_rs_data[31:0]</obj_property>
-      <obj_property name="ObjectShortName">o_rs_data[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/o_rt_data" type="array">
-      <obj_property name="ElementShortName">o_rt_data[31:0]</obj_property>
-      <obj_property name="ObjectShortName">o_rt_data[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/o_reg_data" type="array">
-      <obj_property name="ElementShortName">o_reg_data[31:0]</obj_property>
-      <obj_property name="ObjectShortName">o_reg_data[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="divider" fp_name="divider821">
-      <obj_property name="label">MEM</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_mem/i_res" type="array">
-      <obj_property name="ElementShortName">i_res[31:0]</obj_property>
-      <obj_property name="ObjectShortName">i_res[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_mem/i_read_address_from_du" type="array">
-      <obj_property name="ElementShortName">i_read_address_from_du[31:0]</obj_property>
-      <obj_property name="ObjectShortName">i_read_address_from_du[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_mem/read_address" type="array">
-      <obj_property name="ElementShortName">read_address[31:0]</obj_property>
-      <obj_property name="ObjectShortName">read_address[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="divider" fp_name="divider118">
-      <obj_property name="label">DATA_MEM</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="BkColor">#FAAFBE</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_mem/u_data_mem/i_data_mem_read_address" type="array">
-      <obj_property name="ElementShortName">i_data_mem_read_address[31:0]</obj_property>
-      <obj_property name="ObjectShortName">i_data_mem_read_address[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_mem/u_data_mem/mem_data" type="array">
-      <obj_property name="ElementShortName">mem_data[0:255][31:0]</obj_property>
-      <obj_property name="ObjectShortName">mem_data[0:255][31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_mem/u_data_mem/i_data_mem_write_address" type="array">
-      <obj_property name="ElementShortName">i_data_mem_write_address[31:0]</obj_property>
-      <obj_property name="ObjectShortName">i_data_mem_write_address[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_mem/u_data_mem/i_data_mem_data" type="array">
-      <obj_property name="ElementShortName">i_data_mem_data[31:0]</obj_property>
-      <obj_property name="ObjectShortName">i_data_mem_data[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_mem/u_data_mem/i_data_mem_write_enable" type="logic">
-      <obj_property name="ElementShortName">i_data_mem_write_enable</obj_property>
-      <obj_property name="ObjectShortName">i_data_mem_write_enable</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_mem/u_data_mem/i_data_mem_bhw" type="array">
-      <obj_property name="ElementShortName">i_data_mem_bhw[2:0]</obj_property>
-      <obj_property name="ObjectShortName">i_data_mem_bhw[2:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_sim_top_du/u_top/u_mem/u_data_mem/o_mem_data" type="array">
-      <obj_property name="ElementShortName">o_mem_data[31:0]</obj_property>
-      <obj_property name="ObjectShortName">o_mem_data[31:0]</obj_property>
    </wvobject>
 </wave_config>
