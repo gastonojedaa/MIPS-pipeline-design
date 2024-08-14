@@ -11,12 +11,12 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="1,225.264 ns"></ZoomStartTime>
-      <ZoomEndTime time="1,243.345 ns"></ZoomEndTime>
-      <Cursor1Time time="1,229.664 ns"></Cursor1Time>
+      <ZoomStartTime time="1,245.567 ns"></ZoomStartTime>
+      <ZoomEndTime time="1,413.168 ns"></ZoomEndTime>
+      <Cursor1Time time="1,294.767 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="268"></NameColumnWidth>
+      <NameColumnWidth column_width="263"></NameColumnWidth>
       <ValueColumnWidth column_width="72"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="131" />
@@ -63,6 +63,7 @@
    <wvobject fp_name="/tb_sim_top_du/u_top/u_IF/pc" type="array">
       <obj_property name="ElementShortName">pc[31:0]</obj_property>
       <obj_property name="ObjectShortName">pc[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_sim_top_du/u_top/u_IF/o_instruction" type="array">
       <obj_property name="ElementShortName">o_instruction[31:0]</obj_property>
@@ -201,6 +202,138 @@
       <obj_property name="ElementShortName">reg_bank[0:31][31:0]</obj_property>
       <obj_property name="ObjectShortName">reg_bank[0:31][31:0]</obj_property>
       <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[0]" type="array">
+         <obj_property name="ElementShortName">[0][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[1]" type="array">
+         <obj_property name="ElementShortName">[1][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[2]" type="array">
+         <obj_property name="ElementShortName">[2][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[3]" type="array">
+         <obj_property name="ElementShortName">[3][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[4]" type="array">
+         <obj_property name="ElementShortName">[4][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[5]" type="array">
+         <obj_property name="ElementShortName">[5][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[5][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[6]" type="array">
+         <obj_property name="ElementShortName">[6][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[6][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[7]" type="array">
+         <obj_property name="ElementShortName">[7][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[7][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[8]" type="array">
+         <obj_property name="ElementShortName">[8][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[8][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[9]" type="array">
+         <obj_property name="ElementShortName">[9][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[9][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[10]" type="array">
+         <obj_property name="ElementShortName">[10][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[10][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[11]" type="array">
+         <obj_property name="ElementShortName">[11][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[11][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[12]" type="array">
+         <obj_property name="ElementShortName">[12][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[12][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[13]" type="array">
+         <obj_property name="ElementShortName">[13][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[13][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[14]" type="array">
+         <obj_property name="ElementShortName">[14][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[14][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[15]" type="array">
+         <obj_property name="ElementShortName">[15][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[15][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[16]" type="array">
+         <obj_property name="ElementShortName">[16][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[16][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[17]" type="array">
+         <obj_property name="ElementShortName">[17][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[17][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[18]" type="array">
+         <obj_property name="ElementShortName">[18][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[18][31:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[19]" type="array">
+         <obj_property name="ElementShortName">[19][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[19][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[20]" type="array">
+         <obj_property name="ElementShortName">[20][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[20][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[21]" type="array">
+         <obj_property name="ElementShortName">[21][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[21][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[22]" type="array">
+         <obj_property name="ElementShortName">[22][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[22][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[23]" type="array">
+         <obj_property name="ElementShortName">[23][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[23][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[24]" type="array">
+         <obj_property name="ElementShortName">[24][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[24][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[25]" type="array">
+         <obj_property name="ElementShortName">[25][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[25][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[26]" type="array">
+         <obj_property name="ElementShortName">[26][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[26][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[27]" type="array">
+         <obj_property name="ElementShortName">[27][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[27][31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[28]" type="array">
+         <obj_property name="ElementShortName">[28][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[28][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[29]" type="array">
+         <obj_property name="ElementShortName">[29][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[29][31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[30]" type="array">
+         <obj_property name="ElementShortName">[30][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[30][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_sim_top_du/u_top/u_id/u_register_bank/reg_bank[31]" type="array">
+         <obj_property name="ElementShortName">[31][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[31][31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
    </wvobject>
    <wvobject type="divider" fp_name="divider1083">
       <obj_property name="label">CONTROL_UNIT</obj_property>
@@ -367,7 +500,7 @@
    <wvobject fp_name="/tb_sim_top_du/u_top/u_ex/u_alu/i_data_a" type="array">
       <obj_property name="ElementShortName">i_data_a[31:0]</obj_property>
       <obj_property name="ObjectShortName">i_data_a[31:0]</obj_property>
-      <obj_property name="Radix">BINARYRADIX</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_sim_top_du/u_top/u_ex/u_alu/i_data_b" type="array">
       <obj_property name="ElementShortName">i_data_b[31:0]</obj_property>
@@ -382,7 +515,7 @@
    <wvobject fp_name="/tb_sim_top_du/u_top/u_ex/u_alu/o_res" type="array">
       <obj_property name="ElementShortName">o_res[31:0]</obj_property>
       <obj_property name="ObjectShortName">o_res[31:0]</obj_property>
-      <obj_property name="Radix">BINARYRADIX</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject type="divider" fp_name="divider93">
       <obj_property name="label">EX_MEM</obj_property>
