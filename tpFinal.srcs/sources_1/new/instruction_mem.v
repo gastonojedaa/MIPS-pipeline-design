@@ -34,7 +34,6 @@ module instruction_mem
     output  [NB_INS-1:0] o_instruction
 );
 
-//localparam MEM_SIZE = (2**NB_PC) - 1;
 localparam MEM_SIZE = 255;
 
 integer i;
@@ -46,18 +45,6 @@ begin
         ins_mem[i] = 0;
     end
 end
-// initial
-// begin
-// ins_mem[0] = 32'b00111100000000110000000000000000;
-// ins_mem[1] = 32'b00111100000001010000000000000011;
-// ins_mem[2] = 32'b00100000101001010000000000000101;
-// ins_mem[3] = 32'b00010000000000110000000000000001;
-// ins_mem[4] = 32'b00111100000111110000000011111111;
-// ins_mem[5] = 32'b00100000001000010000000000000001;
-// ins_mem[6] = 32'b10101100000000010000000000000001;
-// ins_mem[7] = 32'b10000000000000100000000000000001;
-// ins_mem[8] = 32'b11111111111111111111111111111111;
-// end
 
 always@(posedge i_clk)
 begin

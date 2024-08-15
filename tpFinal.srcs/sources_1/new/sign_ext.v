@@ -29,6 +29,6 @@ module sign_ext
     input  [NB_DATA_IN-1:0] i_data_in,
     output  [NB_DATA_OUT-1:0] o_sigext
 );
-    assign o_sigext = {{NB_DATA_OUT-NB_DATA_IN{i_data_in[NB_DATA_IN-1]}},  i_data_in}; //copia 16 veces el bit mas significativo de data_in y luego copia data_in
+    assign o_sigext = {{NB_DATA_OUT-NB_DATA_IN{i_data_in[NB_DATA_IN-1]}},  i_data_in}; //copies data_in most significant bit 16 times and then copies data_in
 
 endmodule

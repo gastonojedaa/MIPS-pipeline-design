@@ -41,7 +41,7 @@ module ID_EX
     input [NB_REG_ADDRESS-1:0] i_rs_address,
     input [NB_REG_ADDRESS-1:0] i_rt_address,
     input [NB_REG_ADDRESS-1:0] i_rd_address,
-    input [NB_PC-1:0] i_address_plus_4, //address from IF/ID
+    input [NB_PC-1:0] i_address_plus_4, 
     input [NB_FUNCTION-1:0] i_function_from_id,
     input [1:0] i_RegDst_from_ID,
     input [1:0] i_ALUSrc_from_ID,

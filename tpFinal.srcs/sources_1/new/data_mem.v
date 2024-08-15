@@ -31,7 +31,7 @@ module data_mem
     input   [NB_ADDR-1:0] i_data_mem_read_address,
     input   [NB_ADDR-1:0] i_data_mem_write_address,
     input   [NB_INS-1:0]  i_data_mem_data,
-    input   i_data_mem_write_enable, // 0 NO WRITE - 1 WRITE
+    input   i_data_mem_write_enable,
     input   [2:0] i_data_mem_bhw,
     output reg  [NB_INS-1:0] o_mem_data
 );
@@ -60,7 +60,7 @@ begin
                 3'b010: mem_data[i_data_mem_write_address] <= {mem_data[i_data_mem_write_address][NB_INS-1:16], i_data_mem_data[15:0]};
                 3'b001: mem_data[i_data_mem_write_address] <= {mem_data[i_data_mem_write_address][NB_INS-1:8], i_data_mem_data[7:0]};
                 3'b111: mem_data[i_data_mem_write_address] <= i_data_mem_data;
-                default: mem_data[i_data_mem_write_address] <= i_data_mem_data; // Should not happen
+                default: mem_data[i_data_mem_write_address] <= i_data_mem_data; 
             endcase
         end
 end
@@ -73,7 +73,7 @@ begin
         3'b001: o_mem_data = {{24{1'b0}}, mem_data[i_data_mem_read_address][7:0]}; // LBU
         3'b010: o_mem_data = {{16{mem_data[i_data_mem_read_address][15]}}, mem_data[i_data_mem_read_address][15:0]}; // LH
         3'b011: o_mem_data = {{16{1'b0}}, mem_data[i_data_mem_read_address][15:0]}; // LHU
-        default: o_mem_data = mem_data[i_data_mem_read_address]; // Should not happen
+        default: o_mem_data = mem_data[i_data_mem_read_address]; 
     endcase
 end
 

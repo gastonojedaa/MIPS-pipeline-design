@@ -26,14 +26,15 @@ module IF #(
     input i_clk,
     input i_reset,
     input i_debug_unit_enable,
-    input [1:0] i_PcSrc, // señal de control
-    input i_write_enable,  // 0 READ - 1 WRITE
+    input [1:0] i_PcSrc, 
+    input i_write_enable,  
     input [NB_PC-1:0] i_jump_address,
     input [NB_PC-1:0] i_write_address,
     input [NB_INS-1:0] i_instruction,
     //signal to hazard detection unit
-    input i_PCwrite,  // stall. If 1 PC is not updated,
+    input i_PCwrite,  //1 to stall, 0 to not stall
     input i_execute_branch,
+
     output [NB_INS-1:0] o_instruction,
     output [NB_PC-1:0] o_address_plus_4,
     output o_is_halted,
@@ -55,13 +56,12 @@ module IF #(
   end
 
 
-  assign is_halted = (instruction_from_mem[31:26] == 6'b111111);// 111111 is the opcode for HALT
+  assign is_halted = (instruction_from_mem[31:26] == 6'b111111);
 
   assign address_plus_4 = pc + 1;
 
   // Mux PC - PC + 4 o jump address
   always @(*) begin
-    //if (i_PCwrite || is_halted || !i_debug_unit_enable) new_address = pc;
     if (i_PCwrite || !i_debug_unit_enable || pipeline_halted || is_halted) new_address = pc;
     else begin
       if ((i_PcSrc != 2'b00) || i_execute_branch) new_address = i_jump_address;

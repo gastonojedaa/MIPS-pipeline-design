@@ -29,7 +29,7 @@
 `define  BEQ_ALUOP             4'b0111
 `define  BNE_ALUOP             4'b1000
 
-//R_TYPE FUNCTIONS -> operaciones aritmeticas y logicas
+//R_TYPE FUNCTIONS 
 `define SLL_FUNCT   6'b000000
 `define SRL_FUNCT   6'b000010
 `define SRA_FUNCT   6'b000011
@@ -46,7 +46,7 @@
 `define JR_FUNCT    6'b001000 
 `define JALR_FUNCT  6'b001001
 
-//ALU CODES -> codigo de operacion de la ALU
+//ALU CODES 
 `define  SLL_ALUCODE  4'b0000
 `define  SRL_ALUCODE  4'b0001
 `define  SRA_ALUCODE  4'b0010
@@ -71,7 +71,7 @@ module control_alu
 
 )
 (
-    input [NB_OP-1:0] i_ALUOp, // -> from control_unit
+    input [NB_OP-1:0] i_ALUOp,
     input [NB_FUNCTION-1:0] i_funct,
 
     output reg [NB_ALUCODE-1:0] o_alu_control

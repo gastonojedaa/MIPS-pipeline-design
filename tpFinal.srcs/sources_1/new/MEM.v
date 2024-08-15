@@ -80,7 +80,7 @@ u_data_mem
     .i_reset(i_reset),
     .i_data_mem_read_address(read_address), 
     .i_data_mem_write_address(i_res),
-    .i_data_mem_data(i_rt_data), // 0 NO WRITE - 1 WRITE
+    .i_data_mem_data(i_rt_data), 
     .i_data_mem_write_enable(i_MemWrite_from_EX_MEM),
     .i_data_mem_bhw(bhw),
     .o_mem_data(o_mem_data)

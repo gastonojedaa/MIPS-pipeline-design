@@ -30,7 +30,7 @@ module hazard_detection_unit
     input [NB_REG_ADDRESS-1:0] i_rs_address_id,
     input [NB_REG_ADDRESS-1:0] i_rt_address_id,
     //EX memRead y rt
-    input i_MemRead, //señal de control
+    input i_MemRead, 
     input [NB_REG_ADDRESS-1:0] i_rt_address_ex,
     //signals to stall
     output reg o_PCwrite,
@@ -44,7 +44,6 @@ begin
         begin
             o_PCwrite = 1;
             o_IFIDwrite = 1;          
-            //para la segunda parte del pipeline se insertan nops, se ponen a 0 las señales de control (enable)
             o_pipeline_stalled_to_ID = 1'b1;
         end
     else

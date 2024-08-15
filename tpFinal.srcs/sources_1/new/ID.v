@@ -55,14 +55,13 @@ module ID
     output  [NB_DATA-1:0] o_sigext,
     output [NB_FUNCTION-1:0] o_function,
     output [NB_PC-1:0] o_address_plus_4,
-    //señales de control
+    // control signals
     output [1:0] o_PcSrc_to_IF,
     output [1:0] o_RegDst_to_ID_EX,
     output [1:0] o_ALUSrc_to_ID_EX,
     output [3:0] o_ALUOp_to_ID_EX,
     output reg o_MemRead_to_ID_EX,
     output o_MemWrite_to_ID_EX,
-    //output o_Branch_to_ID_EX,
     output o_RegWrite_to_ID_EX,
     output [1:0] o_MemtoReg_to_ID_EX,
     output [2:0] o_BHW_to_ID_EX,
@@ -107,8 +106,8 @@ u_register_bank
     .i_debug_unit_enable(i_debug_unit_enable),
     .rs_address(i_instruction[25:21]),
     .rt_address(i_instruction[20:16]),    
-    .rw_address(i_write_address),          //  vienen de la 
-    .i_RegWrite(i_RegWrite_from_WB), //señal de control
+    .rw_address(i_write_address),       
+    .i_RegWrite(i_RegWrite_from_WB), 
     .i_reg_address(i_reg_address_from_DU),
     .o_rs_data(rs_data),
     .o_rt_data(rt_data),
@@ -169,7 +168,6 @@ end
 assign o_inm_value = i_instruction[NB_DATA_IN-1:0]; // [15:0]
 assign o_rs_address = rs_address;
 assign o_rt_address = rt_address;
-// Mux para seleccionar el registro destino
 assign o_rd_address = rd_address;
 assign o_address_plus_4 = i_address_plus_4;
 
