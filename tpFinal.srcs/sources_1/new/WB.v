@@ -52,7 +52,7 @@ begin
         end
         else 
         begin
-            write_in_register_bank = i_address_plus_4 + 1; //direccion de retorno
+            write_in_register_bank = i_address_plus_4 + 1; // return address
         end
     end
     else

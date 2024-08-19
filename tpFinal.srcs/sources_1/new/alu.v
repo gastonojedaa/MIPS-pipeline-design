@@ -38,17 +38,17 @@ module alu
             SUB_ALUCODE:
                 res = i_data_a - i_data_b;
             SLL_ALUCODE:
-                res = i_data_a << i_data_b;
+                res = i_data_a << i_data_b[10:6];
             SRL_ALUCODE:
-                res = i_data_a >> i_data_b;
+                res = i_data_a >> i_data_b[10:6];
             SRA_ALUCODE:
-                res = $signed(i_data_a) >>> i_data_b;
+                res = $signed(i_data_a) >>> i_data_b[10:6];
             SLLV_ALUCODE:
-                res = i_data_a << i_data_b;
+                res = i_data_b << i_data_a[4:0];
             SRLV_ALUCODE:
-                res = i_data_a >> i_data_b;
+                res = i_data_b >> i_data_a[4:0];
             SRAV_ALUCODE:
-                res = $signed(i_data_a) >>> i_data_b;
+                res = $signed(i_data_b) >>> i_data_a[4:0];
             ADD_ALUCODE:
                 res = i_data_a + i_data_b;
             AND_ALUCODE:

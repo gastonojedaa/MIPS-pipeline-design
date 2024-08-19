@@ -49,7 +49,7 @@ module EX
     input [NB_DATA-1:0] i_rt_data_mem_wb,
 
     input [1:0] i_RegDst_from_ID_EX, //señal de control
-    input i_ALUSrc_from_ID_EX, //señal de control
+    input [1:0] i_ALUSrc_from_ID_EX, //señal de control
     input [3:0] i_ALUOp_from_ID_EX, //señal de control
     input i_MemRead_from_ID_EX, //señal de control
     input i_MemWrite_from_ID_EX, //señal de control
@@ -73,32 +73,30 @@ module EX
 
 reg [NB_DATA-1:0] rs_data;
 reg [NB_DATA-1:0] rt_data;
+wire [NB_DATA-1:0] data_a;
 wire [NB_DATA-1:0] data_b;
 
-
-//aca hay que asignar el rt_data y rs_data a los mux de forward
-//cortocircuito
-//dependiendo el valor de las flags va a recibir el valor de los registros o el valor de la etapa EX/MEM o MEM/WB
 always@(*)
 begin
     case(i_forward_a)
-        2'b00: rs_data = i_rs_data; //no hay cortocircuito
-        2'b10: rs_data = i_rt_data_ex_mem; //de la etapa EX/MEM
-        2'b01: rs_data = i_rt_data_mem_wb; //de la etapa MEM/WB
-        2'b11: rs_data = i_rs_data; //no deberia pasar
+        2'b00: rs_data = i_rs_data;
+        2'b10: rs_data = i_rt_data_ex_mem;
+        2'b01: rs_data = i_rt_data_mem_wb;
+        2'b11: rs_data = i_rs_data;
     endcase
 
     case(i_forward_b)
-        2'b00: rt_data = i_rt_data; //no hay cortocircuito
-        2'b10: rt_data = i_rt_data_ex_mem; //de la etapa EX/MEM
-        2'b01: rt_data = i_rt_data_mem_wb; //de la etapa MEM/WB
+        2'b00: rt_data = i_rt_data;
+        2'b10: rt_data = i_rt_data_ex_mem;
+        2'b01: rt_data = i_rt_data_mem_wb;
         2'b11: rt_data = i_rt_data;
     endcase
 end
 
-assign data_b = i_ALUSrc_from_ID_EX ? i_sigext : rt_data;  //mux entre rt e sig_ext
-assign o_MemRead_to_EX_MEM = i_MemRead_from_ID_EX; //MemRead que pasa directo
-assign o_MemWrite_to_EX_MEM = i_MemWrite_from_ID_EX; //MemWrite que pasa directo
+assign data_a = i_ALUSrc_from_ID_EX[1] ? rt_data : rs_data; 
+assign data_b = i_ALUSrc_from_ID_EX[0] ? i_sigext : rt_data; 
+assign o_MemRead_to_EX_MEM = i_MemRead_from_ID_EX;
+assign o_MemWrite_to_EX_MEM = i_MemWrite_from_ID_EX;
 
 assign o_address_plus_4 = i_address_plus_4;
 assign o_MemtoReg_to_EX_MEM = i_MemtoReg_from_ID_EX;
@@ -124,7 +122,7 @@ alu#(
     .NB_ALUCODE(NB_ALUCODE)
 )
 u_alu(
-    .i_data_a(rs_data),
+    .i_data_a(data_a),
     .i_data_b(data_b),
     .i_alucode(alu_control), 
     .o_res(o_res),

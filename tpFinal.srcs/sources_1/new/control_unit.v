@@ -83,12 +83,12 @@ module control_unit#(
 (
     input [NB_OPS-1:0] i_opcode,
     input [NB_FUNCTION-1:0] i_function,     
-    input i_pipeline_stalled, //viene de hazard_detection_unit para insertar nops 
+    input i_pipeline_stalled, 
     input i_zero_from_alu,
     
     output [1:0] o_PcSrc,
     output [1:0] o_RegDst,
-    output O_ALUSrc,
+    output [1:0] O_ALUSrc,
     output [3:0] o_ALUOp, 
     output o_MemRead,
     output o_MemWrite,
@@ -100,7 +100,8 @@ module control_unit#(
     output o_EX_MEM_flush
 );
 
-reg ALUSrc, MemRead, MemWrite, RegWrite, IF_ID_flush, EX_MEM_flush;
+reg MemRead, MemWrite, RegWrite, IF_ID_flush, EX_MEM_flush;
+reg [1:0] ALUSrc;
 reg [1:0] PcSrc;
 /*
 00 -> PC + 4
@@ -121,43 +122,21 @@ BHW
 011 LHU
 */
 
-//si la señal branch y el zero de la alu estan en 1, se debe hacer un flush del pipeline
-wire flush_pipeline = 0;
-
-
-
 always @(*)
-    if(flush_pipeline)
-    begin
-        IF_ID_flush = 1'b1;
-        EX_MEM_flush = 1'b1;
-        PcSrc = 2'b00;
-        RegDst = 2'b00;
-        ALUSrc = 1'b0;
-        ALUOp = R_TYPE_ALUOP;
-        MemRead = 1'b0;
-        MemWrite = 1'b0;
-        Branch = 2'b00;
-        RegWrite = 1'b0;
-        MemtoReg = 2'b00;
-        BHW = 3'b111;    
-    end
-    else if (i_pipeline_stalled == 1'b1)
+    if (i_pipeline_stalled == 1'b1)
         begin
             IF_ID_flush = 1'b0;
             EX_MEM_flush = 1'b0;
             PcSrc = 2'b00; 
             RegDst = 2'b00; 
-            ALUSrc = 1'b0; 
+            ALUSrc = 2'b00; 
             ALUOp = R_TYPE_ALUOP;
             MemRead = 1'b0;
             MemWrite = 1'b0;
             Branch = 2'b00;
             RegWrite = 1'b0;
             MemtoReg = 2'b00;
-            BHW = 3'b111; 
-            /* b00;  //no se usa
-            ExtSign = 1'b0;//no se usa */
+            BHW = 3'b111;             
         end
     else
         begin
@@ -171,76 +150,66 @@ always @(*)
                             begin
                                     PcSrc = 2'b00; 
                                     RegDst = 2'b01;
-                                    ALUSrc = 1'b1; 
+                                    ALUSrc = 2'b11; 
                                     ALUOp = R_TYPE_ALUOP;
                                     MemRead = 1'b0;
                                     MemWrite = 1'b0;
                                     Branch = 2'b00;
                                     RegWrite = 1'b1;
                                     MemtoReg = 2'b01;
-                                    BHW = 3'b111; 
-                                    /* b00;  //no se usa
-                                    ExtSign = 1'b0;//no se usa */
+                                    BHW = 3'b111;                                     
                             end
                         SLLV_FUNCT, SRLV_FUNCT, SRAV_FUNCT, ADDU_FUNCT, SUBU_FUNCT, AND_FUNCT, OR_FUNCT, XOR_FUNCT, NOR_FUNCT, SLT_FUNCT:
                             begin
                                     PcSrc = 2'b00; 
                                     RegDst = 2'b01;
-                                    ALUSrc = 1'b0; 
+                                    ALUSrc = 2'b00; 
                                     ALUOp = R_TYPE_ALUOP;
                                     MemRead = 1'b0;
                                     MemWrite = 1'b0;
                                     Branch = 2'b00;
                                     RegWrite = 1'b1;
                                     MemtoReg = 2'b01;
-                                    BHW = 3'b111; 
-                                    /* b00;  //no se usa
-                                    ExtSign = 1'b0;//no se usa */
+                                    BHW = 3'b111;                                     
                             end
                         JR_FUNCT:
                             begin
                                     PcSrc = 2'b11;
-                                    RegDst = 2'b00; //no se usa
-                                    ALUSrc = 1'b0; //no se usa
+                                    RegDst = 2'b00; 
+                                    ALUSrc = 2'b00; 
                                     ALUOp = R_TYPE_ALUOP;
                                     MemRead = 1'b0;
                                     MemWrite = 1'b0;
                                     Branch =  1'b0;
                                     RegWrite = 1'b0;
                                     MemtoReg = 2'b00;
-                                    BHW = 3'b111; //no se usa
-                                    /* b00;  //no se usa
-                                    ExtSign = 1'b0;//no se usa */
+                                    BHW = 3'b111; 
                             end
                         JALR_FUNCT:
                             begin
                                     PcSrc = 2'b11;
                                     RegDst = 2'b01;
-                                    ALUSrc = 1'b0; //no se usa
+                                    ALUSrc = 2'b00; 
                                     ALUOp = R_TYPE_ALUOP;
                                     MemRead = 1'b0;
                                     MemWrite = 1'b0;
                                     Branch = 2'b00;
                                     RegWrite = 1'b1;
                                     MemtoReg = 2'b10;
-                                    BHW = 3'b111;  
-                                    /* b00;  //no se usa
-                                    ExtSign = 1'b0;//no se usa */
+                                    BHW = 3'b111;                                    
                             end
                         default: 
                             begin
                                     PcSrc = 2'b00; 
                                     RegDst = 2'b00;
-                                    ALUSrc = 1'b0;
+                                    ALUSrc = 2'b00;
                                     ALUOp = R_TYPE_ALUOP;
                                     MemRead = 1'b0;
                                     MemWrite = 1'b0;
                                     Branch = 2'b00;
                                     RegWrite = 1'b0;
                                     MemtoReg = 2'b00;
-                                    BHW = 3'b111; 
-                                    /* b00;  //no se usa
-                                    ExtSign = 1'b0;//no se usa */                          
+                                    BHW = 3'b111;                          
                             end                                     
                     endcase               
                 end                            
@@ -249,7 +218,7 @@ always @(*)
                 begin
                     PcSrc = 2'b00; 
                     RegDst = 2'b00;
-                    ALUSrc = 1'b1; 
+                    ALUSrc = 2'b01; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP;
                     MemRead = 1'b1;
                     MemWrite = 1'b0;
@@ -257,13 +226,12 @@ always @(*)
                     RegWrite = 1'b1;
                     MemtoReg = 2'b00;
                     BHW = 3'b000;
-                    //ExtSign = 1'b1; */
                 end
                 LH_OP:
                 begin
                     PcSrc = 2'b00; 
                     RegDst = 2'b00;
-                    ALUSrc = 1'b1; 
+                    ALUSrc = 2'b01; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b1;
                     MemWrite = 1'b0;
@@ -271,14 +239,12 @@ always @(*)
                     RegWrite = 1'b1;
                     MemtoReg = 2'b00;
                     BHW = 3'b010;
-                    /*b01;
-                    ExtSign = 1'b1; */
                 end
                 LW_OP:
                 begin
                     PcSrc = 2'b00;    
                     RegDst = 2'b00;
-                    ALUSrc = 1'b1; 
+                    ALUSrc = 2'b01; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b1;
                     MemWrite = 1'b0;
@@ -286,14 +252,12 @@ always @(*)
                     RegWrite = 1'b1;
                     MemtoReg = 2'b00;
                     BHW = 3'b111;
-                    /* b10;
-                    ExtSign = 1'b1; */
                 end
                 LWU_OP:
                 begin
                     PcSrc = 2'b00;  
                     RegDst = 2'b00;
-                    ALUSrc = 1'b1; 
+                    ALUSrc = 2'b01; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b1;
                     MemWrite = 1'b0;
@@ -301,14 +265,12 @@ always @(*)
                     RegWrite = 1'b1;
                     MemtoReg = 2'b00;
                     BHW = 3'b111;
-                    /* b10;
-                    ExtSign = 1'b0; */
                 end
                 LBU_OP:
                 begin
                     PcSrc = 2'b00; 
                     RegDst = 2'b00;
-                    ALUSrc = 1'b1; 
+                    ALUSrc = 2'b01; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b1;
                     MemWrite = 1'b0;
@@ -316,14 +278,12 @@ always @(*)
                     RegWrite = 1'b1;
                     MemtoReg = 2'b00;
                     BHW = 3'b001;
-                    /* b00;
-                    ExtSign = 1'b0; */
                 end
                 LHU_OP:
                 begin
                     PcSrc = 2'b00;  
                     RegDst = 2'b00;
-                    ALUSrc = 1'b1; 
+                    ALUSrc = 2'b01; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b1;
                     MemWrite = 1'b0;
@@ -331,28 +291,25 @@ always @(*)
                     RegWrite = 1'b1;
                     MemtoReg = 2'b00;
                     BHW = 3'b011;
-                    /* b01;
-                    ExtSign = 1'b0; */
                 end
                 SB_OP:
                 begin
                     PcSrc = 2'b00; 
-                    RegDst = 2'b00; //no se usa
-                    ALUSrc = 1'b1; 
+                    RegDst = 2'b00;
+                    ALUSrc = 2'b01; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b0;
                     MemWrite = 1'b1;
                     Branch = 2'b00;
                     RegWrite = 1'b0;
                     MemtoReg = 2'b00;
-                    BHW = 3'b000;
-                    //ExtSign = 1'b0;//no se usa */
+                    BHW = 3'b001;
                 end
                 SH_OP:
                 begin
                     PcSrc = 2'b00; 
-                    RegDst = 2'b00; //no se usa
-                    ALUSrc = 1'b1; 
+                    RegDst = 2'b00; 
+                    ALUSrc = 2'b01; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b0;
                     MemWrite = 1'b1;
@@ -360,14 +317,12 @@ always @(*)
                     RegWrite = 1'b0;
                     MemtoReg = 2'b00;
                     BHW = 3'b010;
-                    /* b01;
-                    ExtSign = 1'b0;//no se usa */
                 end
                 SW_OP:
                 begin
                     PcSrc = 2'b00;           
-                    RegDst = 2'b00; //no se usa
-                    ALUSrc = 1'b1; 
+                    RegDst = 2'b00;
+                    ALUSrc = 2'b01; 
                     ALUOp = LOAD_STORE_ADDI_ALUOP; 
                     MemRead = 1'b0;
                     MemWrite = 1'b1;
@@ -375,14 +330,12 @@ always @(*)
                     RegWrite = 1'b0;
                     MemtoReg = 2'b00;
                     BHW = 3'b111;
-                    /* b10;
-                    ExtSign = 1'b0;//no se usa        */
                 end
                 ADDI_OP:
                 begin
                     PcSrc = 2'b00; 
                     RegDst = 2'b00; 
-                    ALUSrc = 1'b1;   
+                    ALUSrc = 2'b01;   
                     ALUOp = LOAD_STORE_ADDI_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
@@ -390,14 +343,12 @@ always @(*)
                     RegWrite = 1'b1;
                     MemtoReg = 2'b01;
                     BHW = 3'b111;
-                    /* b00;      //no se usa
-                    ExtSign = 1'b0;   //no se usa */
                 end
                 ANDI_OP:
                 begin
                     PcSrc = 2'b00;
                     RegDst = 2'b00; 
-                    ALUSrc = 1'b1;   
+                    ALUSrc = 2'b01;   
                     ALUOp = ANDI_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
@@ -405,14 +356,12 @@ always @(*)
                     RegWrite = 1'b1;
                     MemtoReg = 2'b01;
                     BHW = 3'b111;
-                    /* b00;//no se usa
-                    ExtSign = 1'b0;//no se usa */
                 end
                 ORI_OP:
                 begin
                     PcSrc = 2'b00;  
                     RegDst = 2'b00; 
-                    ALUSrc = 1'b1;   
+                    ALUSrc = 2'b01;   
                     ALUOp = ORI_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
@@ -420,14 +369,12 @@ always @(*)
                     RegWrite = 1'b1;
                     MemtoReg = 2'b01;
                     BHW = 3'b111;
-                    /* b00;//no se usa
-                    ExtSign = 1'b0;//no se usa */
                 end
                 XORI_OP:
                 begin
                     PcSrc = 2'b00; 
                     RegDst = 2'b00; 
-                    ALUSrc = 1'b1;   
+                    ALUSrc = 2'b01;   
                     ALUOp = XORI_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
@@ -435,29 +382,25 @@ always @(*)
                     RegWrite = 1'b1;
                     MemtoReg = 2'b01;
                     BHW = 3'b111;
-                    /* b00;//no se usa
-                    ExtSign = 1'b0;//no se usa */
                 end
                 LUI_OP:
                 begin
                     PcSrc = 2'b00; 
                     RegDst = 2'b00; 
-                    ALUSrc = 1'b1;   
+                    ALUSrc = 2'b01;   
                     ALUOp = LUI_ALUOP;
-                    MemRead = 1'b1;
+                    MemRead = 1'b0;
                     MemWrite = 1'b0;
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b01;
                     BHW = 3'b111;
-                    /* b00;//no se usa
-                    ExtSign = 1'b0;//no se usa */
                 end
                 SLTI_OP:
                 begin
                     PcSrc = 2'b00; 
                     RegDst = 2'b00; 
-                    ALUSrc = 1'b1;   
+                    ALUSrc = 2'b01;   
                     ALUOp = SLTI_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
@@ -465,75 +408,65 @@ always @(*)
                     RegWrite = 1'b1;
                     MemtoReg = 2'b01;
                     BHW = 3'b111;
-                    /* b00;//no se usa
-                    ExtSign = 1'b0;//no se usa */
                 end
                 BEQ_OP:
                 begin
                     PcSrc = 2'b00;  
-                    RegDst = 2'b00; //no se usa
-                    ALUSrc = 1'b0;   
+                    RegDst = 2'b00;
+                    ALUSrc = 2'b00;   
                     ALUOp = BEQ_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
                     Branch = 2'b01;
                     RegWrite = 1'b0;
                     MemtoReg = 2'b00;
-                    BHW = 3'b111; //no se usa
-                    /* b00;//no se usa
-                    ExtSign = 1'b0;//no se usa */
+                    BHW = 3'b111;
                 end
                 BNE_OP:
                 begin
                     PcSrc = 2'b00; 
-                    RegDst = 2'b00;  //no se usa
-                    ALUSrc = 1'b0;   
+                    RegDst = 2'b00;
+                    ALUSrc = 2'b00;   
                     ALUOp = BNE_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
-                    Branch = 2'b10; //capaz hay que hacer un NeBranch 
+                    Branch = 2'b10; 
                     RegWrite = 1'b0;
                     MemtoReg = 2'b00;
-                    BHW = 3'b111; //no se usa
-                    /* b00;//no se usa
-                    ExtSign = 1'b0;//no se usa */
+                    BHW = 3'b111;
                 end        
                 //J_type -> J, JAL
                 J_OP:
                 begin
                     PcSrc = 2'b10;  
-                    RegDst = 2'b00;  //no se usa
-                    ALUSrc = 1'b0;   //no se usa
-                    ALUOp = R_TYPE_ALUOP; //no se usa
+                    RegDst = 2'b00;  
+                    ALUSrc = 2'b00; 
+                    ALUOp = R_TYPE_ALUOP; 
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
                     Branch = 2'b00;
                     RegWrite = 1'b0;
                     MemtoReg = 2'b00;
-                    BHW = 3'b111; //no se usa
-                    /* b00;//no se usa
-                    ExtSign = 1'b0;//no se usa */
+                    BHW = 3'b111;                    
                 end
                 JAL_OP:
                 begin
                     PcSrc = 2'b10;   
                     RegDst = 2'b10;    
-                    ALUSrc = 1'b0;   //no se usa
-                    ALUOp = R_TYPE_ALUOP; //no se usa
+                    ALUSrc = 2'b00;
+                    ALUOp = R_TYPE_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
                     Branch = 2'b00;
                     RegWrite = 1'b1;
                     MemtoReg = 2'b10;
                     BHW = 3'b111;
-                    /* b00;//no se usa
-                    ExtSign = 1'b0;//no se usa */
                 end   
-                HALT_OP: //revisar
+                HALT_OP:
                 begin
                     PcSrc = 2'b00; 
                     RegDst = 2'b00;   
-                    ALUSrc = 1'b0;   
+                    ALUSrc = 2'b00;   
                     ALUOp = R_TYPE_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
@@ -546,7 +479,7 @@ always @(*)
                 begin
                     PcSrc = 2'b00; 
                     RegDst = 2'b00;  
-                    ALUSrc = 1'b0;   
+                    ALUSrc = 2'b00;   
                     ALUOp = R_TYPE_ALUOP;
                     MemRead = 1'b0;
                     MemWrite = 1'b0;
@@ -554,8 +487,6 @@ always @(*)
                     RegWrite = 1'b0;
                     MemtoReg = 2'b00;
                     BHW = 3'b111;
-                    /* b00;//no se usa
-                    ExtSign = 1'b0;//no se usa */
                 end
             endcase
         end

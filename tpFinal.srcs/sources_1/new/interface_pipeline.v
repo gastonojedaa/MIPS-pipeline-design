@@ -18,18 +18,13 @@ module interface_pipeline
     input [NB_UART_DATA-1:0] i_rx_data,
     input i_rx_valid,
 
-    // From Pipeline
-    // PC in
+    // From Pipeline  
     input [NB_DATA-1:0] i_pc,
-    // Reg Bank In
     input [NB_DATA-1:0] i_reg_data,
-    // Data mem
     input [NB_DATA-1:0] i_mem_data,
-    // Tx in
     input i_tx_done,
 
     // To Pipeline
-    // Enable
     output o_enable,
 
     // Reg Bank Out
