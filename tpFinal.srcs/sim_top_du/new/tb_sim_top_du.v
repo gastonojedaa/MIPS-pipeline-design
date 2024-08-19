@@ -92,22 +92,6 @@ initial begin
     // Send instruction
     #5;
     send_word(32'h3c010001);
-    
-    // // Send instruction
-    // #5;
-    // send_word(32'h3c020002);
-
-    // // Send instruction
-    // #5;
-    // send_word(32'h3c030003);
-
-    // // Send instruction
-    // #5;
-    // send_word(32'h3c040004);
-
-    // // Send instruction
-    // #5;
-    // send_word(32'h3c050005);
 
     // Send instruction
     #5;
