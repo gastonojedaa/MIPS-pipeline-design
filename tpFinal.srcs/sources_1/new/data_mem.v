@@ -42,13 +42,10 @@ integer i;
 reg [NB_INS-1:0] mem_data[0:MEM_SIZE];
 
 
-always@(posedge i_clk)
+initial
 begin      
-    if(i_reset)
-    begin
-        for (i = 0; i <= MEM_SIZE-1; i = i + 1) begin
-            mem_data[i] = 0;
-        end
+    for (i = 0; i <= MEM_SIZE-1; i = i + 1) begin
+        mem_data[i] = 0;
     end
 end
 
